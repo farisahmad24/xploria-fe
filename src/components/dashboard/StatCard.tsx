@@ -1,9 +1,10 @@
-import { CheckCircle2, Ticket, Users, Wallet, TrendingUp, type LucideIcon } from 'lucide-react';
+import { CheckCircle2, Users, Wallet, TrendingUp, type LucideIcon } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import type { StatItem } from '@/data/dashboardData';
 import { buildSmoothPath } from '@/lib/chartPath';
 
-const iconById: Record<StatItem['id'], LucideIcon> = {
-  tickets: Ticket,
+const iconById: Record<StatItem['id'], LucideIcon | typeof SlantedTicket> = {
+  tickets: SlantedTicket,
   validated: CheckCircle2,
   visitors: Users,
   revenue: Wallet,

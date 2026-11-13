@@ -34,3 +34,4 @@ export const SlantedTicket = forwardRef<SVGSVGElement, LucideProps>(
 SlantedTicket.displayName = 'SlantedTicket';
 
 export default SlantedTicket;
+

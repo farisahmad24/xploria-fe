@@ -1,21 +1,22 @@
 import {
-  BarChart3,
-  BookOpen,
+  BarChart2,
+  Bell,
   CalendarDays,
-  Compass,
-  FileSpreadsheet,
+  FileSearch,
   FileText,
-  Images,
-  LayoutDashboard,
+  Info,
+  LayoutGrid,
+  Lock,
   MessageCircle,
-  MessageSquare,
+  QrCode,
   Receipt,
-  ScanLine,
-  Star,
-  Ticket,
+  Search,
+  ShieldCheck,
   TrendingUp,
-  UserCog,
+  UserCircle2,
   Users,
+  Wallet,
+  Zap,
 } from 'lucide-react';
 import type { RoleNavConfig, RoleProfile, UserRole } from '@/types/roles';
 
@@ -58,39 +59,37 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'mo-dash',
         title: 'Dashboard Pengelola',
-        icon: LayoutDashboard,
+        icon: LayoutGrid,         // Grid/Apps icon → overview dashboard
         items: [],
       },
       {
-        // No sub-items → behaves as a direct link (Navbar handles feature tabs)
         id: 'mo-tiket',
         title: 'Tiketing & Transaksi',
-        icon: Ticket,
+        icon: Receipt,            // Receipt icon → transaksi tiket
         items: [],
       },
       {
-        // No sub-items → behaves as a direct link
         id: 'mo-laporan',
         title: 'Manajemen Data & Laporan',
-        icon: FileText,
+        icon: FileText,           // Document icon → laporan data
         items: [],
       },
       {
         id: 'mo-destinasi',
         title: 'Profil Destinasi Wisata',
-        icon: Compass,
+        icon: Info,               // Info circle → profil/informasi wisata
         items: [],
       },
       {
         id: 'mo-ulasan',
         title: 'Ulasan & Pengaduan',
-        icon: MessageSquare,
+        icon: MessageCircle,      // Chat bubble → ulasan & pengaduan
         items: [],
       },
       {
         id: 'mo-akun',
         title: 'Manajemen Akun Staf',
-        icon: Users,
+        icon: Users,              // People group → manajemen akun staf
         items: [],
       },
     ],
@@ -104,33 +103,31 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'admin-dash',
         title: 'Dashboard Admin',
-        icon: LayoutDashboard,
+        icon: LayoutGrid,         // Grid/Apps → overview dashboard
         items: [],
       },
       {
-        // No sub-items → direct link
         id: 'admin-tiket',
         title: 'Tiketing & Transaksi',
-        icon: Ticket,
+        icon: Receipt,            // Receipt → tiket & transaksi
         items: [],
       },
       {
-        // No sub-items → direct link
         id: 'admin-laporan',
         title: 'Laporan Keuangan & Data',
-        icon: FileSpreadsheet,
+        icon: Wallet,             // Wallet → keuangan & laporan
         items: [],
       },
       {
         id: 'admin-destinasi',
         title: 'Informasi Wisata',
-        icon: Compass,
+        icon: Info,               // Info circle → informasi wisata
         items: [],
       },
       {
         id: 'admin-dest-reviews',
         title: 'Ulasan Wisatawan',
-        icon: MessageSquare,
+        icon: MessageCircle,      // Chat bubble → ulasan wisatawan
         items: [],
       },
     ],
@@ -144,31 +141,28 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'kasir-dash',
         title: 'Dashboard Kasir',
-        icon: LayoutDashboard,
+        icon: LayoutGrid,         // Grid/Apps → dashboard overview
         items: [
-          { id: 'kasir-dash-stats',    label: 'Statistik & Overview',      icon: BarChart3 },
-          { id: 'kasir-dash-calendar', label: 'Kalender Jadwal Booking',   icon: CalendarDays },
+          { id: 'kasir-dash-stats',    label: 'Statistik & Overview',    icon: TrendingUp  },  // trending → statistik
+          { id: 'kasir-dash-calendar', label: 'Kalender Jadwal Booking', icon: CalendarDays }, // calendar
         ],
       },
       {
-        // No sub-items → direct link
         id: 'kasir-tiket-sales',
         title: 'Penjualan Tiket',
-        icon: Ticket,
+        icon: Zap,                // Lightning/Zap → aksi cepat penjualan
         items: [],
       },
       {
-        // No sub-items → direct link
         id: 'kasir-tiket-validate',
         title: 'Validasi Tiket',
-        icon: ScanLine,
+        icon: QrCode,             // QR code → scan/validasi tiket gerbang
         items: [],
       },
       {
-        // No sub-items → direct link
         id: 'kasir-dash-rekap',
         title: 'Laporan Keuangan & Rekapan',
-        icon: FileSpreadsheet,
+        icon: FileSearch,         // File + search → rekap & close order
         items: [],
       },
     ],

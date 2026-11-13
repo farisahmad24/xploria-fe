@@ -16,9 +16,9 @@ import {
 import { formatNumber, formatRupiah, toIsoDate } from '@/lib/bookings';
 import type { Booking } from '@/types/ticket';
 
-const MONTH_NAMES_EN = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+const MONTH_NAMES_ID_FULL = [
+  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
 ];
 
 const MONTH_NAMES_ID = [
@@ -26,7 +26,7 @@ const MONTH_NAMES_ID = [
   'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des',
 ];
 
-const MINI_CAL_DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+const MINI_CAL_DAYS = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
 type BookingCalendarViewProps = {
   bookings: Booking[];
@@ -115,13 +115,13 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
     const monday = new Date(d);
     monday.setDate(d.getDate() + diffToMon);
 
-    const ENnames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const IDnames = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
     const count = showWeekend ? 7 : 5;
     return Array.from({ length: count }, (_, i) => {
       const cur = new Date(monday);
       cur.setDate(monday.getDate() + i);
       const iso = toIsoDate(cur);
-      return { dateStr: iso, dayNumber: cur.getDate(), nameEn: ENnames[i] };
+      return { dateStr: iso, dayNumber: cur.getDate(), nameEn: IDnames[i] };
     });
   }, [selectedDate, showWeekend]);
 
@@ -164,9 +164,9 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
             </div>
             <div>
               <h2 className="text-base font-black text-slate-900 leading-tight">
-                ToDoTimeline <span className="text-xs text-[#286EF2] font-bold">• Kasir Loket</span>
+                Jadwal Booking <span className="text-xs text-[#286EF2] font-bold">• Kasir Loket</span>
               </h2>
-              <p className="text-[10px] text-slate-400">Kalender & Timeline Jadwal Kunjungan</p>
+              <p className="text-[10px] text-slate-400">Kalender & Timeline Jadwal Kunjungan Wisatawan</p>
             </div>
           </div>
 
@@ -180,7 +180,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                   : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
               }`}
             >
-              {showWeekend ? '5 Hari' : '7 Hari'}
+              {showWeekend ? 'Tampil 5 Hari' : 'Tampil 7 Hari'}
             </button>
 
             <div className="hidden sm:flex items-center gap-1 text-slate-300">
@@ -242,7 +242,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                         </span>
                         {count > 0
                           ? <span className="mt-1 rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-black text-amber-800">
-                              {count} booking
+                              {count} pesan
                             </span>
                           : <span className="mt-1 text-[9px] text-slate-300">–</span>
                         }
@@ -350,10 +350,10 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-black text-white">
-                  {MONTH_NAMES_EN[currentMonth]} {currentYear}
+                  {MONTH_NAMES_ID_FULL[currentMonth]} {currentYear}
                 </h3>
                 <p className="text-[10px] text-white/60">
-                  {(bookingsByDate.get(selectedDate) || []).length} booking dipilih
+                  {(bookingsByDate.get(selectedDate) || []).length} pemesanan dipilih
                 </p>
               </div>
               <div className="flex items-center gap-0.5">
@@ -389,7 +389,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                     <button
                       type="button"
                       onClick={() => { setSelectedDate(cell.dateStr); }}
-                      title={hasBookings ? `${count} booking` : cell.dateStr}
+                      title={hasBookings ? `${count} pemesanan` : cell.dateStr}
                       className={`relative h-7 w-7 rounded-full text-[11px] transition duration-150 font-semibold ${
                         isSel
                           ? 'bg-white text-[#286EF2] font-black shadow-md scale-110'
@@ -423,10 +423,10 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
             {/* Legend */}
             <div className="flex items-center justify-center gap-4 rounded-xl bg-white/10 py-2 text-[10px] text-white/80">
               <span className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-amber-300" />Ada Booking
+                <span className="h-2 w-2 rounded-full bg-amber-300" />Ada Pemesanan
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-white" />Tanggal Aktif
+                <span className="h-2 w-2 rounded-full bg-white" />Tanggal Dipilih
               </span>
             </div>
 
@@ -445,7 +445,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                 return (
                   <div className="grid grid-cols-2 gap-2">
                     <div className="rounded-xl bg-white/15 p-2.5">
-                      <p className="text-[9px] text-white/70 font-semibold">Total Booking</p>
+                      <p className="text-[9px] text-white/70 font-semibold">Total Pemesanan</p>
                       <p className="text-lg font-black text-white leading-tight">{monthBookings.length}</p>
                     </div>
                     <div className="rounded-xl bg-white/15 p-2.5">

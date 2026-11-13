@@ -18,15 +18,15 @@ type LoginPageProps = {
 
 export default function LoginPage({ onLogin }: LoginPageProps) {
   const [selectedRole, setSelectedRole] = useState<UserRole>('pengelola');
-  const [email, setEmail] = useState('budi.santoso@Xploria.id');
+  const [email, setEmail] = useState('budi.santoso@Ploria.id');
   const [password, setPassword] = useState('password123');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
-    if (role === 'pengelola') setEmail('budi.santoso@Xploria.id');
-    else if (role === 'admin') setEmail('hasan.alfarisi@Xploria.id');
-    else if (role === 'kasir') setEmail('siti.rahma@Xploria.id');
+    if (role === 'pengelola') setEmail('budi.santoso@Ploria.id');
+    else if (role === 'admin') setEmail('hasan.alfarisi@Ploria.id');
+    else if (role === 'kasir') setEmail('siti.rahma@Ploria.id');
   };
 
   const handleDirectLogin = (role: UserRole) => {
@@ -75,7 +75,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
           {/* Footer */}
           <p className="relative z-10 text-[11px] text-blue-200/70">
-            © 2026 Xploria Tourism Network
+            © 2026 Ploria Tourism Network
           </p>
         </div>
 

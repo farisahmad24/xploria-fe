@@ -39,14 +39,12 @@ export default function ManageTicketsView({
   // 1. Pilih Kategori: Select Dropdown
   // 2. Nama Jenis Tiket: Text Input
   // 3. Harga Tiket: Number Input / Format Currency
-  // 4. Potongan Harga: Nominal Rp (Harga Tiket - Potongan Harga)
-  // 5. Memasukkan Diskon: Number Input (%)
-  // 6. Informasi Fasilitas yang Didapatkan: Textarea / List Input
-  // 7. Syarat dan Ketentuan: Textarea
+  // 4. Memasukkan Diskon: Number Input (%)
+  // 5. Informasi Fasilitas yang Didapatkan: Textarea / List Input
+  // 6. Syarat dan Ketentuan: Textarea
   const [categoryId, setCategoryId] = useState<string>(categories[0]?.id || '');
   const [name, setName] = useState<string>('');
   const [price, setPrice] = useState<string>('');
-  const [potonganHarga, setPotonganHarga] = useState<string>('0');
   const [facilities, setFacilities] = useState<string>('');
   const [terms, setTerms] = useState<string>('');
   const [discount, setDiscount] = useState<string>('0');
@@ -57,7 +55,6 @@ export default function ManageTicketsView({
     setCategoryId(categories[0]?.id || '');
     setName('');
     setPrice('');
-    setPotonganHarga('0');
     setFacilities('');
     setTerms('');
     setDiscount('0');
@@ -70,7 +67,6 @@ export default function ManageTicketsView({
     setCategoryId(t.categoryId);
     setName(t.name);
     setPrice(t.price.toString());
-    setPotonganHarga(t.potonganHarga ? t.potonganHarga.toString() : '0');
     setFacilities(t.facilities);
     setTerms(t.terms);
     setDiscount(t.discount.toString());
@@ -103,7 +99,6 @@ export default function ManageTicketsView({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const numPrice = parseInt(price, 10);
-    const numPotongan = parseInt(potonganHarga || '0', 10);
     const numDiscount = parseInt(discount || '0', 10);
 
     if (!name.trim()) {
@@ -112,14 +107,6 @@ export default function ManageTicketsView({
     }
     if (isNaN(numPrice) || numPrice < 0) {
       onToast('Harga tiket tidak valid!');
-      return;
-    }
-    if (isNaN(numPotongan) || numPotongan < 0) {
-      onToast('Potongan harga harus berupa angka positif!');
-      return;
-    }
-    if (numPotongan > numPrice) {
-      onToast('Potongan harga tidak boleh melebihi harga awal tiket!');
       return;
     }
     if (isNaN(numDiscount) || numDiscount < 0 || numDiscount > 100) {
@@ -135,7 +122,6 @@ export default function ManageTicketsView({
               categoryId,
               name: name.trim(),
               price: numPrice,
-              potonganHarga: numPotongan,
               facilities: facilities.trim(),
               terms: terms.trim(),
               discount: numDiscount,
@@ -151,7 +137,6 @@ export default function ManageTicketsView({
         categoryId,
         name: name.trim(),
         price: numPrice,
-        potonganHarga: numPotongan,
         facilities: facilities.trim(),
         terms: terms.trim(),
         discount: numDiscount,
@@ -258,10 +243,9 @@ export default function ManageTicketsView({
                   </tr>
                 ) : (
                   filteredTickets.map((t, idx) => {
-                    const potongan = t.potonganHarga || 0;
-                    const priceAfterCut = Math.max(0, t.price - potongan);
-                    const finalPrice = Math.max(0, Math.round(priceAfterCut * (1 - (t.discount || 0) / 100)));
-                    const hasPromo = potongan > 0 || t.discount > 0;
+                    const discount = t.discount || 0;
+                    const finalPrice = Math.max(0, Math.round(t.price * (1 - discount / 100)));
+                    const hasDiscount = discount > 0;
 
                     return (
                       <tr
@@ -279,22 +263,15 @@ export default function ManageTicketsView({
                         </td>
                         <td className="w-44 px-6 py-4">
                           <div className="flex flex-col gap-0.5">
-                            {hasPromo ? (
+                            {hasDiscount ? (
                               <>
                                 <span className="text-xs text-slate-400 line-through">
                                   {formatRupiah(t.price)}
                                 </span>
                                 <div className="flex flex-wrap items-center gap-1">
-                                  {potongan > 0 && (
-                                    <span className="rounded bg-rose-50 px-1.5 py-0.5 text-[10px] font-black text-rose-600">
-                                      Pot. -{formatRupiah(potongan)}
-                                    </span>
-                                  )}
-                                  {t.discount > 0 && (
-                                    <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-black text-amber-700">
-                                      -{t.discount}%
-                                    </span>
-                                  )}
+                                  <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-black text-amber-700">
+                                    Diskon -{discount}%
+                                  </span>
                                 </div>
                                 <span className="text-sm font-extrabold text-[#286EF2]">
                                   {formatRupiah(finalPrice)}
@@ -462,7 +439,7 @@ export default function ManageTicketsView({
                 </div>
               </div>
 
-              {/* Row 2: Harga Tiket & Potongan Harga (Rp) */}
+              {/* Row 2: Harga Tiket & Diskon Tiket (%) */}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
@@ -490,94 +467,54 @@ export default function ManageTicketsView({
 
                 <div>
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
-                    Potongan Harga (Rp) <span className="text-slate-400 font-normal">(Opsional)</span>
+                    Memasukkan Diskon (%) <span className="text-slate-400 font-normal">(Opsional)</span>
                   </label>
                   <div className="relative mt-1.5">
-                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
-                      Rp
-                    </span>
                     <input
                       type="number"
                       min="0"
-                      step="500"
-                      value={potonganHarga}
-                      onChange={(e) => setPotonganHarga(e.target.value)}
+                      max="100"
+                      value={discount}
+                      onChange={(e) => setDiscount(e.target.value)}
                       placeholder="0"
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-10 pr-4 text-sm text-slate-800 focus:border-[#286EF2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-50"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-4 pr-10 text-sm text-slate-800 focus:border-[#286EF2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-50"
                     />
+                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
+                      %
+                    </span>
                   </div>
                   <p className="mt-1 text-[11px] text-slate-500">
-                    *Pengurangan nominal: <strong>Harga Tiket - Potongan Harga</strong>
+                    *Diskon potongan persentase tiket (0% - 100%)
                   </p>
                 </div>
               </div>
 
-              {/* Row 3: Memasukkan Diskon (%) */}
-              <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
-                  Memasukkan Diskon (%) <span className="text-slate-400 font-normal">(Opsional)</span>
-                </label>
-                <div className="relative mt-1.5">
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    value={discount}
-                    onChange={(e) => setDiscount(e.target.value)}
-                    placeholder="0"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-4 pr-10 text-sm text-slate-800 focus:border-[#286EF2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-50"
-                  />
-                  <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
-                    %
-                  </span>
-                </div>
-                <p className="mt-1 text-[11px] text-slate-500">
-                  *Diskon persentase tambahan (0% - 100%)
-                </p>
-              </div>
-
-              {/* Simulasi Perhitungan Harga Akhir jika ada Potongan Harga atau Diskon */}
+              {/* Simulasi Perhitungan Harga Akhir jika ada Diskon */}
               {(() => {
                 const p = parseInt(price, 10) || 0;
-                const pot = parseInt(potonganHarga, 10) || 0;
                 const disc = parseInt(discount, 10) || 0;
-                const afterPot = Math.max(0, p - pot);
-                const discAmount = Math.round(afterPot * (disc / 100));
-                const finalP = Math.max(0, afterPot - discAmount);
+                const discAmount = Math.round(p * (disc / 100));
+                const finalP = Math.max(0, p - discAmount);
 
-                if (p <= 0 || (pot <= 0 && disc <= 0)) return null;
+                if (p <= 0 || disc <= 0) return null;
 
                 return (
                   <div className="rounded-2xl border border-blue-200/80 bg-blue-50/60 p-4 text-xs">
                     <p className="font-bold text-slate-900 mb-2 flex items-center gap-1.5">
                       <Receipt className="h-4 w-4 text-[#286EF2]" />
-                      Simulasi Perhitungan Harga Akhir:
+                      Simulasi Perhitungan Harga Diskon:
                     </p>
                     <div className="space-y-1.5 text-slate-600">
                       <div className="flex justify-between">
                         <span>Harga Awal Tiket:</span>
                         <span className="font-bold text-slate-800">{formatRupiah(p)}</span>
                       </div>
-                      {pot > 0 && (
-                        <div className="flex justify-between text-rose-600 font-medium">
-                          <span>Potongan Harga (Harga Tiket - Potongan):</span>
-                          <span>- {formatRupiah(pot)}</span>
-                        </div>
-                      )}
-                      {pot > 0 && (
-                        <div className="flex justify-between text-slate-700 font-semibold border-t border-blue-200/60 pt-1">
-                          <span>Harga Setelah Potongan:</span>
-                          <span>{formatRupiah(afterPot)}</span>
-                        </div>
-                      )}
-                      {disc > 0 && (
-                        <div className="flex justify-between text-amber-700 font-medium">
-                          <span>Diskon ({disc}%):</span>
-                          <span>- {formatRupiah(discAmount)}</span>
-                        </div>
-                      )}
+                      <div className="flex justify-between text-amber-700 font-medium">
+                        <span>Potongan Diskon ({disc}%):</span>
+                        <span>- {formatRupiah(discAmount)}</span>
+                      </div>
                       <div className="flex justify-between text-emerald-800 font-black text-sm border-t border-blue-200 pt-1.5">
-                        <span>Harga Akhir Pengunjung:</span>
+                        <span>Harga Akhir Tiket:</span>
                         <span>{formatRupiah(finalP)}</span>
                       </div>
                     </div>

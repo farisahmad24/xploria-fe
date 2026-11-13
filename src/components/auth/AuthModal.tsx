@@ -115,7 +115,7 @@ export default function AuthModal({
                 </h3>
                 <p className="text-xs text-slate-500">
                   {type === 'login'
-                    ? 'Masuk ke sistem pengelola wisata Xploria'
+                    ? 'Masuk ke sistem pengelola wisata Ploria'
                     : 'Daftarkan akun staf/pengelola baru'}
                 </p>
               </div>
@@ -131,11 +131,10 @@ export default function AuthModal({
                     key={r}
                     type="button"
                     onClick={() => setSelectedRole(r)}
-                    className={`rounded-xl border p-2.5 text-center text-xs font-medium transition ${
-                      selectedRole === r
-                        ? 'border-ocean-600 bg-ocean-50/80 font-bold text-ocean-700 shadow-sm'
-                        : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
-                    }`}
+                    className={`rounded-xl border p-2.5 text-center text-xs font-medium transition ${selectedRole === r
+                      ? 'border-ocean-600 bg-ocean-50/80 font-bold text-ocean-700 shadow-sm'
+                      : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                      }`}
                   >
                     {r === 'pengelola' ? 'Pengelola' : r === 'admin' ? 'Admin' : 'Kasir'}
                   </button>
@@ -173,10 +172,10 @@ export default function AuthModal({
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={
                     selectedRole === 'pengelola'
-                      ? 'budi.santoso@Xploria.id'
+                      ? 'budi.santoso@Ploria.id'
                       : selectedRole === 'admin'
-                      ? 'hasan.alfarisi@Xploria.id'
-                      : 'siti.rahma@Xploria.id'
+                        ? 'hasan.alfarisi@Ploria.id'
+                        : 'siti.rahma@Ploria.id'
                   }
                   className="w-full rounded-xl border border-slate-200 py-2.5 pl-10 pr-4 text-sm text-slate-800 placeholder:text-slate-400 focus:border-ocean-500 focus:outline-none focus:ring-4 focus:ring-ocean-50"
                 />

@@ -109,7 +109,7 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
                 <th className="w-36 px-5 py-4">Tgl Kunjungan</th>
                 <th className="w-32 px-5 py-4">Metode Bayar</th>
                 <th className="w-28 px-5 py-4 text-center">Jumlah Tiket</th>
-                <th className="w-36 px-5 py-4 text-right">Total Bayar</th>
+                <th className="w-40 px-5 py-4 text-right whitespace-nowrap">Total Bayar</th>
                 <th className="w-44 px-5 py-4 text-center">Status</th>
               </tr>
             </thead>
@@ -157,7 +157,7 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
                       <td className="w-28 px-5 py-4 text-center text-slate-700 font-bold">
                         {quantity} lembar
                       </td>
-                      <td className="w-36 px-5 py-4 text-right font-extrabold text-slate-900">
+                      <td className="w-40 px-5 py-4 text-right font-extrabold text-slate-900 whitespace-nowrap">
                         {formatRupiah(booking.total)}
                       </td>
                       <td className="w-44 px-5 py-4 text-center">

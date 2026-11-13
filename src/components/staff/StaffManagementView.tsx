@@ -150,11 +150,10 @@ export default function StaffManagementView({
                     <button
                       type="button"
                       onClick={() => handleToggleStatus(staf.id)}
-                      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition ${
-                        staf.status === 'aktif'
-                          ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                          : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
-                      }`}
+                      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition ${staf.status === 'aktif'
+                        ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                        : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
+                        }`}
                     >
                       {staf.status === 'aktif' ? (
                         <>
@@ -245,7 +244,7 @@ export default function StaffManagementView({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="rian.pratama@Xploria.id"
+                  placeholder="rian.pratama@Ploria.id"
                   className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:outline-none"
                 />
               </div>

@@ -123,17 +123,15 @@ export default function Sidebar({
       {/* Mobile Backdrop */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 z-40 bg-ocean-950/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
-          open ? 'opacity-100' : 'pointer-events-none opacity-0'
-        }`}
+        className={`fixed inset-0 z-40 bg-ocean-950/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${open ? 'opacity-100' : 'pointer-events-none opacity-0'
+          }`}
         aria-hidden="true"
       />
 
       {/* Sidebar Panel */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:translate-x-0 lg:shadow-none ${
-          open ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:translate-x-0 lg:shadow-none ${open ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         {/* Header: Logo + Close */}
         <div className="flex items-center justify-between px-5 pb-4 pt-6">
@@ -181,16 +179,14 @@ export default function Sidebar({
                       type="button"
                       onClick={() => handleSelect(group.id, group.title)}
                       aria-current={isActive ? 'page' : undefined}
-                      className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-left text-xs transition-all duration-150 ${
-                        isActive
-                          ? 'bg-white text-[#286EF2] font-extrabold shadow-md shadow-blue-950/25 ring-1 ring-white'
-                          : 'font-semibold text-white hover:bg-white/15 hover:text-white'
-                      }`}
+                      className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-left text-xs transition-all duration-150 ${isActive
+                        ? 'bg-white text-[#286EF2] font-extrabold shadow-md shadow-blue-950/25 ring-1 ring-white'
+                        : 'font-semibold text-white hover:bg-white/15 hover:text-white'
+                        }`}
                     >
                       <GroupIcon
-                        className={`h-4 w-4 shrink-0 transition-transform ${
-                          isActive ? 'scale-110 text-[#286EF2]' : 'text-white'
-                        }`}
+                        className={`h-4 w-4 shrink-0 transition-transform ${isActive ? 'scale-110 text-[#286EF2]' : 'text-white'
+                          }`}
                       />
                       <span className="flex-1 leading-snug">{group.title}</span>
                     </button>
@@ -202,20 +198,18 @@ export default function Sidebar({
                         type="button"
                         onClick={() => toggleGroup(group.id)}
                         aria-expanded={isExpanded}
-                        className={`flex w-full items-center gap-3 px-3.5 py-3 text-left text-xs transition-all duration-150 ${
-                          isActive && !isExpanded
-                            ? 'bg-white text-[#286EF2] font-extrabold shadow-md shadow-blue-950/25'
-                            : isActive && isExpanded
+                        className={`flex w-full items-center gap-3 px-3.5 py-3 text-left text-xs transition-all duration-150 ${isActive && !isExpanded
+                          ? 'bg-white text-[#286EF2] font-extrabold shadow-md shadow-blue-950/25'
+                          : isActive && isExpanded
                             ? 'bg-white/20 text-white font-extrabold'
                             : 'font-semibold text-white hover:bg-white/15'
-                        }`}
+                          }`}
                       >
                         <GroupIcon
-                          className={`h-4 w-4 shrink-0 transition-transform ${
-                            isActive && !isExpanded
-                              ? 'scale-110 text-[#286EF2]'
-                              : 'text-white'
-                          }`}
+                          className={`h-4 w-4 shrink-0 transition-transform ${isActive && !isExpanded
+                            ? 'scale-110 text-[#286EF2]'
+                            : 'text-white'
+                            }`}
                         />
                         <span className="flex-1 leading-snug">{group.title}</span>
                         {isExpanded ? (
@@ -227,9 +221,8 @@ export default function Sidebar({
 
                       {/* Sub-items panel (animated) */}
                       <div
-                        className={`overflow-hidden transition-all duration-200 ease-in-out ${
-                          isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                        }`}
+                        className={`overflow-hidden transition-all duration-200 ease-in-out ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                          }`}
                       >
                         <div className="mx-3 mb-2.5 mt-1 space-y-0.5 border-l-2 border-white/25 pl-3">
                           {group.items.map((item) => {
@@ -241,17 +234,15 @@ export default function Sidebar({
                                 type="button"
                                 onClick={() => handleSelect(item.id, item.label)}
                                 aria-current={isSubActive ? 'page' : undefined}
-                                className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-xs transition-all duration-100 ${
-                                  isSubActive
-                                    ? 'bg-white/25 font-extrabold text-white ring-1 ring-white/40 shadow-sm'
-                                    : 'font-medium text-blue-100 hover:bg-white/10 hover:text-white'
-                                }`}
+                                className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-xs transition-all duration-100 ${isSubActive
+                                  ? 'bg-white/25 font-extrabold text-white ring-1 ring-white/40 shadow-sm'
+                                  : 'font-medium text-blue-100 hover:bg-white/10 hover:text-white'
+                                  }`}
                               >
                                 {SubIcon && (
                                   <SubIcon
-                                    className={`h-3.5 w-3.5 shrink-0 ${
-                                      isSubActive ? 'text-white' : 'text-blue-200'
-                                    }`}
+                                    className={`h-3.5 w-3.5 shrink-0 ${isSubActive ? 'text-white' : 'text-blue-200'
+                                      }`}
                                   />
                                 )}
                                 <span className="leading-snug">{item.label}</span>
@@ -278,7 +269,7 @@ export default function Sidebar({
           <Palmtree className="pointer-events-none absolute -bottom-2 -right-2 h-20 w-20 text-white/5" />
           <div className="flex items-center gap-2">
             <span className="flex h-2 w-2 animate-pulse rounded-full bg-emerald-300" />
-            <p className="text-[11px] font-bold text-white">Xploria Wisata Aktif</p>
+            <p className="text-[11px] font-bold text-white">Ploria Wisata Aktif</p>
           </div>
           <p className="mt-0.5 text-[10px] text-blue-100">
             {profile.userName} • {profile.userRoleName}

@@ -37,6 +37,8 @@ export type Booking = {
   visitorName: string;
   phone: string;
   visitDate: string;
+  durationDays?: number;
+  visitEndDate?: string;
   items: BookingItem[];
   subtotal?: number;
   discountAmount?: number;
@@ -53,6 +55,8 @@ export type BookingDraft = {
   visitorName: string;
   phone: string;
   visitDate: string;
+  durationDays?: number;
+  visitEndDate?: string;
   quantities: Record<string, number>;
   bookingType: BookingType;
   paymentMethod: PaymentMethod;

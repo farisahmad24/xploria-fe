@@ -23,7 +23,7 @@ export function formatNumber(value: number) {
 }
 
 export function formatRupiah(value: number) {
-  return `Rp ${numberFormatter.format(value)}`;
+  return `Rp\u00A0${numberFormatter.format(value)}`;
 }
 
 export function formatVisitDate(isoDate: string) {
@@ -119,6 +119,8 @@ export function createBooking(
     visitorName: draft.visitorName.trim(),
     phone: draft.phone.replace(/[\s-]/g, ''),
     visitDate: draft.visitDate,
+    durationDays: draft.durationDays || 1,
+    visitEndDate: draft.visitEndDate || draft.visitDate,
     items,
     subtotal,
     discountAmount,

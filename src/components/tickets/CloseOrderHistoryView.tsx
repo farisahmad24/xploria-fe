@@ -295,7 +295,7 @@ export default function CloseOrderHistoryView({
                         {b.paymentMethod.toUpperCase()}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right font-black text-slate-900 text-sm">
+                    <td className="px-6 py-4 text-right font-black text-slate-900 text-sm whitespace-nowrap">
                       {formatRupiah(b.total)}
                     </td>
                   </tr>

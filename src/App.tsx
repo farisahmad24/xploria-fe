@@ -43,7 +43,7 @@ import type { UserRole } from '@/types/roles';
 import type { Booking, BookingDraft, TicketCategory, TicketItem, ValidationResult } from '@/types/ticket';
 
 const TOAST_DURATION_MS = 2800;
-const ROLE_STORAGE_KEY = 'exploria_active_role';
+const ROLE_STORAGE_KEY = 'ePloria_active_role';
 
 type Toast = { id: number; message: string };
 
@@ -160,18 +160,18 @@ function App() {
       prev.map((r) =>
         r.id === reviewId
           ? {
-              ...r,
-              reply: {
-                author: authorName,
-                role: authorRole,
-                message: replyMessage,
-                date: new Date().toLocaleDateString('id-ID', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                }),
-              },
-            }
+            ...r,
+            reply: {
+              author: authorName,
+              role: authorRole,
+              message: replyMessage,
+              date: new Date().toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+              }),
+            },
+          }
           : r
       )
     );

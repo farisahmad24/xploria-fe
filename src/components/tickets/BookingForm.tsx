@@ -61,6 +61,8 @@ export default function BookingForm({
     visitorName: '',
     phone: '',
     visitDate: todayIso,
+    durationDays: 1,
+    visitEndDate: todayIso,
     quantities: {},
     bookingType: 'hari_ini',
     paymentMethod: 'cash',
@@ -69,6 +71,30 @@ export default function BookingForm({
   const [draft, setDraft] = useState<BookingDraft>(emptyDraft);
   const [errors, setErrors] = useState<DraftErrors>({});
   const [confirmed, setConfirmed] = useState<Booking | null>(null);
+
+  // Helper kalkulasi rentang hari & tanggal selesai
+  const calculateEndDate = (startDateIso: string, days: number): string => {
+    if (!startDateIso) return '';
+    try {
+      const d = new Date(`${startDateIso}T00:00:00`);
+      d.setDate(d.getDate() + (days - 1));
+      return toIsoDate(d);
+    } catch {
+      return startDateIso;
+    }
+  };
+
+  const calculateDuration = (startDateIso: string, endDateIso: string): number => {
+    if (!startDateIso || !endDateIso) return 1;
+    try {
+      const start = new Date(`${startDateIso}T00:00:00`).getTime();
+      const end = new Date(`${endDateIso}T00:00:00`).getTime();
+      const diff = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+      return Math.max(1, diff);
+    } catch {
+      return 1;
+    }
+  };
 
   // Fitur Potongan Harga / Diskon Tiket
   const [discountType, setDiscountType] = useState<'percent' | 'nominal'>('percent');
@@ -97,8 +123,39 @@ export default function BookingForm({
       bookingType: type,
       // Jika Hari Ini -> kunci tanggal ke hari ini. Jika Booking -> kosongkan atau set besok
       visitDate: type === 'hari_ini' ? todayIso : '',
+      durationDays: 1,
+      visitEndDate: type === 'hari_ini' ? todayIso : '',
     }));
     setErrors((current) => ({ ...current, visitDate: undefined }));
+  };
+
+  const handleDurationChange = (days: number) => {
+    const end = draft.visitDate ? calculateEndDate(draft.visitDate, days) : '';
+    setDraft((curr) => ({
+      ...curr,
+      durationDays: days,
+      visitEndDate: end,
+    }));
+  };
+
+  const handleStartDateChange = (startDate: string) => {
+    const days = draft.durationDays || 1;
+    const end = startDate ? calculateEndDate(startDate, days) : '';
+    setDraft((curr) => ({
+      ...curr,
+      visitDate: startDate,
+      visitEndDate: end,
+    }));
+    setErrors((curr) => ({ ...curr, visitDate: undefined }));
+  };
+
+  const handleEndDateChange = (endDate: string) => {
+    const days = calculateDuration(draft.visitDate, endDate);
+    setDraft((curr) => ({
+      ...curr,
+      visitEndDate: endDate,
+      durationDays: days,
+    }));
   };
 
   const updateField = <K extends keyof BookingDraft>(key: K, value: BookingDraft[K]) => {
@@ -178,7 +235,14 @@ export default function BookingForm({
           </div>
           <div className="flex justify-between gap-4">
             <dt className="text-slate-500">Tanggal Kunjungan</dt>
-            <dd className="font-semibold text-ocean-900">{formatVisitDate(confirmed.visitDate)}</dd>
+            <dd className="font-semibold text-ocean-900 text-right">
+              {formatVisitDate(confirmed.visitDate)}
+              {confirmed.durationDays && confirmed.durationDays > 1 && confirmed.visitEndDate ? (
+                <span className="block text-xs font-normal text-slate-500">
+                  s/d {formatVisitDate(confirmed.visitEndDate)} ({confirmed.durationDays} Hari)
+                </span>
+              ) : null}
+            </dd>
           </div>
           <div className="flex justify-between gap-4">
             <dt className="text-slate-500">Petugas Kasir</dt>
@@ -465,8 +529,8 @@ export default function BookingForm({
                 {errors.phone && <span className="text-xs text-rose-500">{errors.phone}</span>}
               </label>
 
-              {/* Tanggal Kunjungan */}
-              <div className="flex flex-col gap-1.5 text-sm font-medium text-slate-600 sm:col-span-2">
+              {/* Tanggal Kunjungan & Range Hari Booking */}
+              <div className="flex flex-col gap-2.5 text-sm font-medium text-slate-600 sm:col-span-2">
                 <div className="flex items-center justify-between">
                   <span>Tanggal Kunjungan</span>
                   {draft.bookingType === 'hari_ini' ? (
@@ -474,25 +538,109 @@ export default function BookingForm({
                       ✓ Terkunci Hari Ini (Walk-in)
                     </span>
                   ) : (
-                    <span className="text-xs font-bold text-sky-700">
-                      Wajib Pilih Tanggal Mendatang
+                    <span className="text-xs font-bold text-[#286EF2]">
+                      Pemesanan Booking Terjadwal
                     </span>
                   )}
                 </div>
 
-                <div className="relative">
-                  <CalendarDays className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ocean-400" />
-                  <input
-                    type="date"
-                    disabled={!isSessionOpen || draft.bookingType === 'hari_ini'}
-                    min={draft.bookingType === 'booking' ? todayIso : todayIso}
-                    value={draft.visitDate}
-                    onChange={(event) => updateField('visitDate', event.target.value)}
-                    className={`${inputStateClass(!!errors.visitDate)} w-full pl-11 ${
-                      draft.bookingType === 'hari_ini' ? 'bg-slate-100 text-slate-700 cursor-not-allowed font-semibold' : ''
-                    }`}
-                  />
-                </div>
+                {draft.bookingType === 'hari_ini' ? (
+                  <div className="relative">
+                    <CalendarDays className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ocean-400" />
+                    <input
+                      type="date"
+                      disabled
+                      value={draft.visitDate}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-100 py-2.5 pl-11 pr-4 text-xs font-bold text-slate-700 cursor-not-allowed"
+                    />
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-blue-200/80 bg-blue-50/50 p-4 space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                      <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                        <Clock className="h-4 w-4 text-[#286EF2]" />
+                        Berapa Lama di Tempat Wisata? (Durasi &amp; Rentang Tanggal)
+                      </span>
+                      <span className="text-xs font-bold text-[#286EF2] bg-white px-2.5 py-0.5 rounded-full border border-blue-200 shadow-xs">
+                        {draft.durationDays || 1} Hari {((draft.durationDays || 1) > 1) ? `(${((draft.durationDays || 1) - 1)} Malam)` : '(Same-Day)'}
+                      </span>
+                    </div>
+
+                    {/* Quick Duration Pills */}
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="text-[11px] font-semibold text-slate-500">Pilihan Cepat:</span>
+                      {[
+                        { days: 1, label: '1 Hari' },
+                        { days: 2, label: '2 Hari 1 Malam' },
+                        { days: 3, label: '3 Hari 2 Malam' },
+                        { days: 4, label: '4 Hari 3 Malam' },
+                        { days: 5, label: '5 Hari 4 Malam' },
+                      ].map((item) => (
+                        <button
+                          key={item.days}
+                          type="button"
+                          disabled={!isSessionOpen}
+                          onClick={() => handleDurationChange(item.days)}
+                          className={`rounded-xl px-2.5 py-1 text-xs font-bold transition-all ${
+                            (draft.durationDays || 1) === item.days
+                              ? 'bg-[#286EF2] text-white shadow-xs'
+                              : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+                          }`}
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Date Range Inputs */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                      <div>
+                        <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                          Tanggal Datang (Check-in) <span className="text-rose-500">*</span>
+                        </span>
+                        <div className="relative">
+                          <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+                          <input
+                            type="date"
+                            min={todayIso}
+                            value={draft.visitDate}
+                            onChange={(e) => handleStartDateChange(e.target.value)}
+                            className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-xs font-bold text-slate-800 focus:border-[#286EF2] focus:outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                          Tanggal Pulang (Check-out)
+                        </span>
+                        <div className="relative">
+                          <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+                          <input
+                            type="date"
+                            min={draft.visitDate || todayIso}
+                            value={draft.visitEndDate || draft.visitDate}
+                            onChange={(e) => handleEndDateChange(e.target.value)}
+                            className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-xs font-bold text-slate-800 focus:border-[#286EF2] focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {draft.visitDate && (
+                      <div className="rounded-xl bg-white p-2.5 text-xs text-slate-600 border border-blue-100 flex items-center justify-between">
+                        <span>
+                          Rentang Jadwal:{' '}
+                          <strong className="text-slate-900">{formatVisitDate(draft.visitDate)}</strong> s/d{' '}
+                          <strong className="text-slate-900">{formatVisitDate(draft.visitEndDate || draft.visitDate)}</strong>
+                        </span>
+                        <span className="font-extrabold text-[#286EF2]">
+                          Total {draft.durationDays || 1} Hari
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
                 {errors.visitDate && <span className="text-xs text-rose-500">{errors.visitDate}</span>}
               </div>
             </div>
@@ -658,9 +806,21 @@ export default function BookingForm({
             <h2 className="text-base font-bold text-ocean-900">Ringkasan Pesanan</h2>
           </div>
 
-          <div className="mt-3 rounded-xl bg-slate-50 p-2.5 text-xs text-slate-600">
-            <span className="font-bold text-slate-900">Tipe Transaksi: </span>
-            {draft.bookingType === 'hari_ini' ? 'Hari Ini (Walk-in)' : 'Booking Mendatang'}
+          <div className="mt-3 rounded-xl bg-slate-50 p-2.5 text-xs text-slate-600 space-y-1">
+            <div className="flex justify-between">
+              <span className="font-bold text-slate-900">Tipe Transaksi:</span>
+              <span className="font-semibold text-[#286EF2]">
+                {draft.bookingType === 'hari_ini' ? 'Hari Ini (Walk-in)' : 'Booking Mendatang'}
+              </span>
+            </div>
+            {draft.bookingType === 'booking' && (
+              <div className="flex justify-between border-t border-slate-200/60 pt-1 text-[11px]">
+                <span className="text-slate-500">Durasi:</span>
+                <span className="font-bold text-slate-800">
+                  {draft.durationDays || 1} Hari ({draft.visitDate ? formatVisitDate(draft.visitDate) : '-'} s/d {draft.visitEndDate ? formatVisitDate(draft.visitEndDate) : '-'})
+                </span>
+              </div>
+            )}
           </div>
 
           {selectedItems.length === 0 ? (

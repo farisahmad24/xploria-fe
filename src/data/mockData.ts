@@ -11,7 +11,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-01',
     name: 'Budi Santoso, S.Par',
-    email: 'budi.santoso@Xploria.id',
+    email: 'budi.santoso@Ploria.id',
     phone: '0812-3456-7890',
     role: 'Manager Operasional',
     status: 'aktif',
@@ -20,7 +20,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-02',
     name: 'M. Hasan Al-Farisi',
-    email: 'hasan.alfarisi@Xploria.id',
+    email: 'hasan.alfarisi@Ploria.id',
     phone: '0813-9876-5432',
     role: 'Admin Pengelola',
     status: 'aktif',
@@ -29,7 +29,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-03',
     name: 'Siti Rahmawati',
-    email: 'siti.rahma@Xploria.id',
+    email: 'siti.rahma@Ploria.id',
     phone: '0856-1122-3344',
     role: 'Petugas Kasir Tiket',
     status: 'aktif',
@@ -38,7 +38,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-04',
     name: 'Ahmad Fauzi',
-    email: 'ahmad.fauzi@Xploria.id',
+    email: 'ahmad.fauzi@Ploria.id',
     phone: '0878-5566-7788',
     role: 'Petugas Kasir Tiket',
     status: 'aktif',
@@ -47,7 +47,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-05',
     name: 'Dewi Lestari',
-    email: 'dewi.lestari@Xploria.id',
+    email: 'dewi.lestari@Ploria.id',
     phone: '0819-2233-4455',
     role: 'Petugas Validasi Lapangan',
     status: 'aktif',
@@ -161,13 +161,13 @@ export const initialOperationalExpenses: OperationalExpense[] = [
 ];
 
 export const initialDestinationInfo: DestinationInfo = {
-  name: 'Pantai Xploria Indah',
+  name: 'Pantai Ploria Indah',
   tagline: 'Pesona Bahari Tropis & Konservasi Terumbu Karang',
   description:
     'Destinasi wisata pesisir unggulan dengan panorama pasir putih halus, air laut turquoise, serta fasilitas lengkap rekreasi keluarga. Dilengkapi spot snorkeling, gazebo teduh di tepi pantai, dan pusat kuliner hidangan laut segar khas nusantara.',
   location: 'Jl. Bahari Nusantara No. 88, Desa Wisata Karang Indah',
   contactPhone: '(021) 7890-4321 / +62 812-3456-7890',
-  contactEmail: 'info@Xploria.id',
+  contactEmail: 'info@Ploria.id',
   openHours: 'Setiap Hari: 07:00 - 18:00 WIB',
   facilities: [
     'Gazebo Pantai & Tempat Santai',
@@ -198,7 +198,7 @@ export const initialReviews: VisitorReview[] = [
       author: 'Budi Santoso',
       role: 'Manager Operasional',
       message:
-        'Terima kasih banyak atas kunjungannya Mas Rendra! Senang mendengar liburan keluarga Anda menyenangkan di Xploria.',
+        'Terima kasih banyak atas kunjungannya Mas Rendra! Senang mendengar liburan keluarga Anda menyenangkan di Ploria.',
       date: '10 Nov 2026',
     },
   },

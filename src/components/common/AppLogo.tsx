@@ -23,7 +23,7 @@ export default function AppLogo({
       {/* Exact Logo from User with Transparent Background */}
       <img
         src={logoSrc}
-        alt="Xploria Logo"
+        alt="Ploria Logo"
         style={{ height: `${size}px`, width: 'auto' }}
         className="shrink-0 object-contain drop-shadow-sm select-none"
         loading="eager"
@@ -32,16 +32,14 @@ export default function AppLogo({
       {showText && (
         <div className="leading-tight">
           <p
-            className={`text-base font-extrabold tracking-tight ${
-              textClassName || (isWhite ? 'text-white' : 'text-slate-900')
-            }`}
+            className={`text-base font-extrabold tracking-tight ${textClassName || (isWhite ? 'text-white' : 'text-slate-900')
+              }`}
           >
-            Xploria
+            Ploria
           </p>
           <p
-            className={`text-xs font-semibold ${
-              subtitleClassName || (isWhite ? 'text-blue-100' : 'text-[#286EF2]')
-            }`}
+            className={`text-xs font-semibold ${subtitleClassName || (isWhite ? 'text-blue-100' : 'text-[#286EF2]')
+              }`}
           >
             Pemesanan Tiket Wisata
           </p>

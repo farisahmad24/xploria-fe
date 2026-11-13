@@ -18,7 +18,7 @@ export default function WelcomeBanner() {
       <div className="flex flex-col justify-center gap-4 p-6 sm:p-8 lg:p-10">
         <h1 className="text-2xl font-bold leading-[1.2] text-ocean-900 sm:text-3xl lg:text-[32px]">
           Selamat Datang,
-          <span className="block text-ocean-600">di Xploria!</span>
+          <span className="block text-ocean-600">di Ploria!</span>
         </h1>
         <p className="max-w-md text-sm leading-relaxed text-slate-500 sm:text-base">
           Kelola pariwisata desa dengan mudah dan efisien.
@@ -33,9 +33,8 @@ export default function WelcomeBanner() {
               src={slide.src}
               alt={slide.alt}
               loading={slideIndex === 0 ? 'eager' : 'lazy'}
-              className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out ${
-                slideIndex === index ? 'scale-100 opacity-100' : 'scale-105 opacity-0'
-              }`}
+              className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out ${slideIndex === index ? 'scale-100 opacity-100' : 'scale-105 opacity-0'
+                }`}
             />
           ))}
           <div className="absolute inset-0 bg-gradient-to-t from-ocean-900/30 to-transparent" />
@@ -48,9 +47,8 @@ export default function WelcomeBanner() {
                 onClick={() => setIndex(slideIndex)}
                 aria-label={`Tampilkan foto ${slideIndex + 1}`}
                 aria-current={slideIndex === index}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  slideIndex === index ? 'w-6 bg-white' : 'w-2 bg-white/60 hover:bg-white'
-                }`}
+                className={`h-2 rounded-full transition-all duration-300 ${slideIndex === index ? 'w-6 bg-white' : 'w-2 bg-white/60 hover:bg-white'
+                  }`}
               />
             ))}
           </div>

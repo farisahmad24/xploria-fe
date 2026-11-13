@@ -8,11 +8,11 @@ import {
   Search,
   ShieldAlert,
   Sparkles,
-  Ticket,
   UserCheck,
   Users,
   XCircle,
 } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import { formatNumber, formatRupiah, formatVisitDate } from '@/lib/bookings';
 import type { Booking, ValidationResult } from '@/types/ticket';
 
@@ -281,7 +281,7 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
           <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between border-b border-slate-100">
             <div className="flex items-center gap-2.5">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-[#286EF2] ring-1 ring-blue-100">
-                <Ticket className="h-5 w-5" />
+                <SlantedTicket className="h-5 w-5" />
               </div>
               <div>
                 <h3 className="text-base font-bold text-slate-900">

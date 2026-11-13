@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { ChevronLeft, ChevronRight, CalendarDays, Ticket } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import { toIsoDate } from '@/lib/bookings';
 import type { Booking } from '@/types/ticket';
 
@@ -211,7 +212,7 @@ export default function MiniCalendar({ bookings }: MiniCalendarProps) {
       {/* Footer Info Bar: Kontainer putih melengkung berisi teks tanggal terpilih & badge booking */}
       <div className="mt-4 flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white px-3.5 py-2.5 text-xs shadow-2xs">
         <div className="flex items-center gap-2">
-          <Ticket className="h-3.5 w-3.5 text-[#286EF2] shrink-0" />
+          <SlantedTicket className="h-3.5 w-3.5 text-[#286EF2] shrink-0" />
           <span className="font-semibold text-slate-700 truncate">
             {new Intl.DateTimeFormat('id-ID', {
               day: 'numeric',

@@ -1,23 +1,16 @@
 import {
   BarChart2,
-  Bell,
   CalendarDays,
   FileSearch,
   FileText,
   Info,
   LayoutGrid,
-  Lock,
-  MessageCircle,
+  MessageCircleMore,
   QrCode,
-  Receipt,
-  Search,
-  ShieldCheck,
   TrendingUp,
-  UserCircle2,
   Users,
-  Wallet,
-  Zap,
 } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import type { RoleNavConfig, RoleProfile, UserRole } from '@/types/roles';
 
 export const roleProfiles: Record<UserRole, RoleProfile> = {
@@ -59,37 +52,37 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'mo-dash',
         title: 'Dashboard Pengelola',
-        icon: LayoutGrid,         // Grid/Apps icon → overview dashboard
+        icon: LayoutGrid,         // Grid 2x2 rounded squares (Item 1)
         items: [],
       },
       {
         id: 'mo-tiket',
         title: 'Tiketing & Transaksi',
-        icon: Receipt,            // Receipt icon → transaksi tiket
+        icon: SlantedTicket,      // Diagonal ticket tilted 45° with cutouts (Item 2)
         items: [],
       },
       {
         id: 'mo-laporan',
         title: 'Manajemen Data & Laporan',
-        icon: FileText,           // Document icon → laporan data
+        icon: FileText,           // Document with folded corner and lines (Item 3)
         items: [],
       },
       {
         id: 'mo-destinasi',
         title: 'Profil Destinasi Wisata',
-        icon: Info,               // Info circle → profil/informasi wisata
+        icon: Info,               // Circle with i (Item 4)
         items: [],
       },
       {
         id: 'mo-ulasan',
         title: 'Ulasan & Pengaduan',
-        icon: MessageCircle,      // Chat bubble → ulasan & pengaduan
+        icon: MessageCircleMore,  // Chat bubble with 3 dots (Item 5)
         items: [],
       },
       {
         id: 'mo-akun',
         title: 'Manajemen Akun Staf',
-        icon: Users,              // People group → manajemen akun staf
+        icon: Users,              // Two people group (Item 6)
         items: [],
       },
     ],
@@ -103,31 +96,31 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'admin-dash',
         title: 'Dashboard Admin',
-        icon: LayoutGrid,         // Grid/Apps → overview dashboard
+        icon: LayoutGrid,
         items: [],
       },
       {
         id: 'admin-tiket',
         title: 'Tiketing & Transaksi',
-        icon: Receipt,            // Receipt → tiket & transaksi
+        icon: SlantedTicket,
         items: [],
       },
       {
         id: 'admin-laporan',
         title: 'Laporan Keuangan & Data',
-        icon: Wallet,             // Wallet → keuangan & laporan
+        icon: FileText,
         items: [],
       },
       {
         id: 'admin-destinasi',
         title: 'Informasi Wisata',
-        icon: Info,               // Info circle → informasi wisata
+        icon: Info,
         items: [],
       },
       {
         id: 'admin-dest-reviews',
         title: 'Ulasan Wisatawan',
-        icon: MessageCircle,      // Chat bubble → ulasan wisatawan
+        icon: MessageCircleMore,
         items: [],
       },
     ],
@@ -141,28 +134,28 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'kasir-dash',
         title: 'Dashboard Kasir',
-        icon: LayoutGrid,         // Grid/Apps → dashboard overview
+        icon: LayoutGrid,
         items: [
-          { id: 'kasir-dash-stats',    label: 'Statistik & Overview',    icon: TrendingUp  },  // trending → statistik
-          { id: 'kasir-dash-calendar', label: 'Kalender Jadwal Booking', icon: CalendarDays }, // calendar
+          { id: 'kasir-dash-stats',    label: 'Statistik & Overview',    icon: TrendingUp },
+          { id: 'kasir-dash-calendar', label: 'Kalender Jadwal Booking', icon: CalendarDays },
         ],
       },
       {
         id: 'kasir-tiket-sales',
         title: 'Penjualan Tiket',
-        icon: Zap,                // Lightning/Zap → aksi cepat penjualan
+        icon: SlantedTicket,
         items: [],
       },
       {
         id: 'kasir-tiket-validate',
         title: 'Validasi Tiket',
-        icon: QrCode,             // QR code → scan/validasi tiket gerbang
+        icon: QrCode,
         items: [],
       },
       {
         id: 'kasir-dash-rekap',
         title: 'Laporan Keuangan & Rekapan',
-        icon: FileSearch,         // File + search → rekap & close order
+        icon: FileSearch,
         items: [],
       },
     ],

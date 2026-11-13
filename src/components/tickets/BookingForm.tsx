@@ -15,9 +15,9 @@ import {
   RotateCcw,
   Sparkles,
   Tag,
-  Ticket,
   Wallet,
 } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import { ticketCategories } from '@/data/ticketCategories';
 import {
   MAX_QUANTITY_PER_CATEGORY,
@@ -388,7 +388,7 @@ export default function BookingForm({
                   : 'bg-slate-100 text-slate-500'
               }`}
             >
-              <Ticket className="h-5 w-5" />
+              <SlantedTicket className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -448,7 +448,7 @@ export default function BookingForm({
           {/* Pilih Jenis Tiket */}
           <section className="rounded-3xl border border-ocean-100 bg-white p-5 shadow-card sm:p-6">
             <div className="flex items-center gap-2.5">
-              <Ticket className="h-5 w-5 text-ocean-600" />
+              <SlantedTicket className="h-5 w-5 text-ocean-600" />
               <h2 className="text-base font-bold text-ocean-900">Pilih Jumlah &amp; Jenis Tiket</h2>
             </div>
             {errors.quantities && <p className="mt-3 text-sm text-rose-500">{errors.quantities}</p>}

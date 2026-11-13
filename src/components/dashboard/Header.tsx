@@ -8,10 +8,10 @@ import {
   LogOut,
   Menu,
   Search,
-  Ticket,
   Users,
   X,
 } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import { roleProfiles, rolesNavigation } from '@/data/rolesNavData';
 import type { UserRole } from '@/types/roles';
 import type { Booking } from '@/types/ticket';
@@ -28,7 +28,7 @@ type HeaderProps = {
 
 // ─── Notification data ────────────────────────────────────────────
 const notifications = [
-  { id: 'n1', icon: Ticket, text: 'Tiket baru #TK-20261108-001 telah dibuat', time: '2 menit lalu' },
+  { id: 'n1', icon: SlantedTicket, text: 'Tiket baru #TK-20261108-001 telah dibuat', time: '2 menit lalu' },
   { id: 'n2', icon: CalendarCheck, text: 'Booking rombongan 25 orang menunggu konfirmasi', time: '20 menit lalu' },
 ];
 
@@ -38,9 +38,9 @@ type SearchResult =
   | { kind: 'booking'; id: string; code: string; visitorName: string; status: string };
 
 // Map nav group icon by parent group id segment
-const GROUP_ICON_MAP: Record<string, typeof Ticket> = {
+const GROUP_ICON_MAP: Record<string, any> = {
   dash: LayoutDashboard,
-  tiket: Ticket,
+  tiket: SlantedTicket,
   laporan: FileText,
   destinasi: FileText,
   ulasan: FileText,
@@ -308,7 +308,7 @@ export default function Header({
                           className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition hover:bg-blue-50"
                         >
                           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-700">
-                            <Ticket className="h-4 w-4" />
+                            <SlantedTicket className="h-4 w-4" />
                           </span>
                           <div className="min-w-0 flex-1">
                             <p className="truncate text-sm font-semibold text-slate-800">

@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { LucideIcon } from 'lucide-react';
 
 export type UserRole = 'pengelola' | 'admin' | 'kasir';
@@ -17,14 +18,14 @@ export type NavSubItem = {
   code?: string;
   label: string;
   badge?: string;
-  icon?: LucideIcon;
+  icon?: LucideIcon | React.ComponentType<any>;
 };
 
 export type NavGroup = {
   id: string;
   code?: string;
   title: string;
-  icon: LucideIcon;
+  icon: LucideIcon | React.ComponentType<any>;
   items: NavSubItem[];
 };
 

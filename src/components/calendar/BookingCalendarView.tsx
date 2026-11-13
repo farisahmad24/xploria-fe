@@ -9,10 +9,10 @@ import {
   MessageSquare,
   Search,
   Sparkles,
-  Ticket,
   User,
   Users,
 } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import { formatNumber, formatRupiah, toIsoDate } from '@/lib/bookings';
 import type { Booking } from '@/types/ticket';
 
@@ -487,7 +487,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
 
           <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1.5 text-[11px] font-bold text-slate-700 shadow-2xs border border-slate-200/60">
-              <Ticket className="h-3.5 w-3.5 text-[#286EF2]" />
+              <SlantedTicket className="h-3.5 w-3.5 text-[#286EF2]" />
               {selectedBookings.length} Pesanan
             </div>
             <div className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1.5 text-[11px] font-bold text-emerald-800 shadow-2xs border border-slate-200/60">

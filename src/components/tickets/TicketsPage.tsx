@@ -4,10 +4,10 @@ import {
   Layers,
   Receipt,
   ScanLine,
-  Ticket as TicketIcon,
   Wrench,
   type LucideIcon,
 } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import BookingForm from '@/components/tickets/BookingForm';
 import CloseOrderConfirmModal from '@/components/tickets/CloseOrderConfirmModal';
 import CloseOrderHistoryView from '@/components/tickets/CloseOrderHistoryView';
@@ -36,10 +36,10 @@ export type TicketTab =
   | 'riwayat'
   | 'rekap-close-order';
 
-const tabs: { id: TicketTab; label: string; icon: LucideIcon }[] = [
+const tabs: { id: TicketTab; label: string; icon: any }[] = [
   { id: 'kelola-tiket', label: 'Mengelola Tiket', icon: Wrench },
   { id: 'kategori', label: 'Kategori Tiket', icon: Layers },
-  { id: 'pesan', label: 'Penjualan / Pesan', icon: TicketIcon },
+  { id: 'pesan', label: 'Penjualan / Pesan', icon: SlantedTicket },
   { id: 'validasi', label: 'Validasi Tiket', icon: ScanLine },
   { id: 'riwayat', label: 'Riwayat Penjualan', icon: History },
   { id: 'rekap-close-order', label: 'Rekap & Close Order', icon: Receipt },

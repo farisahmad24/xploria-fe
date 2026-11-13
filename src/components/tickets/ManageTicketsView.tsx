@@ -8,10 +8,10 @@ import {
   Plus,
   Receipt,
   Sparkles,
-  Ticket,
   Trash2,
   X,
 } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import { formatRupiah } from '@/lib/bookings';
 import type { TicketCategory, TicketItem } from '@/types/ticket';
 
@@ -210,7 +210,7 @@ export default function ManageTicketsView({
           <div className="flex items-center justify-between border-b border-ocean-50 p-6">
             <div className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-ocean-50 text-ocean-600">
-                <Ticket className="h-5 w-5" />
+                <SlantedTicket className="h-5 w-5" />
               </div>
               <div>
                 <h2 className="text-base font-bold text-slate-900">Daftar Tiket Wisata</h2>
@@ -391,7 +391,7 @@ export default function ManageTicketsView({
 
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-ocean-50 text-ocean-600 ring-1 ring-ocean-100">
-                <Ticket className="h-5 w-5" />
+                <SlantedTicket className="h-5 w-5" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-ocean-900">

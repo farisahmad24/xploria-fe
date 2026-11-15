@@ -20,7 +20,7 @@ import { initialCloseOrderRecaps } from '@/data/seedCloseOrders';
 import { generateCloseOrderRecap } from '@/lib/bookings';
 import type { UserRole } from '@/types/roles';
 import type {
-  Booking,
+  mendatang,
   BookingDraft,
   CloseOrderRecap,
   TicketCategory,
@@ -46,10 +46,10 @@ const tabs: { id: TicketTab; label: string; icon: any }[] = [
 ];
 
 type TicketsPageProps = {
-  bookings: Booking[];
+  bookings: mendatang[];
   tickets: TicketItem[];
   categories: TicketCategory[];
-  onCreate: (draft: BookingDraft) => Booking;
+  onCreate: (draft: BookingDraft) => mendatang;
   onValidate: (code: string) => ValidationResult;
   onUpdateTickets: (tickets: TicketItem[]) => void;
   onUpdateCategories: (categories: TicketCategory[]) => void;
@@ -174,11 +174,10 @@ export default function TicketsPage({
                 role="tab"
                 aria-selected={active}
                 onClick={() => setTab(item.id)}
-                className={`flex flex-1 min-w-[140px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs sm:text-sm font-bold transition-all duration-200 ${
-                  active
+                className={`flex flex-1 min-w-[140px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs sm:text-sm font-bold transition-all duration-200 ${active
                     ? 'bg-[#286EF2] text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-200'
                     : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                }`}
+                  }`}
               >
                 <Icon className="h-4 w-4 shrink-0" />
                 <span className="truncate">{item.label}</span>

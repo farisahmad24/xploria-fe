@@ -1,12 +1,12 @@
 import { AlertTriangle, Lock, X } from 'lucide-react';
 import { formatNumber, formatRupiah } from '@/lib/bookings';
-import type { Booking } from '@/types/ticket';
+import type { mendatang } from '@/types/ticket';
 
 type CloseOrderConfirmModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  bookings: Booking[];
+  bookings: mendatang[];
   cashierName: string;
 };
 

@@ -177,7 +177,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
               </span>
               <span className="flex-1">Login sebagai Pengelola</span>
               <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-                Super Admin
+
               </span>
             </button>
 

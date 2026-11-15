@@ -1,6 +1,6 @@
-import type { Booking } from '@/types/ticket';
+import type { mendatang } from '@/types/ticket';
 
-export const seedBookings: Booking[] = [
+export const seedBookings: mendatang[] = [
   {
     id: 'seed-1',
     code: 'TK-TODAY-20261111-001',
@@ -28,7 +28,7 @@ export const seedBookings: Booking[] = [
     items: [{ categoryId: 'keluarga', name: 'Paket Keluarga', unitPrice: 110000, quantity: 1 }],
     total: 110000,
     status: 'booked',
-    bookingType: 'booking',
+    bookingType: 'mendatang',
     paymentMethod: 'cash',
     createdAt: '2026-11-11T09:30:00.000Z',
     validatedAt: null,
@@ -58,7 +58,7 @@ export const seedBookings: Booking[] = [
     items: [{ categoryId: 'mancanegara', name: 'Wisatawan Mancanegara', unitPrice: 75000, quantity: 2 }],
     total: 150000,
     status: 'booked',
-    bookingType: 'booking',
+    bookingType: 'mendatang',
     paymentMethod: 'transfer',
     createdAt: '2026-11-11T11:20:00.000Z',
     validatedAt: null,
@@ -76,7 +76,7 @@ export const seedBookings: Booking[] = [
     ],
     total: 570000,
     status: 'booked',
-    bookingType: 'booking',
+    bookingType: 'mendatang',
     paymentMethod: 'transfer',
     createdAt: '2026-11-11T13:45:00.000Z',
     validatedAt: null,
@@ -91,7 +91,7 @@ export const seedBookings: Booking[] = [
     items: [{ categoryId: 'dewasa', name: 'Dewasa', unitPrice: 35000, quantity: 4 }],
     total: 140000,
     status: 'booked',
-    bookingType: 'booking',
+    bookingType: 'mendatang',
     paymentMethod: 'qris',
     createdAt: '2026-11-11T14:10:00.000Z',
     validatedAt: null,
@@ -124,7 +124,7 @@ export const seedBookings: Booking[] = [
     items: [{ categoryId: 'keluarga', name: 'Paket Keluarga', unitPrice: 110000, quantity: 1 }],
     total: 110000,
     status: 'validated',
-    bookingType: 'booking',
+    bookingType: 'mendatang',
     paymentMethod: 'qris',
     createdAt: '2026-11-09T10:00:00.000Z',
     validatedAt: '2026-11-11T09:15:00.000Z',
@@ -154,7 +154,7 @@ export const seedBookings: Booking[] = [
     items: [{ categoryId: 'mancanegara', name: 'Wisatawan Mancanegara', unitPrice: 75000, quantity: 2 }],
     total: 150000,
     status: 'validated',
-    bookingType: 'booking',
+    bookingType: 'mendatang',
     paymentMethod: 'transfer',
     createdAt: '2026-11-08T16:20:00.000Z',
     validatedAt: '2026-11-11T10:45:00.000Z',

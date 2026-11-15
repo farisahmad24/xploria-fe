@@ -17,9 +17,9 @@ export const roleProfiles: Record<UserRole, RoleProfile> = {
   pengelola: {
     id: 'pengelola',
     title: 'Pengelola',
-    subtitle: 'Super Admin',
+    subtitle: 'PENGELOLA',
     userName: 'Budi Santoso, S.Par',
-    userRoleName: 'Pengelola (Super Admin)',
+    userRoleName: 'Pengelola',
     avatarText: 'PS',
     badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30',
   },
@@ -44,10 +44,10 @@ export const roleProfiles: Record<UserRole, RoleProfile> = {
 };
 
 export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
-  // ─── PENGELOLA (SUPER ADMIN) ───────────────────────────────────────────────
+  // ─── PENGELOLA () ───────────────────────────────────────────────
   pengelola: {
     role: 'pengelola',
-    roleTitle: 'PENGELOLA (SUPER ADMIN)',
+    roleTitle: 'PENGELOLA',
     groups: [
       {
         id: 'mo-dash',
@@ -91,7 +91,7 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
   // ─── ADMIN (AKTOR PENGELOLA) ───────────────────────────────────────────────
   admin: {
     role: 'admin',
-    roleTitle: 'ADMIN (AKTOR PENGELOLA)',
+    roleTitle: 'ADMIN',
     groups: [
       {
         id: 'admin-dash',
@@ -136,8 +136,8 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
         title: 'Dashboard Kasir',
         icon: LayoutGrid,
         items: [
-          { id: 'kasir-dash-stats',    label: 'Statistik & Overview',    icon: TrendingUp },
-          { id: 'kasir-dash-calendar', label: 'Kalender Jadwal Booking', icon: CalendarDays },
+          { id: 'kasir-dash-stats', label: 'Statistik & Overview', icon: TrendingUp },
+          { id: 'kasir-dash-calendar', label: 'Kalender Jadwal mendatang', icon: CalendarDays },
         ],
       },
       {

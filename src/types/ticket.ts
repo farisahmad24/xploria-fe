@@ -27,7 +27,7 @@ export type BookingItem = {
 
 export type BookingStatus = 'booked' | 'validated';
 
-export type BookingType = 'hari_ini' | 'booking';
+export type BookingType = 'hari_ini' | 'mendatang';
 
 export type PaymentMethod = 'cash' | 'qris' | 'ewallet' | 'transfer';
 
@@ -51,6 +51,8 @@ export type Booking = {
   cashierName?: string;
 };
 
+export type mendatang = Booking;
+
 export type BookingDraft = {
   visitorName: string;
   phone: string;
@@ -70,8 +72,8 @@ export type DraftErrors = Partial<
 >;
 
 export type ValidationResult =
-  | { kind: 'valid'; booking: Booking }
-  | { kind: 'already_validated'; booking: Booking }
+  | { kind: 'valid'; mendatang: mendatang }
+  | { kind: 'already_validated'; mendatang: mendatang }
   | { kind: 'not_found' };
 
 export type CloseOrderRecap = {

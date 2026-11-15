@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { formatNumber, formatRupiah } from '@/lib/bookings';
 import type { OperationalExpense, RevenueShareItem, VisitorCategoryStat } from '@/types/roles';
-import type { Booking } from '@/types/ticket';
+import type { mendatang } from '@/types/ticket';
 
 export type ReportTabType =
   | 'visitors-cat'
@@ -24,7 +24,7 @@ export type ReportTabType =
 
 type ReportsViewProps = {
   activeTab: ReportTabType;
-  bookings: Booking[];
+  bookings: mendatang[];
   categoryStats: VisitorCategoryStat[];
   revenueShares: RevenueShareItem[];
   expenses: OperationalExpense[];

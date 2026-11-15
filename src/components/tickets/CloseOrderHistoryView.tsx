@@ -19,11 +19,11 @@ import {
   Wallet,
 } from 'lucide-react';
 import { formatNumber, formatRupiah, generateCloseOrderRecap } from '@/lib/bookings';
-import type { Booking, CloseOrderRecap } from '@/types/ticket';
+import type { mendatang, CloseOrderRecap } from '@/types/ticket';
 import CloseOrderRecapModal from './CloseOrderRecapModal';
 
 type CloseOrderHistoryViewProps = {
-  bookings?: Booking[];
+  bookings?: mendatang[];
   recaps: CloseOrderRecap[];
   isSessionOpen: boolean;
   onOpenCloseOrderConfirm: () => void;
@@ -57,7 +57,7 @@ export default function CloseOrderHistoryView({
     [bookings]
   );
   const bookingBookings = useMemo(
-    () => bookings.filter((b) => b.bookingType === 'booking'),
+    () => bookings.filter((b) => b.bookingType === 'mendatang'),
     [bookings]
   );
 
@@ -157,14 +157,12 @@ export default function CloseOrderHistoryView({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span
-                  className={`h-2.5 w-2.5 rounded-full ${
-                    isSessionOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'
-                  }`}
+                  className={`h-2.5 w-2.5 rounded-full ${isSessionOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'
+                    }`}
                 />
                 <span
-                  className={`text-xs font-black uppercase tracking-wider ${
-                    isSessionOpen ? 'text-emerald-700' : 'text-rose-700'
-                  }`}
+                  className={`text-xs font-black uppercase tracking-wider ${isSessionOpen ? 'text-emerald-700' : 'text-rose-700'
+                    }`}
                 >
                   {isSessionOpen ? 'Session Open (Aktif)' : 'Session Closed (Terkunci)'}
                 </span>
@@ -182,11 +180,11 @@ export default function CloseOrderHistoryView({
 
             <div className="mt-4 space-y-2">
               <div className="flex items-center justify-between rounded-xl bg-slate-50 p-2.5 text-xs">
-                <span className="font-medium text-slate-600">Pemesanan Hari Ini</span>
+                <span className="font-medium text-slate-600">Pemesanan Hari ini</span>
                 <span className="font-extrabold text-emerald-700">{formatRupiah(hariIniRevenue)}</span>
               </div>
               <div className="flex items-center justify-between rounded-xl bg-slate-50 p-2.5 text-xs">
-                <span className="font-medium text-slate-600">Pemesanan Booking</span>
+                <span className="font-medium text-slate-600">Pemesanan mendatang</span>
                 <span className="font-extrabold text-[#286EF2]">{formatRupiah(bookingRevenue)}</span>
               </div>
             </div>
@@ -225,7 +223,7 @@ export default function CloseOrderHistoryView({
         </div>
       </div>
 
-      {/* ── 2. TABEL RINCIAN TRANSAKSI PENDAPATAN SESI HARI INI ── */}
+      {/* ── 2. TABEL RINCIAN TRANSAKSI PENDAPATAN SESI Hari ini── */}
       <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-card w-full">
         <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between border-b border-slate-100">
           <div>
@@ -276,13 +274,12 @@ export default function CloseOrderHistoryView({
                     <td className="px-6 py-4 font-semibold text-slate-800">{b.visitorName}</td>
                     <td className="px-6 py-4">
                       <span
-                        className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
-                          b.bookingType === 'hari_ini'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : 'bg-sky-50 text-sky-700 border border-sky-200'
-                        }`}
+                        className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${b.bookingType === 'hari_ini'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          : 'bg-sky-50 text-sky-700 border border-sky-200'
+                          }`}
                       >
-                        {b.bookingType === 'hari_ini' ? 'Hari Ini (Walk-in)' : 'Booking Mendatang'}
+                        {b.bookingType === 'hari_ini' ? 'Hari ini()' : 'mendatang Mendatang'}
                       </span>
                     </td>
                     <td className="px-6 py-4">

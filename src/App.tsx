@@ -40,7 +40,7 @@ import {
   validateTicketCode,
 } from '@/lib/bookings';
 import type { UserRole } from '@/types/roles';
-import type { Booking, BookingDraft, TicketCategory, TicketItem, ValidationResult } from '@/types/ticket';
+import type { mendatang, BookingDraft, TicketCategory, TicketItem, ValidationResult } from '@/types/ticket';
 
 const TOAST_DURATION_MS = 2800;
 const ROLE_STORAGE_KEY = 'ePloria_active_role';
@@ -70,7 +70,7 @@ function App() {
   const [toast, setToast] = useState<Toast | null>(null);
 
   // Core Data States
-  const [bookings, setBookings] = useState<Booking[]>(seedBookings);
+  const [bookings, setBookings] = useState<mendatang[]>(seedBookings);
   const [categories, setCategories] = useState<TicketCategory[]>(ticketCategories);
   const [tickets, setTickets] = useState<TicketItem[]>(initialTicketItems);
   const [staffList, setStaffList] = useState(initialStaffMembers);
@@ -126,18 +126,18 @@ function App() {
 
   const activities = useMemo(() => buildActivityItems(bookings, new Date()), [bookings]);
 
-  // Booking handlers
-  const handleCreateBooking = (draft: BookingDraft): Booking => {
-    const booking = createBooking(
+  // mendatang handlers
+  const handleCreateBooking = (draft: BookingDraft): mendatang => {
+    const mendatang = createBooking(
       draft,
       categories,
       bookings,
       new Date(),
       currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'
     );
-    setBookings((current) => [booking, ...current]);
-    showToast(`Tiket #${booking.code} berhasil dipesan!`);
-    return booking;
+    setBookings((current) => [mendatang, ...current]);
+    showToast(`Tiket #${mendatang.code} berhasil dipesan!`);
+    return mendatang;
   };
 
   const handleValidateTicket = (code: string): ValidationResult => {
@@ -232,7 +232,7 @@ function App() {
             ))}
           </div>
 
-          {/* Side-by-Side Flex/Grid Container: Ringkasan Aktivitas (Kiri) & Kalender Booking (Kanan) */}
+          {/* Side-by-Side Flex/Grid Container: Ringkasan Aktivitas (Kiri) & Kalender mendatang (Kanan) */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-stretch w-full">
             <div className="lg:col-span-7 xl:col-span-8 flex flex-col">
               <ActivityChart />

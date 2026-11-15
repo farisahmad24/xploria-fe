@@ -14,11 +14,11 @@ import {
 } from 'lucide-react';
 import SlantedTicket from '@/components/common/SlantedTicket';
 import { formatNumber, formatRupiah, formatVisitDate } from '@/lib/bookings';
-import type { Booking, ValidationResult } from '@/types/ticket';
+import type { mendatang, ValidationResult } from '@/types/ticket';
 
 type ValidateTicketProps = {
   onValidate: (code: string) => ValidationResult;
-  bookings?: Booking[];
+  bookings?: mendatang[];
 };
 
 export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTicketProps) {
@@ -27,7 +27,7 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
   const [formError, setFormError] = useState('');
   const [searchLog, setSearchLog] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'validated' | 'booked'>('all');
-  const [typeFilter, setTypeFilter] = useState<'all' | 'hari_ini' | 'booking'>('all');
+  const [typeFilter, setTypeFilter] = useState<'all' | 'hari_ini' | 'mendatang'>('all');
 
   // Validated & Pending tickets data
   const validatedBookings = useMemo(
@@ -82,7 +82,7 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
     window.scrollTo({ top: 120, behavior: 'smooth' });
   };
 
-  const booking = result && result.kind !== 'not_found' ? result.booking : null;
+  const mendatang = result && result.kind !== 'not_found' ? result.mendatang : null;
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -192,9 +192,8 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
       {result && (
         <section
           role="status"
-          className={`animate-fade-in-up w-full rounded-3xl border p-6 shadow-card sm:p-8 ${
-            result.kind === 'valid' ? 'border-emerald-200 bg-emerald-50/60' : 'border-rose-200 bg-rose-50/60'
-          }`}
+          className={`animate-fade-in-up w-full rounded-3xl border p-6 shadow-card sm:p-8 ${result.kind === 'valid' ? 'border-emerald-200 bg-emerald-50/60' : 'border-rose-200 bg-rose-50/60'
+            }`}
         >
           {result.kind === 'not_found' && (
             <div className="flex items-start gap-4">
@@ -234,7 +233,7 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
             </div>
           )}
 
-          {booking && (
+          {mendatang && (
             <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 p-5 text-sm shadow-xs">
               <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
                 Informasi Detail Tiket Terverifikasi
@@ -242,24 +241,24 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="rounded-xl bg-slate-50 p-3">
                   <dt className="text-xs text-slate-500">Nama Pengunjung</dt>
-                  <dd className="mt-0.5 font-bold text-slate-900">{booking.visitorName}</dd>
+                  <dd className="mt-0.5 font-bold text-slate-900">{mendatang.visitorName}</dd>
                 </div>
                 <div className="rounded-xl bg-slate-50 p-3">
                   <dt className="text-xs text-slate-500">Kode Tiket</dt>
-                  <dd className="mt-0.5 font-mono font-bold text-[#286EF2]">{booking.code}</dd>
+                  <dd className="mt-0.5 font-mono font-bold text-[#286EF2]">{mendatang.code}</dd>
                 </div>
                 <div className="rounded-xl bg-slate-50 p-3">
                   <dt className="text-xs text-slate-500">Tanggal Kunjungan</dt>
-                  <dd className="mt-0.5 font-bold text-slate-900">{formatVisitDate(booking.visitDate)}</dd>
+                  <dd className="mt-0.5 font-bold text-slate-900">{formatVisitDate(mendatang.visitDate)}</dd>
                 </div>
                 <div className="rounded-xl bg-slate-50 p-3">
                   <dt className="text-xs text-slate-500">Total Nominal</dt>
-                  <dd className="mt-0.5 font-extrabold text-emerald-700">{formatRupiah(booking.total)}</dd>
+                  <dd className="mt-0.5 font-extrabold text-emerald-700">{formatRupiah(mendatang.total)}</dd>
                 </div>
                 <div className="sm:col-span-2 lg:col-span-4 rounded-xl bg-slate-50 p-3">
                   <dt className="text-xs text-slate-500">Rincian Tiket &amp; Jumlah Orang</dt>
                   <dd className="mt-1 flex flex-wrap gap-2">
-                    {booking.items.map((item) => (
+                    {mendatang.items.map((item) => (
                       <span
                         key={item.categoryId}
                         className="rounded-lg bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-2xs border border-slate-200"
@@ -314,12 +313,12 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Tipe:</span>
                 <select
                   value={typeFilter}
-                  onChange={(e) => setTypeFilter(e.target.value as 'all' | 'hari_ini' | 'booking')}
+                  onChange={(e) => setTypeFilter(e.target.value as 'all' | 'hari_ini' | 'mendatang')}
                   className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 focus:border-[#286EF2] focus:bg-white focus:outline-none"
                 >
                   <option value="all">Semua Tipe Pemesanan</option>
-                  <option value="hari_ini">Pemesanan Hari Ini (Walk-in)</option>
-                  <option value="booking">Pemesanan Booking (Mendatang)</option>
+                  <option value="hari_ini">Pemesanan Hari ini()</option>
+                  <option value="mendatang">Pemesanan mendatang</option>
                 </select>
               </div>
 
@@ -382,13 +381,12 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
                         </td>
                         <td className="w-36 px-5 py-4">
                           <span
-                            className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
-                              b.bookingType === 'hari_ini'
-                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                : 'bg-sky-50 text-sky-700 border border-sky-200'
-                            }`}
+                            className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${b.bookingType === 'hari_ini'
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : 'bg-sky-50 text-sky-700 border border-sky-200'
+                              }`}
                           >
-                            {b.bookingType === 'hari_ini' ? 'Hari Ini (Walk-in)' : 'Booking Terjadwal'}
+                            {b.bookingType === 'hari_ini' ? 'Hari ini()' : 'mendatang Terjadwal'}
                           </span>
                         </td>
                         <td className="w-40 px-5 py-4">
@@ -454,8 +452,8 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
                 {statusFilter === 'all'
                   ? 'Semua Status'
                   : statusFilter === 'validated'
-                  ? 'Sudah Masuk'
-                  : 'Belum Masuk'}
+                    ? 'Sudah Masuk'
+                    : 'Belum Masuk'}
               </strong>
             </span>
             <span className="text-slate-300">•</span>
@@ -465,8 +463,8 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
                 {typeFilter === 'all'
                   ? 'Semua Tipe'
                   : typeFilter === 'hari_ini'
-                  ? 'Hari Ini'
-                  : 'Booking'}
+                    ? 'Hari Ini'
+                    : 'mendatang'}
               </strong>
             </span>
           </div>

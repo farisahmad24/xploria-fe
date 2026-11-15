@@ -27,10 +27,10 @@ import {
   toIsoDate,
   validateDraft,
 } from '@/lib/bookings';
-import type { Booking, BookingDraft, BookingType, DraftErrors, PaymentMethod } from '@/types/ticket';
+import type { mendatang, BookingDraft, BookingType, DraftErrors, PaymentMethod } from '@/types/ticket';
 
 type BookingFormProps = {
-  onCreate: (draft: BookingDraft) => Booking;
+  onCreate: (draft: BookingDraft) => mendatang;
   isSessionOpen?: boolean;
   onCloseOrder?: () => void;
   onOpenNewSession?: () => void;
@@ -70,7 +70,7 @@ export default function BookingForm({
 
   const [draft, setDraft] = useState<BookingDraft>(emptyDraft);
   const [errors, setErrors] = useState<DraftErrors>({});
-  const [confirmed, setConfirmed] = useState<Booking | null>(null);
+  const [confirmed, setConfirmed] = useState<mendatang | null>(null);
 
   // Helper kalkulasi rentang hari & tanggal selesai
   const calculateEndDate = (startDateIso: string, days: number): string => {
@@ -116,12 +116,12 @@ export default function BookingForm({
 
   const grandTotal = Math.max(0, subtotalPrice - discountAmount);
 
-  // Ubah tipe pemesanan (Hari Ini vs Booking)
+  // Ubah tipe pemesanan (Hari inivs mendatang)
   const handleBookingTypeChange = (type: BookingType) => {
     setDraft((current) => ({
       ...current,
       bookingType: type,
-      // Jika Hari Ini -> kunci tanggal ke hari ini. Jika Booking -> kosongkan atau set besok
+      // Jika Hari ini-> kunci tanggal ke hari ini. Jika mendatang -> kosongkan atau set besok
       visitDate: type === 'hari_ini' ? todayIso : '',
       durationDays: 1,
       visitEndDate: type === 'hari_ini' ? todayIso : '',
@@ -207,13 +207,12 @@ export default function BookingForm({
         {/* Status Badge */}
         <div className="mt-4 flex items-center justify-center gap-2">
           <span
-            className={`rounded-full px-3 py-1 text-xs font-bold ${
-              isHariIni
-                ? 'bg-emerald-100 text-emerald-800'
-                : 'bg-sky-100 text-sky-800'
-            }`}
+            className={`rounded-full px-3 py-1 text-xs font-bold ${isHariIni
+              ? 'bg-emerald-100 text-emerald-800'
+              : 'bg-sky-100 text-sky-800'
+              }`}
           >
-            {isHariIni ? '✓ Pemesanan Hari Ini (Langsung Aktif)' : '📅 Booking Terjadwal'}
+            {isHariIni ? '✓ Pemesanan Hari ini(Langsung Aktif)' : '📅 mendatang Terjadwal'}
           </span>
           <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase text-slate-700">
             Metode: {confirmed.paymentMethod.toUpperCase()}
@@ -295,23 +294,20 @@ export default function BookingForm({
       <div className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-card sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div
-            className={`flex h-11 w-11 items-center justify-center rounded-2xl ${
-              isSessionOpen ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
-            }`}
+            className={`flex h-11 w-11 items-center justify-center rounded-2xl ${isSessionOpen ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
+              }`}
           >
             <Clock className="h-5 w-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span
-                className={`h-2.5 w-2.5 rounded-full ${
-                  isSessionOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'
-                }`}
+                className={`h-2.5 w-2.5 rounded-full ${isSessionOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'
+                  }`}
               />
               <span
-                className={`text-xs font-black uppercase tracking-wider ${
-                  isSessionOpen ? 'text-emerald-700' : 'text-rose-700'
-                }`}
+                className={`text-xs font-black uppercase tracking-wider ${isSessionOpen ? 'text-emerald-700' : 'text-rose-700'
+                  }`}
               >
                 {isSessionOpen ? 'Sesi Kasir Aktif (Session Open)' : 'Sesi Terkunci (Session Closed)'}
               </span>
@@ -355,7 +351,7 @@ export default function BookingForm({
           <div className="flex items-start gap-3">
             <Lock className="h-5 w-5 shrink-0 text-rose-600 mt-0.5" />
             <div>
-              <h3 className="text-sm font-bold">Sesi Kasir Hari Ini Telah Ditutup (Close Order)</h3>
+              <h3 className="text-sm font-bold">Sesi Kasir Hari iniTelah Ditutup (Close Order)</h3>
               <p className="mt-1 text-xs leading-relaxed text-rose-800">
                 Seluruh transaksi pada sesi ini telah dikunci untuk keperluan rekonsiliasi kas dan pembukuan harian. Tidak ada transaksi baru yang dapat dibuat. Klik tombol <strong>&quot;Buka Sesi Kasir Baru&quot;</strong> jika Anda ingin memulai shift pelayanan berikutnya.
               </p>
@@ -370,72 +366,68 @@ export default function BookingForm({
           Pilih Tipe Transaksi Pemesanan
         </p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {/* Tab 1: Pemesanan Hari Ini (Walk-in) */}
+          {/* Tab 1: Pemesanan Hari ini() */}
           <button
             type="button"
             disabled={!isSessionOpen}
             onClick={() => handleBookingTypeChange('hari_ini')}
-            className={`flex items-start gap-3.5 rounded-2xl border p-4 text-left transition-all ${
-              draft.bookingType === 'hari_ini'
-                ? 'border-[#286EF2] bg-blue-50/60 shadow-md ring-2 ring-[#286EF2]/20'
-                : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
-            }`}
+            className={`flex items-start gap-3.5 rounded-2xl border p-4 text-left transition-all ${draft.bookingType === 'hari_ini'
+              ? 'border-[#286EF2] bg-blue-50/60 shadow-md ring-2 ring-[#286EF2]/20'
+              : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+              }`}
           >
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
-                draft.bookingType === 'hari_ini'
-                  ? 'bg-[#286EF2] text-white shadow-md shadow-blue-500/25'
-                  : 'bg-slate-100 text-slate-500'
-              }`}
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${draft.bookingType === 'hari_ini'
+                ? 'bg-[#286EF2] text-white shadow-md shadow-blue-500/25'
+                : 'bg-slate-100 text-slate-500'
+                }`}
             >
               <SlantedTicket className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-extrabold text-slate-900">
-                  Pemesanan Hari Ini (Walk-in)
+                  Pemesanan Hari ini
                 </span>
                 <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
                   Langsung Aktif
                 </span>
               </div>
               <p className="mt-1 text-xs text-slate-500 leading-relaxed">
-                Tanggal terkunci otomatis pada hari ini ({formatVisitDate(todayIso)}). Tiket langsung siap dipindai di gerbang.
+                Tanggal terkunci otomatis pada Hari ini({formatVisitDate(todayIso)}). Tiket langsung siap dipindai di gerbang.
               </p>
             </div>
           </button>
 
-          {/* Tab 2: Pemesanan Booking (Mendatang) */}
+          {/* Tab 2: Pemesanan mendatang (Mendatang) */}
           <button
             type="button"
             disabled={!isSessionOpen}
-            onClick={() => handleBookingTypeChange('booking')}
-            className={`flex items-start gap-3.5 rounded-2xl border p-4 text-left transition-all ${
-              draft.bookingType === 'booking'
-                ? 'border-[#286EF2] bg-blue-50/60 shadow-md ring-2 ring-[#286EF2]/20'
-                : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
-            }`}
+            onClick={() => handleBookingTypeChange('mendatang')}
+            className={`flex items-start gap-3.5 rounded-2xl border p-4 text-left transition-all ${draft.bookingType === 'mendatang'
+              ? 'border-[#286EF2] bg-blue-50/60 shadow-md ring-2 ring-[#286EF2]/20'
+              : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+              }`}
           >
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
-                draft.bookingType === 'booking'
-                  ? 'bg-[#286EF2] text-white shadow-md shadow-blue-500/25'
-                  : 'bg-slate-100 text-slate-500'
-              }`}
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${draft.bookingType === 'mendatang'
+                ? 'bg-[#286EF2] text-white shadow-md shadow-blue-500/25'
+                : 'bg-slate-100 text-slate-500'
+                }`}
             >
               <Calendar className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-extrabold text-slate-900">
-                  Pemesanan Booking (Mendatang)
+                  Pemesanan mendatang
                 </span>
                 <span className="rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-bold text-sky-800">
                   Terjadwal
                 </span>
               </div>
               <p className="mt-1 text-xs text-slate-500 leading-relaxed">
-                Pilih tanggal kunjungan di masa depan. Tiket berstatus booking dan aktif ketika tanggal kunjungan tiba.
+                Pilih tanggal kunjungan di masa depan. Tiket berstatus mendatang dan aktif ketika tanggal kunjungan tiba.
               </p>
             </div>
           </button>
@@ -459,9 +451,8 @@ export default function BookingForm({
                 return (
                   <li
                     key={category.id}
-                    className={`flex h-full min-h-[160px] flex-col justify-between gap-4 rounded-2xl border p-4 transition-colors ${
-                      quantity > 0 ? 'border-ocean-400 bg-ocean-50/60' : 'border-ocean-100 bg-white'
-                    } ${!isSessionOpen ? 'opacity-60' : ''}`}
+                    className={`flex h-full min-h-[160px] flex-col justify-between gap-4 rounded-2xl border p-4 transition-colors ${quantity > 0 ? 'border-ocean-400 bg-ocean-50/60' : 'border-ocean-100 bg-white'
+                      } ${!isSessionOpen ? 'opacity-60' : ''}`}
                   >
                     <div>
                       <p className="font-semibold text-ocean-900">{category.name}</p>
@@ -529,17 +520,17 @@ export default function BookingForm({
                 {errors.phone && <span className="text-xs text-rose-500">{errors.phone}</span>}
               </label>
 
-              {/* Tanggal Kunjungan & Range Hari Booking */}
+              {/* Tanggal Kunjungan & Range Hari mendatang */}
               <div className="flex flex-col gap-2.5 text-sm font-medium text-slate-600 sm:col-span-2">
                 <div className="flex items-center justify-between">
                   <span>Tanggal Kunjungan</span>
                   {draft.bookingType === 'hari_ini' ? (
                     <span className="text-xs font-bold text-emerald-700">
-                      ✓ Terkunci Hari Ini (Walk-in)
+                      ✓ Terkunci Hari ini()
                     </span>
                   ) : (
                     <span className="text-xs font-bold text-[#286EF2]">
-                      Pemesanan Booking Terjadwal
+                      Pemesanan mendatang Terjadwal
                     </span>
                   )}
                 </div>
@@ -581,11 +572,10 @@ export default function BookingForm({
                           type="button"
                           disabled={!isSessionOpen}
                           onClick={() => handleDurationChange(item.days)}
-                          className={`rounded-xl px-2.5 py-1 text-xs font-bold transition-all ${
-                            (draft.durationDays || 1) === item.days
-                              ? 'bg-[#286EF2] text-white shadow-xs'
-                              : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
-                          }`}
+                          className={`rounded-xl px-2.5 py-1 text-xs font-bold transition-all ${(draft.durationDays || 1) === item.days
+                            ? 'bg-[#286EF2] text-white shadow-xs'
+                            : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+                            }`}
                         >
                           {item.label}
                         </button>
@@ -666,16 +656,14 @@ export default function BookingForm({
                     type="button"
                     disabled={!isSessionOpen}
                     onClick={() => updateField('paymentMethod', m.id as PaymentMethod)}
-                    className={`flex flex-col items-center justify-center gap-2 rounded-2xl border p-3.5 text-center transition-all ${
-                      active
-                        ? 'border-[#286EF2] bg-blue-50/60 shadow-sm ring-2 ring-[#286EF2]/20 font-bold text-ocean-900'
-                        : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-600'
-                    }`}
+                    className={`flex flex-col items-center justify-center gap-2 rounded-2xl border p-3.5 text-center transition-all ${active
+                      ? 'border-[#286EF2] bg-blue-50/60 shadow-sm ring-2 ring-[#286EF2]/20 font-bold text-ocean-900'
+                      : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-600'
+                      }`}
                   >
                     <span
-                      className={`flex h-9 w-9 items-center justify-center rounded-xl ${
-                        active ? 'bg-[#286EF2] text-white' : 'bg-slate-100 text-slate-600'
-                      }`}
+                      className={`flex h-9 w-9 items-center justify-center rounded-xl ${active ? 'bg-[#286EF2] text-white' : 'bg-slate-100 text-slate-600'
+                        }`}
                     >
                       <Icon className="h-4 w-4" />
                     </span>
@@ -715,11 +703,10 @@ export default function BookingForm({
                     setDiscountType('percent');
                     setDiscountValue('0');
                   }}
-                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
-                    discountType === 'percent'
-                      ? 'bg-white text-[#286EF2] shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
+                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${discountType === 'percent'
+                    ? 'bg-white text-[#286EF2] shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                    }`}
                 >
                   <Percent className="h-3.5 w-3.5" />
                   <span>Persen (%)</span>
@@ -731,11 +718,10 @@ export default function BookingForm({
                     setDiscountType('nominal');
                     setDiscountValue('0');
                   }}
-                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
-                    discountType === 'nominal'
-                      ? 'bg-white text-[#286EF2] shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
+                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${discountType === 'nominal'
+                    ? 'bg-white text-[#286EF2] shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                    }`}
                 >
                   <span>Nominal (Rp)</span>
                 </button>
@@ -769,11 +755,10 @@ export default function BookingForm({
                     type="button"
                     disabled={!isSessionOpen}
                     onClick={() => setDiscountValue(String(pct))}
-                    className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
-                      numericDiscount === pct
-                        ? 'bg-[#286EF2] text-white'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                    }`}
+                    className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${numericDiscount === pct
+                      ? 'bg-[#286EF2] text-white'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      }`}
                   >
                     {pct === 0 ? 'Tanpa Diskon' : `${pct}%`}
                   </button>
@@ -785,11 +770,10 @@ export default function BookingForm({
                     type="button"
                     disabled={!isSessionOpen}
                     onClick={() => setDiscountValue(String(nom))}
-                    className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
-                      numericDiscount === nom
-                        ? 'bg-[#286EF2] text-white'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                    }`}
+                    className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${numericDiscount === nom
+                      ? 'bg-[#286EF2] text-white'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      }`}
                   >
                     {nom === 0 ? 'Tanpa Diskon' : formatRupiah(nom)}
                   </button>
@@ -810,10 +794,10 @@ export default function BookingForm({
             <div className="flex justify-between">
               <span className="font-bold text-slate-900">Tipe Transaksi:</span>
               <span className="font-semibold text-[#286EF2]">
-                {draft.bookingType === 'hari_ini' ? 'Hari Ini (Walk-in)' : 'Booking Mendatang'}
+                {draft.bookingType === 'hari_ini' ? 'Hari ini()' : 'mendatang Mendatang'}
               </span>
             </div>
-            {draft.bookingType === 'booking' && (
+            {draft.bookingType === 'mendatang' && (
               <div className="flex justify-between border-t border-slate-200/60 pt-1 text-[11px]">
                 <span className="text-slate-500">Durasi:</span>
                 <span className="font-bold text-slate-800">
@@ -873,7 +857,7 @@ export default function BookingForm({
               </>
             ) : (
               <>
-                <span>Konfirmasi Pembayaran ({draft.bookingType === 'hari_ini' ? 'Walk-in' : 'Booking'})</span>
+                <span>Konfirmasi Pembayaran ({draft.bookingType === 'hari_ini' ? '' : 'mendatang'})</span>
               </>
             )}
           </button>

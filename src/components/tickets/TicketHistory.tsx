@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { History, Search } from 'lucide-react';
 import { formatRupiah, formatVisitDate } from '@/lib/bookings';
-import type { Booking, BookingStatus, BookingType } from '@/types/ticket';
+import type { mendatang, BookingStatus, BookingType } from '@/types/ticket';
 
 type FilterStatus = 'all' | BookingStatus;
 type FilterType = 'all' | BookingType;
@@ -19,7 +19,7 @@ const paymentIcons: Record<string, string> = {
 };
 
 type TicketHistoryProps = {
-  bookings: Booking[];
+  bookings: mendatang[];
 };
 
 export default function TicketHistory({ bookings }: TicketHistoryProps) {
@@ -67,8 +67,8 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
                 className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 focus:border-[#286EF2] focus:bg-white focus:outline-none"
               >
                 <option value="all">Semua Tipe Transaksi</option>
-                <option value="hari_ini">Pemesanan Hari Ini (Walk-in)</option>
-                <option value="booking">Pemesanan Booking (Mendatang)</option>
+                <option value="hari_ini">Pemesanan Hari ini()</option>
+                <option value="mendatang">Pemesanan mendatang (Mendatang)</option>
               </select>
             </div>
 
@@ -121,44 +121,43 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
                   </td>
                 </tr>
               ) : (
-                visible.map((booking) => {
-                  const quantity = booking.items.reduce((sum, item) => sum + item.quantity, 0);
-                  const status = statusStyle[booking.status] || statusStyle.booked;
-                  const isHariIni = booking.bookingType === 'hari_ini';
+                visible.map((mendatang) => {
+                  const quantity = mendatang.items.reduce((sum, item) => sum + item.quantity, 0);
+                  const status = statusStyle[mendatang.status] || statusStyle.booked;
+                  const isHariIni = mendatang.bookingType === 'hari_ini';
 
                   return (
-                    <tr key={booking.id} className="transition-colors hover:bg-slate-50/60">
+                    <tr key={mendatang.id} className="transition-colors hover:bg-slate-50/60">
                       <td className="w-44 px-5 py-4 font-mono text-xs font-bold text-[#286EF2]">
-                        {booking.code}
+                        {mendatang.code}
                       </td>
                       <td className="w-56 px-5 py-4">
-                        <p className="font-bold text-slate-900 truncate">{booking.visitorName}</p>
-                        <p className="text-[10px] text-slate-400 font-mono">{booking.phone}</p>
+                        <p className="font-bold text-slate-900 truncate">{mendatang.visitorName}</p>
+                        <p className="text-[10px] text-slate-400 font-mono">{mendatang.phone}</p>
                       </td>
                       <td className="w-48 px-5 py-4">
                         <span
-                          className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-extrabold ${
-                            isHariIni
-                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                              : 'bg-sky-50 text-sky-800 border border-sky-200'
-                          }`}
+                          className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-extrabold ${isHariIni
+                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                            : 'bg-sky-50 text-sky-800 border border-sky-200'
+                            }`}
                         >
-                          {isHariIni ? 'Hari Ini (Walk-in)' : 'Booking Mendatang'}
+                          {isHariIni ? 'Hari ini()' : 'mendatang Mendatang'}
                         </span>
                       </td>
                       <td className="w-36 px-5 py-4 font-medium text-slate-700">
-                        {formatVisitDate(booking.visitDate)}
+                        {formatVisitDate(mendatang.visitDate)}
                       </td>
                       <td className="w-32 px-5 py-4">
                         <span className="inline-block rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-700 border border-slate-200/60">
-                          {paymentIcons[booking.paymentMethod] || booking.paymentMethod}
+                          {paymentIcons[mendatang.paymentMethod] || mendatang.paymentMethod}
                         </span>
                       </td>
                       <td className="w-28 px-5 py-4 text-center text-slate-700 font-bold">
                         {quantity} lembar
                       </td>
                       <td className="w-40 px-5 py-4 text-right font-extrabold text-slate-900 whitespace-nowrap">
-                        {formatRupiah(booking.total)}
+                        {formatRupiah(mendatang.total)}
                       </td>
                       <td className="w-44 px-5 py-4 text-center">
                         <span className={`inline-flex rounded-full px-3 py-1 text-[10px] font-bold ${status.className}`}>
@@ -187,8 +186,8 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
               {typeFilter === 'all'
                 ? 'Semua Tipe'
                 : typeFilter === 'hari_ini'
-                ? 'Hari Ini (Walk-in)'
-                : 'Booking Mendatang'}
+                  ? 'Hari ini()'
+                  : 'mendatang Mendatang'}
             </strong>
           </span>
           <span className="text-slate-300">•</span>
@@ -198,8 +197,8 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
               {statusFilter === 'all'
                 ? 'Semua Status'
                 : statusFilter === 'validated'
-                ? 'Tervalidasi / Masuk'
-                : 'Menunggu Kunjungan'}
+                  ? 'Tervalidasi / Masuk'
+                  : 'Menunggu Kunjungan'}
             </strong>
           </span>
         </div>

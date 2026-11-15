@@ -1,5 +1,5 @@
 import type {
-  Booking,
+  mendatang,
   BookingDraft,
   BookingItem,
   CloseOrderRecap,
@@ -37,19 +37,19 @@ export function toIsoDate(date: Date) {
   return `${year}-${month}-${day}`;
 }
 
-export function countTickets(bookings: Booking[]) {
+export function countTickets(bookings: mendatang[]) {
   return bookings.reduce(
-    (sum, booking) => sum + booking.items.reduce((itemSum, item) => itemSum + item.quantity, 0),
+    (sum, mendatang) => sum + mendatang.items.reduce((itemSum, item) => itemSum + item.quantity, 0),
     0
   );
 }
 
-export function countValidatedTickets(bookings: Booking[]) {
-  return countTickets(bookings.filter((booking) => booking.status === 'validated'));
+export function countValidatedTickets(bookings: mendatang[]) {
+  return countTickets(bookings.filter((mendatang) => mendatang.status === 'validated'));
 }
 
-export function sumRevenue(bookings: Booking[]) {
-  return bookings.reduce((sum, booking) => sum + booking.total, 0);
+export function sumRevenue(bookings: mendatang[]) {
+  return bookings.reduce((sum, mendatang) => sum + mendatang.total, 0);
 }
 
 export function validateDraft(draft: BookingDraft, todayIso: string): DraftErrors {
@@ -65,8 +65,8 @@ export function validateDraft(draft: BookingDraft, todayIso: string): DraftError
   }
   if (!draft.visitDate) {
     errors.visitDate = 'Pilih tanggal kunjungan';
-  } else if (draft.bookingType === 'booking' && draft.visitDate <= todayIso) {
-    errors.visitDate = 'Pemesanan Booking wajib memilih tanggal kunjungan di masa mendatang';
+  } else if (draft.bookingType === 'mendatang' && draft.visitDate <= todayIso) {
+    errors.visitDate = 'Pemesanan mendatang wajib memilih tanggal kunjungan di masa mendatang';
   } else if (draft.visitDate < todayIso) {
     errors.visitDate = 'Tanggal kunjungan tidak boleh di masa lalu';
   }
@@ -96,17 +96,17 @@ export function buildBookingItems(
 export function createBooking(
   draft: BookingDraft,
   categories: TicketCategory[],
-  existing: Booking[],
+  existing: mendatang[],
   now: Date,
   cashierName?: string
-): Booking {
+): mendatang {
   const items = buildBookingItems(draft.quantities, categories);
   const sequence = String(existing.length + 1).padStart(3, '0');
   const datePart = toIsoDate(now).replace(/-/g, '');
   const prefix = draft.bookingType === 'hari_ini' ? 'TK-TODAY' : 'TK-BOOK';
   const code = `${prefix}-${datePart}-${sequence}`;
 
-  // Pemesanan Hari Ini (Walk-in):
+  // Pemesanan Hari ini():
   // "Tiket langsung berstatus Aktif / Valid dan siap untuk divalidasi di gerbang."
   const isHariIni = draft.bookingType === 'hari_ini';
   const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
@@ -143,22 +143,22 @@ export function formatRelativeTime(iso: string, now: Date) {
   return `${Math.round(hours / 24)} hari yang lalu`;
 }
 
-export function buildActivityItems(bookings: Booking[], now: Date): ActivityItem[] {
-  const events = bookings.flatMap((booking) => {
-    const isWalkIn = booking.bookingType === 'hari_ini';
+export function buildActivityItems(bookings: mendatang[], now: Date): ActivityItem[] {
+  const events = bookings.flatMap((mendatang) => {
+    const isWalkIn = mendatang.bookingType === 'hari_ini';
     const created = {
-      id: `${booking.id}-created`,
-      title: `${isWalkIn ? 'Pemesanan Hari Ini (Walk-in)' : 'Booking Tiket'} ${booking.code} oleh ${booking.visitorName}`,
-      at: booking.createdAt,
+      id: `${mendatang.id}-created`,
+      title: `${isWalkIn ? 'Pemesanan Hari ini()' : 'mendatang Tiket'} ${mendatang.code} oleh ${mendatang.visitorName}`,
+      at: mendatang.createdAt,
       tone: isWalkIn ? ('emerald' as const) : ('blue' as const),
     };
-    if (!booking.validatedAt || isWalkIn) return [created];
+    if (!mendatang.validatedAt || isWalkIn) return [created];
     return [
       created,
       {
-        id: `${booking.id}-validated`,
-        title: `Tiket Booking ${booking.code} divalidasi di gerbang`,
-        at: booking.validatedAt,
+        id: `${mendatang.id}-validated`,
+        title: `Tiket mendatang ${mendatang.code} divalidasi di gerbang`,
+        at: mendatang.validatedAt,
         tone: 'emerald' as const,
       },
     ];
@@ -170,30 +170,30 @@ export function buildActivityItems(bookings: Booking[], now: Date): ActivityItem
 }
 
 export function validateTicketCode(
-  bookings: Booking[],
+  bookings: mendatang[],
   rawCode: string,
   now: Date
-): { result: ValidationResult; bookings: Booking[] } {
+): { result: ValidationResult; bookings: mendatang[] } {
   const code = rawCode.trim().toUpperCase();
-  const booking = bookings.find((item) => item.code === code);
+  const mendatang = bookings.find((item) => item.code === code);
 
-  if (!booking) {
+  if (!mendatang) {
     return { result: { kind: 'not_found' }, bookings };
   }
-  if (booking.status === 'validated') {
-    return { result: { kind: 'already_validated', booking }, bookings };
+  if (mendatang.status === 'validated') {
+    return { result: { kind: 'already_validated', mendatang }, bookings };
   }
 
-  const validated: Booking = { ...booking, status: 'validated', validatedAt: now.toISOString() };
+  const validated: mendatang = { ...mendatang, status: 'validated', validatedAt: now.toISOString() };
   return {
-    result: { kind: 'valid', booking: validated },
-    bookings: bookings.map((item) => (item.id === booking.id ? validated : item)),
+    result: { kind: 'valid', mendatang: validated },
+    bookings: bookings.map((item) => (item.id === mendatang.id ? validated : item)),
   };
 }
 
 // ── Automatic Sales Recap Generator ──────────────────────────────────────────
 export function generateCloseOrderRecap(
-  bookings: Booking[],
+  bookings: mendatang[],
   cashierName: string,
   sessionOpenedAt: string,
   now: Date = new Date()
@@ -214,7 +214,7 @@ export function generateCloseOrderRecap(
   );
 
   const hariIniBookings = bookings.filter((b) => b.bookingType === 'hari_ini');
-  const bookingBookings = bookings.filter((b) => b.bookingType === 'booking');
+  const bookingBookings = bookings.filter((b) => b.bookingType === 'mendatang');
 
   // Breakdown per jenis tiket
   const ticketMap = new Map<string, { quantity: number; revenue: number }>();

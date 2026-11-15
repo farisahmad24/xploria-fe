@@ -135,7 +135,7 @@ export default function CloseOrderRecapModal({
           </div>
         </div>
 
-        {/* 2. Breakdown Tipe Pemesanan (Hari Ini vs Booking) */}
+        {/* 2. Breakdown Tipe Pemesanan (Hari inivs mendatang) */}
         <div className="mt-6">
           <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
             2. Breakdown Tipe Pemesanan
@@ -144,7 +144,7 @@ export default function CloseOrderRecapModal({
             <div className="rounded-2xl border border-emerald-100 bg-emerald-50/40 p-4">
               <div className="flex items-center justify-between">
                 <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800">
-                  Pemesanan Hari Ini (Walk-in)
+                  Pemesanan Hari ini()
                 </span>
                 <span className="text-xs font-bold text-slate-700">
                   {recap.breakdownBookingType.hariIniCount} Transaksi
@@ -161,7 +161,7 @@ export default function CloseOrderRecapModal({
             <div className="rounded-2xl border border-sky-100 bg-sky-50/40 p-4">
               <div className="flex items-center justify-between">
                 <span className="rounded-full bg-sky-100 px-2.5 py-0.5 text-[10px] font-bold text-sky-800">
-                  Pemesanan Booking (Mendatang)
+                  Pemesanan mendatang
                 </span>
                 <span className="text-xs font-bold text-slate-700">
                   {recap.breakdownBookingType.bookingCount} Transaksi

@@ -14,7 +14,7 @@ import {
 import SlantedTicket from '@/components/common/SlantedTicket';
 import { roleProfiles, rolesNavigation } from '@/data/rolesNavData';
 import type { UserRole } from '@/types/roles';
-import type { Booking } from '@/types/ticket';
+import type { mendatang } from '@/types/ticket';
 
 type HeaderProps = {
   currentRole: UserRole;
@@ -22,20 +22,20 @@ type HeaderProps = {
   onQueryChange: (value: string) => void;
   onOpenMenu: () => void;
   onLogout: () => void;
-  bookings?: Booking[];
+  bookings?: mendatang[];
   onNavSelect?: (id: string) => void;
 };
 
 // ─── Notification data ────────────────────────────────────────────
 const notifications = [
   { id: 'n1', icon: SlantedTicket, text: 'Tiket baru #TK-20261108-001 telah dibuat', time: '2 menit lalu' },
-  { id: 'n2', icon: CalendarCheck, text: 'Booking rombongan 25 orang menunggu konfirmasi', time: '20 menit lalu' },
+  { id: 'n2', icon: CalendarCheck, text: 'mendatang rombongan 25 orang menunggu konfirmasi', time: '20 menit lalu' },
 ];
 
 // ─── Search result types ───────────────────────────────────────────
 type SearchResult =
   | { kind: 'menu'; id: string; groupTitle: string; label: string }
-  | { kind: 'booking'; id: string; code: string; visitorName: string; status: string };
+  | { kind: 'mendatang'; id: string; code: string; visitorName: string; status: string };
 
 // Map nav group icon by parent group id segment
 const GROUP_ICON_MAP: Record<string, any> = {
@@ -148,7 +148,7 @@ export default function Header({
         b.visitorName.toLowerCase().includes(q)
       ) {
         out.push({
-          kind: 'booking',
+          kind: 'mendatang',
           id: b.id,
           code: b.code,
           visitorName: b.visitorName,
@@ -193,7 +193,7 @@ export default function Header({
   const handleResultClick = (result: SearchResult) => {
     if (result.kind === 'menu' && onNavSelect) {
       onNavSelect(result.id);
-    } else if (result.kind === 'booking' && onNavSelect) {
+    } else if (result.kind === 'mendatang' && onNavSelect) {
       if (currentRole === 'admin') onNavSelect('admin-tiket-history');
       else if (currentRole === 'kasir') onNavSelect('kasir-tiket-history');
       else onNavSelect('mo-tiket-sales');
@@ -207,7 +207,7 @@ export default function Header({
     (r): r is Extract<SearchResult, { kind: 'menu' }> => r.kind === 'menu'
   );
   const bookingResults = results.filter(
-    (r): r is Extract<SearchResult, { kind: 'booking' }> => r.kind === 'booking'
+    (r): r is Extract<SearchResult, { kind: 'mendatang' }> => r.kind === 'mendatang'
   );
 
   return (
@@ -294,11 +294,11 @@ export default function Header({
                     </div>
                   )}
 
-                  {/* Booking results */}
+                  {/* mendatang results */}
                   {bookingResults.length > 0 && (
                     <div className={menuResults.length > 0 ? 'border-t border-slate-50' : ''}>
                       <p className="px-4 pb-1 pt-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                        Data Tiket / Booking
+                        Data Tiket / mendatang
                       </p>
                       {bookingResults.map((r) => (
                         <button

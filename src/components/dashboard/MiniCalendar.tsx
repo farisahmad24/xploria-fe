@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
 import SlantedTicket from '@/components/common/SlantedTicket';
 import { toIsoDate } from '@/lib/bookings';
-import type { Booking } from '@/types/ticket';
+import type { mendatang } from '@/types/ticket';
 
 const MONTH_NAMES_ID = [
   'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
@@ -13,7 +13,7 @@ const MONTH_NAMES_ID = [
 const DAY_NAMES_UPPER = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];
 
 type MiniCalendarProps = {
-  bookings: Booking[];
+  bookings: mendatang[];
 };
 
 export default function MiniCalendar({ bookings }: MiniCalendarProps) {
@@ -85,7 +85,7 @@ export default function MiniCalendar({ bookings }: MiniCalendarProps) {
 
   // Map bookings by date
   const bookingsByDate = useMemo(() => {
-    const map = new Map<string, Booking[]>();
+    const map = new Map<string, mendatang[]>();
     for (const b of bookings) {
       const list = map.get(b.visitDate) || [];
       list.push(b);
@@ -117,7 +117,7 @@ export default function MiniCalendar({ bookings }: MiniCalendarProps) {
                 {MONTH_NAMES_ID[currentMonth]} {currentYear}
               </h2>
               <p className="text-[11px] font-medium text-slate-500">
-                Kalender Booking Kasir
+                Kalender mendatang Kasir
               </p>
             </div>
           </div>
@@ -150,9 +150,8 @@ export default function MiniCalendar({ bookings }: MiniCalendarProps) {
             return (
               <div
                 key={dayName}
-                className={`py-1 text-[10px] font-extrabold uppercase tracking-wider ${
-                  isWeekend ? 'text-rose-500' : 'text-slate-500'
-                }`}
+                className={`py-1 text-[10px] font-extrabold uppercase tracking-wider ${isWeekend ? 'text-rose-500' : 'text-slate-500'
+                  }`}
               >
                 {dayName}
               </div>
@@ -175,32 +174,30 @@ export default function MiniCalendar({ bookings }: MiniCalendarProps) {
                 onClick={() => setSelectedDate(cell.dateStr)}
                 title={
                   hasBooking
-                    ? `${cell.dateStr}: ${dayBookings.length} booking (${dayBookings.reduce(
-                        (s, b) => s + b.items.reduce((acc, it) => acc + it.quantity, 0),
-                        0
-                      )} pengunjung)`
+                    ? `${cell.dateStr}: ${dayBookings.length} mendatang (${dayBookings.reduce(
+                      (s, b) => s + b.items.reduce((acc, it) => acc + it.quantity, 0),
+                      0
+                    )} pengunjung)`
                     : cell.dateStr
                 }
-                className={`group relative mx-auto flex h-9 w-9 flex-col items-center justify-center rounded-full text-xs font-semibold transition-all duration-150 ${
-                  isSelected
+                className={`group relative mx-auto flex h-9 w-9 flex-col items-center justify-center rounded-full text-xs font-semibold transition-all duration-150 ${isSelected
                     ? 'bg-[#286EF2] text-white font-black shadow-md shadow-blue-500/35 scale-105 ring-2 ring-blue-300'
                     : hasBooking
-                    ? 'bg-[#286EF2]/15 text-[#286EF2] font-black ring-1.5 ring-[#286EF2] hover:bg-[#286EF2]/25'
-                    : isToday
-                    ? 'bg-white text-[#286EF2] font-black ring-1 ring-slate-300 hover:bg-slate-50'
-                    : cell.isCurrentMonth
-                    ? 'text-slate-700 hover:bg-white/80 font-medium'
-                    : 'text-slate-300 hover:bg-white/40 font-normal'
-                }`}
+                      ? 'bg-[#286EF2]/15 text-[#286EF2] font-black ring-1.5 ring-[#286EF2] hover:bg-[#286EF2]/25'
+                      : isToday
+                        ? 'bg-white text-[#286EF2] font-black ring-1 ring-slate-300 hover:bg-slate-50'
+                        : cell.isCurrentMonth
+                          ? 'text-slate-700 hover:bg-white/80 font-medium'
+                          : 'text-slate-300 hover:bg-white/40 font-normal'
+                  }`}
               >
                 <span className="leading-none">{cell.day}</span>
 
                 {/* Titik Penanda (Blue Event Dot) persis di bawah angka tanggal */}
                 {hasBooking && (
                   <span
-                    className={`mt-0.5 h-1.5 w-1.5 rounded-full ${
-                      isSelected ? 'bg-white ring-1 ring-[#286EF2]' : 'bg-[#286EF2] animate-pulse'
-                    }`}
+                    className={`mt-0.5 h-1.5 w-1.5 rounded-full ${isSelected ? 'bg-white ring-1 ring-[#286EF2]' : 'bg-[#286EF2] animate-pulse'
+                      }`}
                   />
                 )}
               </button>
@@ -209,7 +206,7 @@ export default function MiniCalendar({ bookings }: MiniCalendarProps) {
         </div>
       </div>
 
-      {/* Footer Info Bar: Kontainer putih melengkung berisi teks tanggal terpilih & badge booking */}
+      {/* Footer Info Bar: Kontainer putih melengkung berisi teks tanggal terpilih & badge mendatang */}
       <div className="mt-4 flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white px-3.5 py-2.5 text-xs shadow-2xs">
         <div className="flex items-center gap-2">
           <SlantedTicket className="h-3.5 w-3.5 text-[#286EF2] shrink-0" />
@@ -224,10 +221,10 @@ export default function MiniCalendar({ bookings }: MiniCalendarProps) {
 
         {selectedCount > 0 ? (
           <span className="rounded-full bg-[#286EF2] px-2.5 py-0.5 text-[10px] font-bold text-white shadow-2xs">
-            {selectedCount} Booking ({selectedVisitors} Org)
+            {selectedCount} mendatang ({selectedVisitors} Org)
           </span>
         ) : (
-          <span className="text-[10px] font-medium text-slate-400">Tidak ada booking</span>
+          <span className="text-[10px] font-medium text-slate-400">Tidak ada mendatang</span>
         )}
       </div>
     </section>

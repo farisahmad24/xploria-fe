@@ -18,10 +18,10 @@ import CloseOrderConfirmModal from '@/components/tickets/CloseOrderConfirmModal'
 import CloseOrderRecapModal from '@/components/tickets/CloseOrderRecapModal';
 import { initialCloseOrderRecaps } from '@/data/seedCloseOrders';
 import { formatNumber, formatRupiah, generateCloseOrderRecap } from '@/lib/bookings';
-import type { Booking, CloseOrderRecap } from '@/types/ticket';
+import type { mendatang, CloseOrderRecap } from '@/types/ticket';
 
 type DailyRecapViewProps = {
-  bookings: Booking[];
+  bookings: mendatang[];
   onToast: (message: string) => void;
 };
 
@@ -37,7 +37,7 @@ export default function DailyRecapView({ bookings, onToast }: DailyRecapViewProp
   const percentage = Math.min(100, Math.round((totalRevenue / targetDaily) * 100));
 
   const hariIniBookings = bookings.filter((b) => b.bookingType === 'hari_ini');
-  const bookingBookings = bookings.filter((b) => b.bookingType === 'booking');
+  const bookingBookings = bookings.filter((b) => b.bookingType === 'mendatang');
 
   const hariIniRevenue = hariIniBookings.reduce((sum, b) => sum + b.total, 0);
   const bookingRevenue = bookingBookings.reduce((sum, b) => sum + b.total, 0);
@@ -163,14 +163,12 @@ export default function DailyRecapView({ bookings, onToast }: DailyRecapViewProp
           <div>
             <div className="flex items-center gap-2">
               <span
-                className={`h-2.5 w-2.5 rounded-full ${
-                  isSessionOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'
-                }`}
+                className={`h-2.5 w-2.5 rounded-full ${isSessionOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'
+                  }`}
               />
               <span
-                className={`text-xs font-black uppercase tracking-wider ${
-                  isSessionOpen ? 'text-emerald-700' : 'text-rose-700'
-                }`}
+                className={`text-xs font-black uppercase tracking-wider ${isSessionOpen ? 'text-emerald-700' : 'text-rose-700'
+                  }`}
               >
                 {isSessionOpen ? 'Session Open (Aktif)' : 'Session Closed (Terkunci)'}
               </span>
@@ -180,11 +178,11 @@ export default function DailyRecapView({ bookings, onToast }: DailyRecapViewProp
 
             <div className="mt-4 space-y-2.5">
               <div className="flex items-center justify-between rounded-xl bg-slate-50 p-3 text-xs">
-                <span className="font-medium text-slate-600">Pemesanan Hari Ini</span>
+                <span className="font-medium text-slate-600">Pemesanan Hari ini</span>
                 <span className="font-extrabold text-emerald-700">{formatRupiah(hariIniRevenue)}</span>
               </div>
               <div className="flex items-center justify-between rounded-xl bg-slate-50 p-3 text-xs">
-                <span className="font-medium text-slate-600">Pemesanan Booking</span>
+                <span className="font-medium text-slate-600">Pemesanan mendatang</span>
                 <span className="font-extrabold text-sky-700">{formatRupiah(bookingRevenue)}</span>
               </div>
             </div>
@@ -232,13 +230,12 @@ export default function DailyRecapView({ bookings, onToast }: DailyRecapViewProp
                   <td className="px-6 py-4 font-medium text-slate-800">{b.visitorName}</td>
                   <td className="px-6 py-4">
                     <span
-                      className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
-                        b.bookingType === 'hari_ini'
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : 'bg-sky-100 text-sky-800'
-                      }`}
+                      className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${b.bookingType === 'hari_ini'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-sky-100 text-sky-800'
+                        }`}
                     >
-                      {b.bookingType === 'hari_ini' ? 'Hari Ini (Walk-in)' : 'Booking Mendatang'}
+                      {b.bookingType === 'hari_ini' ? 'Hari ini()' : 'mendatang Mendatang'}
                     </span>
                   </td>
                   <td className="px-6 py-4">

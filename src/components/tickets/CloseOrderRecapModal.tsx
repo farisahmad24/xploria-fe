@@ -144,7 +144,7 @@ export default function CloseOrderRecapModal({
             <div className="rounded-2xl border border-emerald-100 bg-emerald-50/40 p-4">
               <div className="flex items-center justify-between">
                 <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800">
-                  Pemesanan Hari ini()
+                  Pemesanan Hari ini
                 </span>
                 <span className="text-xs font-bold text-slate-700">
                   {recap.breakdownBookingType.hariIniCount} Transaksi

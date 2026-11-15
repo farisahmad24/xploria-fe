@@ -16,6 +16,8 @@ export type TicketItem = {
   potonganHarga?: number; // Potongan harga (nominal Rp langsung: Harga Tiket - Potongan Harga)
   isVisible: boolean; // Atur Visibilitas Tiket: true (Tampil), false (Sembunyi)
   createdAt: string;
+  validityPeriod?: string; // Masa berlaku tiket (misal: "1 Hari (Hari Kunjungan)", "3 Hari", dll.)
+  isRefundable?: boolean; // Kebijakan refund: true (Bisa Refund), false (Non-refundable)
 };
 
 export type BookingItem = {

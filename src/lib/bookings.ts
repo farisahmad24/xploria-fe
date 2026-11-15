@@ -148,7 +148,7 @@ export function buildActivityItems(bookings: mendatang[], now: Date): ActivityIt
     const isWalkIn = mendatang.bookingType === 'hari_ini';
     const created = {
       id: `${mendatang.id}-created`,
-      title: `${isWalkIn ? 'Pemesanan Hari ini()' : 'mendatang Tiket'} ${mendatang.code} oleh ${mendatang.visitorName}`,
+      title: `${isWalkIn ? 'Pemesanan Hari ini' : 'mendatang Tiket'} ${mendatang.code} oleh ${mendatang.visitorName}`,
       at: mendatang.createdAt,
       tone: isWalkIn ? ('emerald' as const) : ('blue' as const),
     };

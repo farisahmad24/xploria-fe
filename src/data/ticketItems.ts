@@ -11,6 +11,8 @@ export const initialTicketItems: TicketItem[] = [
     discount: 0,
     isVisible: true,
     createdAt: '2026-11-01',
+    validityPeriod: '1 Hari (Hari Kunjungan)',
+    isRefundable: true,
   },
   {
     id: 'tkt-002',
@@ -22,6 +24,8 @@ export const initialTicketItems: TicketItem[] = [
     discount: 0,
     isVisible: true,
     createdAt: '2026-11-02',
+    validityPeriod: '1 Hari (Hari Kunjungan)',
+    isRefundable: true,
   },
   {
     id: 'tkt-003',
@@ -33,6 +37,8 @@ export const initialTicketItems: TicketItem[] = [
     discount: 10,
     isVisible: true,
     createdAt: '2026-11-03',
+    validityPeriod: '1 Hari (Hari Kunjungan)',
+    isRefundable: true,
   },
   {
     id: 'tkt-004',
@@ -44,6 +50,8 @@ export const initialTicketItems: TicketItem[] = [
     discount: 0,
     isVisible: true,
     createdAt: '2026-11-04',
+    validityPeriod: '1 Hari (Hari Kunjungan)',
+    isRefundable: false,
   },
   {
     id: 'tkt-005',
@@ -55,6 +63,8 @@ export const initialTicketItems: TicketItem[] = [
     discount: 5,
     isVisible: false,
     createdAt: '2026-11-05',
+    validityPeriod: '2 Hari (Termasuk Camp)',
+    isRefundable: false,
   },
   {
     id: 'tkt-006',
@@ -66,6 +76,8 @@ export const initialTicketItems: TicketItem[] = [
     discount: 0,
     isVisible: true,
     createdAt: '2026-11-06',
+    validityPeriod: '1 Hari (Hari Kunjungan)',
+    isRefundable: true,
   },
   {
     id: 'tkt-007',
@@ -77,6 +89,8 @@ export const initialTicketItems: TicketItem[] = [
     discount: 15,
     isVisible: true,
     createdAt: '2026-11-07',
+    validityPeriod: '1 Hari (Hari Kunjungan)',
+    isRefundable: true,
   },
   {
     id: 'tkt-008',
@@ -88,6 +102,8 @@ export const initialTicketItems: TicketItem[] = [
     discount: 10,
     isVisible: true,
     createdAt: '2026-11-08',
+    validityPeriod: '1 Hari (Hari Kunjungan)',
+    isRefundable: false,
   },
 ];
 

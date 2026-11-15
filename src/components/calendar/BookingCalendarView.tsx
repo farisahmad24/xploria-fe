@@ -173,7 +173,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
             </div>
             <div>
               <h2 className="text-base font-black text-slate-900 leading-tight">
-                Jadwal Booking <span className="text-xs text-[#286EF2] font-bold">• Kasir Loket</span>
+                Jadwal Mendatang <span className="text-xs text-[#286EF2] font-bold">• Admin</span>
               </h2>
               <p className="text-[11px] text-slate-400">
                 Pilih tanggal pada kalender untuk melihat rincian pemesanan harian
@@ -298,7 +298,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                     }`}
                   >
                     <span className="h-2 w-2 rounded-full bg-sky-500" />
-                    <span>Booking</span>
+                    <span>Mendatang</span>
                     <span
                       className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
                         statusFilter === 'booked'
@@ -393,7 +393,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                                   : 'bg-sky-100 text-sky-800'
                               }`}
                             >
-                              {isValidated ? 'Tervalidasi' : 'Booking'}
+                              {isValidated ? 'Tervalidasi' : 'Mendatang'}
                             </span>
                           </div>
                         </div>
@@ -408,7 +408,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                         ? 'Tidak ada pesanan pada tanggal ini'
                         : statusFilter === 'validated'
                         ? 'Tidak ada tiket dengan status Tervalidasi'
-                        : 'Tidak ada tiket dengan status Booking'}
+                        : 'Tidak ada tiket dengan status Mendatang'}
                     </p>
                     <p className="mt-1 text-xs text-slate-400 max-w-xs">
                       {statusFilter !== 'all' ? (

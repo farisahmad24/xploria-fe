@@ -67,7 +67,7 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
                 className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 focus:border-[#286EF2] focus:bg-white focus:outline-none"
               >
                 <option value="all">Semua Tipe Transaksi</option>
-                <option value="hari_ini">Pemesanan Hari ini()</option>
+                <option value="hari_ini">Pemesanan Hari ini</option>
                 <option value="mendatang">Pemesanan mendatang (Mendatang)</option>
               </select>
             </div>
@@ -142,7 +142,7 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
                             : 'bg-sky-50 text-sky-800 border border-sky-200'
                             }`}
                         >
-                          {isHariIni ? 'Hari ini()' : 'mendatang Mendatang'}
+                          {isHariIni ? 'Hari ini' : 'Mendatang'}
                         </span>
                       </td>
                       <td className="w-36 px-5 py-4 font-medium text-slate-700">
@@ -186,8 +186,8 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
               {typeFilter === 'all'
                 ? 'Semua Tipe'
                 : typeFilter === 'hari_ini'
-                  ? 'Hari ini()'
-                  : 'mendatang Mendatang'}
+                  ? 'Hari ini'
+                  : 'Mendatang'}
             </strong>
           </span>
           <span className="text-slate-300">•</span>

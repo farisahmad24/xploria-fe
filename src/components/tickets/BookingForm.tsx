@@ -526,7 +526,7 @@ export default function BookingForm({
                   <span>Tanggal Kunjungan</span>
                   {draft.bookingType === 'hari_ini' ? (
                     <span className="text-xs font-bold text-emerald-700">
-                      ✓ Terkunci Hari ini()
+                      ✓ Terkunci Hari ini
                     </span>
                   ) : (
                     <span className="text-xs font-bold text-[#286EF2]">
@@ -794,7 +794,7 @@ export default function BookingForm({
             <div className="flex justify-between">
               <span className="font-bold text-slate-900">Tipe Transaksi:</span>
               <span className="font-semibold text-[#286EF2]">
-                {draft.bookingType === 'hari_ini' ? 'Hari ini()' : 'mendatang Mendatang'}
+                {draft.bookingType === 'hari_ini' ? 'Hari ini' : 'mendatang'}
               </span>
             </div>
             {draft.bookingType === 'mendatang' && (

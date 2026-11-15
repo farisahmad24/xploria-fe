@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import {
+  Ban,
   CheckCircle2,
+  Clock,
   Edit2,
   Eye,
   EyeOff,
   Filter,
   Plus,
   Receipt,
+  RotateCcw,
   Sparkles,
   Trash2,
   X,
@@ -49,6 +52,8 @@ export default function ManageTicketsView({
   const [terms, setTerms] = useState<string>('');
   const [discount, setDiscount] = useState<string>('0');
   const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [validityPeriod, setValidityPeriod] = useState<string>('1 Hari (Hari Kunjungan)');
+  const [isRefundable, setIsRefundable] = useState<boolean>(true);
 
   const openAddModal = () => {
     setEditingTicket(null);
@@ -59,6 +64,8 @@ export default function ManageTicketsView({
     setTerms('');
     setDiscount('0');
     setIsVisible(true);
+    setValidityPeriod('1 Hari (Hari Kunjungan)');
+    setIsRefundable(true);
     setModalOpen(true);
   };
 
@@ -71,6 +78,8 @@ export default function ManageTicketsView({
     setTerms(t.terms);
     setDiscount(t.discount.toString());
     setIsVisible(t.isVisible);
+    setValidityPeriod(t.validityPeriod || '1 Hari (Hari Kunjungan)');
+    setIsRefundable(t.isRefundable ?? true);
     setModalOpen(true);
   };
 
@@ -126,6 +135,8 @@ export default function ManageTicketsView({
               terms: terms.trim(),
               discount: numDiscount,
               isVisible,
+              validityPeriod: validityPeriod.trim() || '1 Hari (Hari Kunjungan)',
+              isRefundable,
             }
           : t
       );
@@ -141,6 +152,8 @@ export default function ManageTicketsView({
         terms: terms.trim(),
         discount: numDiscount,
         isVisible,
+        validityPeriod: validityPeriod.trim() || '1 Hari (Hari Kunjungan)',
+        isRefundable,
         createdAt: new Date().toISOString().split('T')[0],
       };
       onUpdateTickets([newTicket, ...tickets]);
@@ -222,22 +235,23 @@ export default function ManageTicketsView({
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[980px] table-fixed text-left text-sm text-slate-600">
+            <table className="w-full min-w-[1100px] table-fixed text-left text-sm text-slate-600">
               <thead className="bg-ocean-50/70 text-xs font-semibold uppercase tracking-wider text-ocean-800 border-b border-ocean-100/60">
                 <tr>
-                  <th className="w-14 px-4 py-4 text-center">No</th>
-                  <th className="w-60 px-6 py-4">Jenis Tiket &amp; Kategori</th>
-                  <th className="w-44 px-6 py-4">Harga &amp; Diskon</th>
-                  <th className="w-72 px-6 py-4">Fasilitas</th>
-                  <th className="w-72 px-6 py-4">Syarat &amp; Ketentuan</th>
-                  <th className="w-28 px-4 py-4 text-center">Visibilitas</th>
-                  <th className="w-40 px-4 py-4 text-center">Aksi</th>
+                  <th className="w-12 px-3 py-4 text-center">No</th>
+                  <th className="w-56 px-5 py-4">Jenis Tiket &amp; Kategori</th>
+                  <th className="w-40 px-5 py-4">Harga &amp; Diskon</th>
+                  <th className="w-48 px-5 py-4">Masa Berlaku &amp; Refund</th>
+                  <th className="w-64 px-5 py-4">Fasilitas</th>
+                  <th className="w-64 px-5 py-4">Syarat &amp; Ketentuan</th>
+                  <th className="w-24 px-3 py-4 text-center">Visibilitas</th>
+                  <th className="w-36 px-4 py-4 text-center">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {filteredTickets.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="py-24 text-center text-slate-400">
+                    <td colSpan={8} className="py-24 text-center text-slate-400">
                       Tidak ada jenis tiket yang sesuai.
                     </td>
                   </tr>
@@ -246,6 +260,7 @@ export default function ManageTicketsView({
                     const discount = t.discount || 0;
                     const finalPrice = Math.max(0, Math.round(t.price * (1 - discount / 100)));
                     const hasDiscount = discount > 0;
+                    const isTicketRefundable = t.isRefundable ?? true;
 
                     return (
                       <tr
@@ -254,14 +269,14 @@ export default function ManageTicketsView({
                           !t.isVisible ? 'bg-slate-50/60 opacity-75' : ''
                         }`}
                       >
-                        <td className="w-14 px-4 py-4 text-center font-mono text-xs text-slate-400">{idx + 1}</td>
-                        <td className="w-60 px-6 py-4">
+                        <td className="w-12 px-3 py-4 text-center font-mono text-xs text-slate-400">{idx + 1}</td>
+                        <td className="w-56 px-5 py-4">
                           <p className="font-bold text-slate-900 line-clamp-1" title={t.name}>{t.name}</p>
                           <span className="mt-0.5 inline-block rounded-full bg-blue-50 px-2.5 py-0.5 text-[10px] font-bold text-[#286EF2]">
                             {getCategoryName(t.categoryId)}
                           </span>
                         </td>
-                        <td className="w-44 px-6 py-4">
+                        <td className="w-40 px-5 py-4">
                           <div className="flex flex-col gap-0.5">
                             {hasDiscount ? (
                               <>
@@ -284,17 +299,40 @@ export default function ManageTicketsView({
                             )}
                           </div>
                         </td>
-                        <td className="w-72 px-6 py-4">
+                        <td className="w-48 px-5 py-4">
+                          <div className="flex flex-col gap-1.5">
+                            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                              <Clock className="h-3.5 w-3.5 text-[#286EF2] shrink-0" />
+                              <span className="truncate" title={t.validityPeriod || '1 Hari (Hari Kunjungan)'}>
+                                {t.validityPeriod || '1 Hari (Hari Kunjungan)'}
+                              </span>
+                            </div>
+                            <div>
+                              {isTicketRefundable ? (
+                                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 ring-1 ring-emerald-200/70">
+                                  <CheckCircle2 className="h-3 w-3 text-emerald-600" />
+                                  Bisa Refund
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2 py-0.5 text-[10px] font-bold text-rose-700 ring-1 ring-rose-200/70">
+                                  <Ban className="h-3 w-3 text-rose-500" />
+                                  Non-Refundable
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="w-64 px-5 py-4">
                           <p className="text-xs leading-relaxed text-slate-600 line-clamp-2" title={t.facilities}>
                             {t.facilities || '-'}
                           </p>
                         </td>
-                        <td className="w-72 px-6 py-4">
+                        <td className="w-64 px-5 py-4">
                           <p className="text-xs leading-relaxed text-slate-500 line-clamp-2" title={t.terms}>
                             {t.terms || '-'}
                           </p>
                         </td>
-                        <td className="w-28 px-4 py-4 text-center">
+                        <td className="w-24 px-3 py-4 text-center">
                           {/* Atur Visibilitas Tiket: Toggle Switch */}
                           <div className="flex flex-col items-center justify-center gap-1">
                             <button
@@ -322,7 +360,7 @@ export default function ManageTicketsView({
                             </span>
                           </div>
                         </td>
-                        <td className="w-40 px-4 py-4 text-center">
+                        <td className="w-36 px-4 py-4 text-center">
                           <div className="flex items-center justify-center gap-1.5">
                             <button
                               type="button"
@@ -521,6 +559,81 @@ export default function ManageTicketsView({
                   </div>
                 );
               })()}
+
+              {/* Row: Masa Berlaku Tiket & Kebijakan Refund */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                    Masa Berlaku Tiket <span className="text-rose-500">*</span>
+                  </label>
+                  <div className="relative mt-1.5">
+                    <Clock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input
+                      type="text"
+                      required
+                      value={validityPeriod}
+                      onChange={(e) => setValidityPeriod(e.target.value)}
+                      placeholder="Contoh: 1 Hari (Hari Kunjungan)"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-10 pr-4 text-sm text-slate-800 focus:border-[#286EF2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-50"
+                    />
+                  </div>
+                  {/* Preset Quick Chips */}
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {['1 Hari (Hari Kunjungan)', '2 Hari', '3 Hari', '7 Hari'].map((preset) => (
+                      <button
+                        key={preset}
+                        type="button"
+                        onClick={() => setValidityPeriod(preset)}
+                        className={`rounded-lg px-2 py-0.5 text-[10px] font-bold transition ${
+                          validityPeriod === preset
+                            ? 'bg-[#286EF2] text-white shadow-2xs'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        }`}
+                      >
+                        {preset}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                    Kebijakan Refund <span className="text-rose-500">*</span>
+                  </label>
+                  <div className="mt-1.5 grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsRefundable(true)}
+                      className={`flex items-center justify-center gap-2 rounded-xl border p-2.5 text-xs font-bold transition ${
+                        isRefundable
+                          ? 'border-emerald-500 bg-emerald-50/80 text-emerald-800 shadow-2xs ring-2 ring-emerald-200'
+                          : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      <RotateCcw className={`h-3.5 w-3.5 ${isRefundable ? 'text-emerald-600' : 'text-slate-400'}`} />
+                      <span>Bisa Refund</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setIsRefundable(false)}
+                      className={`flex items-center justify-center gap-2 rounded-xl border p-2.5 text-xs font-bold transition ${
+                        !isRefundable
+                          ? 'border-rose-500 bg-rose-50/80 text-rose-800 shadow-2xs ring-2 ring-rose-200'
+                          : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      <Ban className={`h-3.5 w-3.5 ${!isRefundable ? 'text-rose-600' : 'text-slate-400'}`} />
+                      <span>Non-Refundable</span>
+                    </button>
+                  </div>
+                  <p className="mt-1.5 text-[11px] text-slate-500">
+                    {isRefundable
+                      ? '*Pengunjung dapat mengajukan pembatalan & pengembalian dana.'
+                      : '*Tiket hangus jika batal kunjungan / tidak dapat diuangkan.'}
+                  </p>
+                </div>
+              </div>
 
               {/* Row 3: Informasi Fasilitas yang Didapatkan */}
               <div>

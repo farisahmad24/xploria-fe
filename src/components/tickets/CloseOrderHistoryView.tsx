@@ -279,7 +279,7 @@ export default function CloseOrderHistoryView({
                           : 'bg-sky-50 text-sky-700 border border-sky-200'
                           }`}
                       >
-                        {b.bookingType === 'hari_ini' ? 'Hari ini()' : 'mendatang Mendatang'}
+                        {b.bookingType === 'hari_ini' ? 'Hari ini' : 'Mendatang'}
                       </span>
                     </td>
                     <td className="px-6 py-4">

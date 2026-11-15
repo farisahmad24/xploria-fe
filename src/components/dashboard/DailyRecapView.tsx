@@ -235,7 +235,7 @@ export default function DailyRecapView({ bookings, onToast }: DailyRecapViewProp
                         : 'bg-sky-100 text-sky-800'
                         }`}
                     >
-                      {b.bookingType === 'hari_ini' ? 'Hari ini()' : 'mendatang Mendatang'}
+                      {b.bookingType === 'hari_ini' ? 'Hari ini' : 'Mendatang'}
                     </span>
                   </td>
                   <td className="px-6 py-4">

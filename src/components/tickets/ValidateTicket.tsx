@@ -317,7 +317,7 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
                   className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 focus:border-[#286EF2] focus:bg-white focus:outline-none"
                 >
                   <option value="all">Semua Tipe Pemesanan</option>
-                  <option value="hari_ini">Pemesanan Hari ini()</option>
+                  <option value="hari_ini">Pemesanan Hari ini</option>
                   <option value="mendatang">Pemesanan mendatang</option>
                 </select>
               </div>
@@ -386,7 +386,7 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
                               : 'bg-sky-50 text-sky-700 border border-sky-200'
                               }`}
                           >
-                            {b.bookingType === 'hari_ini' ? 'Hari ini()' : 'mendatang Terjadwal'}
+                            {b.bookingType === 'hari_ini' ? 'Hari ini' : 'mendatang Terjadwal'}
                           </span>
                         </td>
                         <td className="w-40 px-5 py-4">

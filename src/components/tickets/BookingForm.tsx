@@ -857,7 +857,7 @@ export default function BookingForm({
             )}
 
             <div className="flex items-center justify-between border-t border-slate-100 pt-3">
-              <span className="text-base font-bold text-slate-900">Grand Total</span>
+              <span className="text-base font-bold text-slate-900">Total</span>
               <span className="text-xl font-black text-[#286EF2]">{formatRupiah(grandTotal)}</span>
             </div>
           </div>
@@ -874,7 +874,7 @@ export default function BookingForm({
               </>
             ) : (
               <>
-                <span>Konfirmasi Pembayaran ({draft.bookingType === 'hari_ini' ? '' : 'mendatang'})</span>
+                <span>Konfirmasi Pembayaran {draft.bookingType === 'hari_ini' ? '' : 'mendatang'}</span>
               </>
             )}
           </button>

@@ -30,6 +30,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
   const [currentMonth, setCurrentMonth] = useState(10); // November (0-indexed: 10)
   const [selectedDate, setSelectedDate] = useState('2026-11-11');
   const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'validated' | 'booked'>('all');
 
   const todayIso = toIsoDate(new Date());
 
@@ -119,6 +120,21 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
     );
   }, [bookingsByDate, selectedDate, searchQuery]);
 
+  // Counts for status filters on selected date
+  const validatedCount = useMemo(() => {
+    return selectedDateBookings.filter((b) => b.status === 'validated').length;
+  }, [selectedDateBookings]);
+
+  const bookedCount = useMemo(() => {
+    return selectedDateBookings.filter((b) => b.status === 'booked').length;
+  }, [selectedDateBookings]);
+
+  // Filtered bookings to display in the grid
+  const displayedBookings = useMemo(() => {
+    if (statusFilter === 'all') return selectedDateBookings;
+    return selectedDateBookings.filter((b) => b.status === statusFilter);
+  }, [selectedDateBookings, statusFilter]);
+
   // Totals for selected date
   const selectedVisitors = useMemo(() => {
     return selectedDateBookings.reduce(
@@ -198,7 +214,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="rounded-full bg-blue-100/80 px-2.5 py-0.5 text-[11px] font-black text-[#286EF2]">
-                      Kalender Harian
+                      Jadwal Terpilih
                     </span>
                     <span className="font-mono text-[11px] text-slate-400">{selectedDate}</span>
                   </div>
@@ -226,11 +242,85 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                 </div>
               </div>
 
+              {/* Filter Status: Semua | Tervalidasi | Booking */}
+              <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2">
+                <div className="inline-flex items-center gap-1 rounded-2xl bg-slate-200/70 p-1">
+                  <button
+                    type="button"
+                    onClick={() => setStatusFilter('all')}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition ${
+                      statusFilter === 'all'
+                        ? 'bg-white text-[#286EF2] shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <span>Semua</span>
+                    <span
+                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
+                        statusFilter === 'all'
+                          ? 'bg-blue-100 text-[#286EF2]'
+                          : 'bg-slate-300/60 text-slate-600'
+                      }`}
+                    >
+                      {selectedDateBookings.length}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setStatusFilter('validated')}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition ${
+                      statusFilter === 'validated'
+                        ? 'bg-white text-emerald-700 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                    <span>Tervalidasi</span>
+                    <span
+                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
+                        statusFilter === 'validated'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-slate-300/60 text-slate-600'
+                      }`}
+                    >
+                      {validatedCount}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setStatusFilter('booked')}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition ${
+                      statusFilter === 'booked'
+                        ? 'bg-white text-sky-700 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <span className="h-2 w-2 rounded-full bg-sky-500" />
+                    <span>Booking</span>
+                    <span
+                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
+                        statusFilter === 'booked'
+                          ? 'bg-sky-100 text-sky-800'
+                          : 'bg-slate-300/60 text-slate-600'
+                      }`}
+                    >
+                      {bookedCount}
+                    </span>
+                  </button>
+                </div>
+
+                <span className="text-[11px] text-slate-400 font-medium hidden sm:inline">
+                  Menampilkan {displayedBookings.length} dari {selectedDateBookings.length} pesanan
+                </span>
+              </div>
+
               {/* Grid Kartu Pesanan untuk 1 Hari (Tertata rapi 2 kolom, teks terbaca jelas) */}
-              <div className="mt-4">
-                {selectedDateBookings.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[380px] overflow-y-auto pr-1">
-                    {selectedDateBookings.map((b) => {
+              <div className="mt-3.5">
+                {displayedBookings.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto pr-1">
+                    {displayedBookings.map((b) => {
                       const timePart = b.createdAt?.split('T')[1]?.substring(0, 5) || '10:00';
                       const totalQty = b.items.reduce((s: number, it: BookingItem) => s + it.quantity, 0);
                       const isValidated = b.status === 'validated';
@@ -311,13 +401,27 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                     })}
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center py-16 text-center text-slate-400">
+                  <div className="flex flex-col items-center justify-center py-12 text-center text-slate-400">
                     <CalendarCheck className="h-10 w-10 text-slate-300 mb-2" />
                     <p className="text-sm font-bold text-slate-700">
-                      Tidak ada pesanan pada tanggal ini
+                      {statusFilter === 'all'
+                        ? 'Tidak ada pesanan pada tanggal ini'
+                        : statusFilter === 'validated'
+                        ? 'Tidak ada tiket dengan status Tervalidasi'
+                        : 'Tidak ada tiket dengan status Booking'}
                     </p>
                     <p className="mt-1 text-xs text-slate-400 max-w-xs">
-                      Wisatawan tetap dapat melakukan pembelian tiket langsung di loket kasir (Walk-in).
+                      {statusFilter !== 'all' ? (
+                        <button
+                          type="button"
+                          onClick={() => setStatusFilter('all')}
+                          className="font-bold text-[#286EF2] hover:underline"
+                        >
+                          Klik di sini untuk menampilkan semua tiket
+                        </button>
+                      ) : (
+                        'Wisatawan tetap dapat melakukan pembelian tiket langsung di loket kasir (Walk-in).'
+                      )}
                     </p>
                   </div>
                 )}
@@ -445,114 +549,6 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
               </span>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* ── BAGIAN BAWAH: JADWAL TERPILIH (SESUAI GAMBAR media_1794751236770_a2ddc028) ───────────────── */}
-      <div className="rounded-[32px] border border-slate-200/80 bg-white p-6 sm:p-7 shadow-xs">
-        {/* Header Jadwal Terpilih */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="rounded-full bg-blue-100/90 px-3 py-1 text-xs font-bold text-[#286EF2]">
-                Jadwal Terpilih
-              </span>
-              <span className="font-mono text-xs text-slate-400">{selectedDate}</span>
-            </div>
-            <h2 className="mt-2 text-2xl font-black text-slate-900 tracking-tight">
-              {formattedSelectedDate}
-            </h2>
-          </div>
-
-          {/* Badges Ringkasan Sisi Kanan */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            <div className="flex items-center gap-2 rounded-2xl bg-white px-3.5 py-2 text-xs font-bold text-slate-700 shadow-2xs border border-slate-200/70">
-              <SlantedTicket className="h-4 w-4 text-[#286EF2]" />
-              <span>{selectedDateBookings.length} Pesanan</span>
-            </div>
-            <div className="flex items-center gap-2 rounded-2xl bg-white px-3.5 py-2 text-xs font-bold text-slate-700 shadow-2xs border border-slate-200/70">
-              <Users className="h-4 w-4 text-emerald-600" />
-              <span>{formatNumber(selectedVisitors)} Pengunjung</span>
-            </div>
-            {selectedRevenue > 0 && (
-              <div className="flex items-center gap-2 rounded-2xl bg-white px-3.5 py-2 text-xs font-bold text-slate-700 shadow-2xs border border-slate-200/70">
-                <Sparkles className="h-4 w-4 text-amber-500" />
-                <span>{formatRupiah(selectedRevenue)}</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* List Baris Pesanan Penuh (Full Width Cards) */}
-        <div className="mt-2 flex flex-col gap-3">
-          {selectedDateBookings.length > 0 ? (
-            selectedDateBookings.map((b) => {
-              const isValidated = b.status === 'validated';
-
-              return (
-                <div
-                  key={b.id}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-slate-200/70 bg-white px-5 py-4 shadow-2xs transition hover:shadow-md hover:border-blue-200"
-                >
-                  {/* Left: User Icon + Visitor Name + Code & Phone */}
-                  <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#286EF2]">
-                      <User className="h-5 w-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-base font-bold text-slate-900 leading-tight truncate">
-                        {b.visitorName}
-                      </h4>
-                      <p className="mt-0.5 text-xs font-mono text-slate-400 truncate">
-                        <span className="font-bold text-[#286EF2]">{b.code}</span> • {b.phone}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Right: Item Badges + Price + Status Pill */}
-                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
-                    {/* Item Breakdowns */}
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      {b.items.map((it: BookingItem) => (
-                        <span
-                          key={it.categoryId}
-                          className="rounded-lg bg-slate-100/80 px-2.5 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200/50"
-                        >
-                          {it.name}: <strong>{it.quantity}×</strong>
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Price in Bold */}
-                    <span className="text-base font-black text-slate-900 min-w-[95px] text-right">
-                      {formatRupiah(b.total)}
-                    </span>
-
-                    {/* Status Pill */}
-                    <span
-                      className={`rounded-full px-3.5 py-1 text-xs font-bold ${
-                        isValidated
-                          ? 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200/80'
-                          : 'bg-blue-50 text-[#286EF2] ring-1 ring-blue-200/80'
-                      }`}
-                    >
-                      {isValidated ? 'Tervalidasi' : 'Booking'}
-                    </span>
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <div className="flex flex-col items-center justify-center py-16 text-center text-slate-400">
-              <CalendarCheck className="h-10 w-10 text-slate-300 mb-2" />
-              <p className="text-sm font-bold text-slate-700">
-                Tidak ada pesanan pada tanggal ini
-              </p>
-              <p className="mt-1 text-xs text-slate-400 max-w-xs">
-                Wisatawan tetap dapat melakukan pembelian tiket langsung di loket kasir (Walk-in).
-              </p>
-            </div>
-          )}
         </div>
       </div>
     </div>

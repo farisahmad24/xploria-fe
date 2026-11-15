@@ -2,12 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import Header from '@/components/dashboard/Header';
 import Sidebar from '@/components/dashboard/Sidebar';
-import WelcomeBanner from '@/components/dashboard/WelcomeBanner';
 import StatCard from '@/components/dashboard/StatCard';
 import ActivityChart from '@/components/dashboard/ActivityChart';
-import QuickMenu from '@/components/dashboard/QuickMenu';
+import MiniCalendar from '@/components/dashboard/MiniCalendar';
 import RecentActivities from '@/components/dashboard/RecentActivities';
-import PromoCard from '@/components/dashboard/PromoCard';
 import DailyRecapView from '@/components/dashboard/DailyRecapView';
 import TicketsPage from '@/components/tickets/TicketsPage';
 import TicketCategoriesView from '@/components/tickets/TicketCategoriesView';
@@ -21,6 +19,7 @@ import LoginPage from '@/components/auth/LoginPage';
 import { statItems, type StatItem } from '@/data/dashboardData';
 import { seedBookings } from '@/data/seedBookings';
 import { ticketCategories } from '@/data/ticketCategories';
+import { initialTicketItems } from '@/data/ticketItems';
 import { roleProfiles } from '@/data/rolesNavData';
 import {
   initialDestinationInfo,
@@ -41,10 +40,10 @@ import {
   validateTicketCode,
 } from '@/lib/bookings';
 import type { UserRole } from '@/types/roles';
-import type { Booking, BookingDraft, TicketCategory, ValidationResult } from '@/types/ticket';
+import type { mendatang, BookingDraft, TicketCategory, TicketItem, ValidationResult } from '@/types/ticket';
 
 const TOAST_DURATION_MS = 2800;
-const ROLE_STORAGE_KEY = 'exploria_active_role';
+const ROLE_STORAGE_KEY = 'ePloria_active_role';
 
 type Toast = { id: number; message: string };
 
@@ -60,10 +59,10 @@ function App() {
 
   const [activeNav, setActiveNav] = useState<string>(() => {
     const saved = localStorage.getItem(ROLE_STORAGE_KEY);
-    if (saved === 'pengelola') return 'mo-dash-stats';
-    if (saved === 'admin') return 'admin-dash-stats';
-    if (saved === 'kasir') return 'kasir-dash-stats';
-    return 'mo-dash-stats';
+    if (saved === 'pengelola') return 'mo-dash';
+    if (saved === 'admin') return 'admin-dash';
+    if (saved === 'kasir') return 'kasir-dash';
+    return 'mo-dash';
   });
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -71,8 +70,9 @@ function App() {
   const [toast, setToast] = useState<Toast | null>(null);
 
   // Core Data States
-  const [bookings, setBookings] = useState<Booking[]>(seedBookings);
+  const [bookings, setBookings] = useState<mendatang[]>(seedBookings);
   const [categories, setCategories] = useState<TicketCategory[]>(ticketCategories);
+  const [tickets, setTickets] = useState<TicketItem[]>(initialTicketItems);
   const [staffList, setStaffList] = useState(initialStaffMembers);
   const [expenses, setExpenses] = useState(initialOperationalExpenses);
   const [revenueShares] = useState(initialRevenueShare);
@@ -92,9 +92,9 @@ function App() {
   const handleLogin = (role: UserRole) => {
     setCurrentRole(role);
     localStorage.setItem(ROLE_STORAGE_KEY, role);
-    if (role === 'pengelola') setActiveNav('mo-dash-stats');
-    else if (role === 'admin') setActiveNav('admin-dash-stats');
-    else if (role === 'kasir') setActiveNav('kasir-dash-stats');
+    if (role === 'pengelola') setActiveNav('mo-dash');
+    else if (role === 'admin') setActiveNav('admin-dash');
+    else if (role === 'kasir') setActiveNav('kasir-dash');
     showToast(`Berhasil login sebagai ${roleProfiles[role].title}`);
   };
 
@@ -126,12 +126,18 @@ function App() {
 
   const activities = useMemo(() => buildActivityItems(bookings, new Date()), [bookings]);
 
-  // Booking handlers
-  const handleCreateBooking = (draft: BookingDraft): Booking => {
-    const booking = createBooking(draft, categories, bookings, new Date());
-    setBookings((current) => [booking, ...current]);
-    showToast(`Tiket #${booking.code} berhasil dipesan!`);
-    return booking;
+  // mendatang handlers
+  const handleCreateBooking = (draft: BookingDraft): mendatang => {
+    const mendatang = createBooking(
+      draft,
+      categories,
+      bookings,
+      new Date(),
+      currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'
+    );
+    setBookings((current) => [mendatang, ...current]);
+    showToast(`Tiket #${mendatang.code} berhasil dipesan!`);
+    return mendatang;
   };
 
   const handleValidateTicket = (code: string): ValidationResult => {
@@ -154,18 +160,18 @@ function App() {
       prev.map((r) =>
         r.id === reviewId
           ? {
-              ...r,
-              reply: {
-                author: authorName,
-                role: authorRole,
-                message: replyMessage,
-                date: new Date().toLocaleDateString('id-ID', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                }),
-              },
-            }
+            ...r,
+            reply: {
+              author: authorName,
+              role: authorRole,
+              message: replyMessage,
+              date: new Date().toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+              }),
+            },
+          }
           : r
       )
     );
@@ -194,6 +200,9 @@ function App() {
   const renderMainContent = () => {
     // 1. DASHBOARD VIEWS
     if (
+      activeNav === 'mo-dash' ||
+      activeNav === 'admin-dash' ||
+      activeNav === 'kasir-dash' ||
       activeNav === 'mo-dash-stats' ||
       activeNav === 'admin-dash-stats' ||
       activeNav === 'kasir-dash-stats' ||
@@ -201,7 +210,21 @@ function App() {
     ) {
       return (
         <>
-          <WelcomeBanner />
+          {/* Dashboard Header Title */}
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
+                Dashboard Overview
+              </h1>
+              <p className="text-sm text-slate-500">
+                Ringkasan statistik pengunjung, transaksi penjualan tiket, dan operasional wisata.
+              </p>
+            </div>
+            <div className="inline-flex w-fit items-center gap-2 rounded-xl bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 shadow-sm border border-slate-200/80">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Sistem Operasional Aktif</span>
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
             {stats.map((item, index) => (
@@ -209,33 +232,34 @@ function App() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2">
+          {/* Side-by-Side Flex/Grid Container: Ringkasan Aktivitas (Kiri) & Kalender mendatang (Kanan) */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-stretch w-full">
+            <div className="lg:col-span-7 xl:col-span-8 flex flex-col">
               <ActivityChart />
             </div>
-            <QuickMenu currentRole={currentRole} onSelect={handleNavSelect} />
+            <div className="lg:col-span-5 xl:col-span-4 flex flex-col">
+              <MiniCalendar bookings={bookings} />
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {/* Aktivitas Terbaru: Full-Width (100%) meregang mengisi seluruh area bawah */}
+          <div className="w-full">
             <RecentActivities items={activities} query={query} />
-            <PromoCard
-              onExplore={() => {
-                if (currentRole === 'pengelola') handleNavSelect('mo-tiket-sales');
-                else if (currentRole === 'admin') handleNavSelect('admin-tiket-manage');
-                else handleNavSelect('kasir-tiket-sales');
-              }}
-            />
           </div>
         </>
       );
     }
 
-    if (activeNav === 'admin-dash-rekap') {
-      return <DailyRecapView bookings={bookings} onToast={showToast} />;
-    }
-
     if (activeNav === 'kasir-dash-calendar') {
-      return <BookingCalendarView bookings={bookings} />;
+      // Pembatasan hak akses: Hanya Kasir yang dapat mengakses modul kalender ini
+      if (currentRole === 'kasir') {
+        return <BookingCalendarView bookings={bookings} />;
+      }
+      return (
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <p className="text-base font-bold text-slate-700">Akses modul kalender hanya tersedia untuk role Kasir.</p>
+        </div>
+      );
     }
 
     if (activeNav === 'mo-dash-sales') {
@@ -253,56 +277,136 @@ function App() {
     }
 
     // 2. MANAJEMEN TIKET DAN TRANSAKSI
-    if (activeNav === 'mo-tiket-categories') {
+    // A. Mengelola Tiket (Daftar & Form Buat Jenis Tiket) - Hak Akses Pengelola / Admin
+    if (
+      activeNav === 'mo-tiket' ||
+      activeNav === 'admin-tiket' ||
+      activeNav === 'mo-tiket-manage' ||
+      activeNav === 'admin-tiket-manage'
+    ) {
       return (
-        <TicketCategoriesView
+        <TicketsPage
+          bookings={bookings}
+          tickets={tickets}
           categories={categories}
+          onCreate={handleCreateBooking}
+          onValidate={handleValidateTicket}
+          onUpdateTickets={setTickets}
           onUpdateCategories={setCategories}
           onToast={showToast}
+          initialTab="kelola-tiket"
+          currentRole={currentRole}
+          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
         />
       );
     }
 
+    // B. Mengelola Kategori Tiket
+    if (activeNav === 'mo-tiket-categories' || activeNav === 'admin-tiket-categories') {
+      return (
+        <TicketsPage
+          bookings={bookings}
+          tickets={tickets}
+          categories={categories}
+          onCreate={handleCreateBooking}
+          onValidate={handleValidateTicket}
+          onUpdateTickets={setTickets}
+          onUpdateCategories={setCategories}
+          onToast={showToast}
+          initialTab="kategori"
+          currentRole={currentRole}
+          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
+        />
+      );
+    }
+
+    // Penjualan Tiket (Kasir / Loket Transaksi)
     if (
-      activeNav === 'mo-tiket-sales' ||
-      activeNav === 'admin-tiket-manage' ||
       activeNav === 'kasir-tiket-sales' ||
+      activeNav === 'mo-tiket-sales' ||
       activeNav === 'tiket'
     ) {
       return (
         <TicketsPage
           bookings={bookings}
+          tickets={tickets}
+          categories={categories}
           onCreate={handleCreateBooking}
           onValidate={handleValidateTicket}
+          onUpdateTickets={setTickets}
+          onUpdateCategories={setCategories}
+          onToast={showToast}
           initialTab="pesan"
+          currentRole={currentRole}
+          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
         />
       );
     }
 
-    if (activeNav === 'mo-tiket-validate' || activeNav === 'kasir-tiket-validate') {
+    // Validasi Tiket (Gerbang Masuk)
+    if (activeNav === 'kasir-tiket-validate' || activeNav === 'mo-tiket-validate') {
       return (
         <TicketsPage
           bookings={bookings}
+          tickets={tickets}
+          categories={categories}
           onCreate={handleCreateBooking}
           onValidate={handleValidateTicket}
+          onUpdateTickets={setTickets}
+          onUpdateCategories={setCategories}
+          onToast={showToast}
           initialTab="validasi"
+          currentRole={currentRole}
+          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
         />
       );
     }
 
+    // Rekap & Close Order (Kasir: Laporan Keuangan & Rekapan)
+    if (
+      activeNav === 'kasir-dash-rekap' ||
+      activeNav === 'admin-dash-rekap'
+    ) {
+      return (
+        <TicketsPage
+          bookings={bookings}
+          tickets={tickets}
+          categories={categories}
+          onCreate={handleCreateBooking}
+          onValidate={handleValidateTicket}
+          onUpdateTickets={setTickets}
+          onUpdateCategories={setCategories}
+          onToast={showToast}
+          initialTab="rekap-close-order"
+          currentRole={currentRole}
+          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
+        />
+      );
+    }
+
+    // Riwayat Penjualan
     if (activeNav === 'admin-tiket-history' || activeNav === 'kasir-tiket-history') {
       return (
         <TicketsPage
           bookings={bookings}
+          tickets={tickets}
+          categories={categories}
           onCreate={handleCreateBooking}
           onValidate={handleValidateTicket}
+          onUpdateTickets={setTickets}
+          onUpdateCategories={setCategories}
+          onToast={showToast}
           initialTab="riwayat"
+          currentRole={currentRole}
+          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
         />
       );
     }
 
-    // 3. MANAJEMEN DATA PENGUNJUNG DAN LAPORAN
+    // 3. MANAJEMEN DATA PENGUNJUNG DAN LAPORAN (Menu Tunggal Langsung)
     if (
+      activeNav === 'mo-laporan' ||
+      activeNav === 'admin-laporan' ||
       activeNav === 'mo-report-visitors-cat' ||
       activeNav === 'admin-report-visitors-cat'
     ) {
@@ -390,7 +494,14 @@ function App() {
     }
 
     // 4. MANAJEMEN INFORMASI DESTINASI
-    if (activeNav === 'mo-dest-profile' || activeNav === 'admin-dest-info') {
+    if (
+      activeNav === 'mo-destinasi' ||
+      activeNav === 'admin-destinasi' ||
+      activeNav === 'mo-dest-profile' ||
+      activeNav === 'admin-dest-info' ||
+      activeNav === 'mo-dest-gallery' ||
+      activeNav === 'admin-dest-gallery'
+    ) {
       return (
         <DestinationProfileView
           initialData={destinationInfo}
@@ -402,9 +513,11 @@ function App() {
 
     // 5. MANAJEMEN ULASAN DAN PENGADUAN
     if (
+      activeNav === 'mo-ulasan' ||
       activeNav === 'mo-reviews-view' ||
       activeNav === 'mo-reviews-reply' ||
       activeNav === 'admin-dest-reviews' ||
+      activeNav === 'admin-reviews-view' ||
       activeNav === 'admin-dest-reply'
     ) {
       const isReplyOnly =
@@ -414,8 +527,8 @@ function App() {
           reviews={reviews}
           onReplyReview={handleReplyReview}
           currentUser={{
-            name: roleProfiles[currentRole].userName,
-            role: roleProfiles[currentRole].userRoleName,
+            name: currentRole ? roleProfiles[currentRole].userName : 'Staf Pengelola',
+            role: currentRole ? roleProfiles[currentRole].userRoleName : 'Pengelola',
           }}
           onToast={showToast}
           filterOnlyUnreplied={isReplyOnly}
@@ -424,7 +537,7 @@ function App() {
     }
 
     // 6. MANAJEMEN AKUN
-    if (activeNav === 'mo-staff-accounts') {
+    if (activeNav === 'mo-akun' || activeNav === 'mo-staff-accounts') {
       return (
         <StaffManagementView
           staffList={staffList}

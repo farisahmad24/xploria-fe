@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { formatNumber, formatRupiah } from '@/lib/bookings';
 import type { OperationalExpense, RevenueShareItem, VisitorCategoryStat } from '@/types/roles';
-import type { Booking } from '@/types/ticket';
+import type { mendatang } from '@/types/ticket';
 
 export type ReportTabType =
   | 'visitors-cat'
@@ -24,7 +24,7 @@ export type ReportTabType =
 
 type ReportsViewProps = {
   activeTab: ReportTabType;
-  bookings: Booking[];
+  bookings: mendatang[];
   categoryStats: VisitorCategoryStat[];
   revenueShares: RevenueShareItem[];
   expenses: OperationalExpense[];
@@ -155,11 +155,10 @@ export default function ReportsView({
               key={tab.id}
               type="button"
               onClick={() => setCurrentTab(tab.id as ReportTabType)}
-              className={`flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
-                active
-                  ? 'bg-ocean-600 text-white shadow-md shadow-ocean-600/20'
-                  : 'text-slate-600 hover:bg-ocean-50 hover:text-ocean-700'
-              }`}
+              className={`flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${active
+                ? 'bg-ocean-600 text-white shadow-md shadow-ocean-600/20'
+                : 'text-slate-600 hover:bg-ocean-50 hover:text-ocean-700'
+                }`}
             >
               <Icon className="h-4 w-4" />
               <span>{tab.label}</span>
@@ -339,13 +338,12 @@ export default function ReportsView({
                       <td className="px-6 py-4 text-slate-500">{item.period}</td>
                       <td className="px-6 py-4">
                         <span
-                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-                            item.status === 'Ditransfer'
-                              ? 'bg-emerald-50 text-emerald-700'
-                              : item.status === 'Disetujui'
+                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${item.status === 'Ditransfer'
+                            ? 'bg-emerald-50 text-emerald-700'
+                            : item.status === 'Disetujui'
                               ? 'bg-sky-50 text-sky-700'
                               : 'bg-amber-50 text-amber-700'
-                          }`}
+                            }`}
                         >
                           {item.status}
                         </span>
@@ -439,16 +437,15 @@ export default function ReportsView({
                       </td>
                       <td className="px-6 py-4">
                         <span
-                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-                            b.status === 'validated'
-                              ? 'bg-emerald-50 text-emerald-700'
-                              : 'bg-amber-50 text-amber-700'
-                          }`}
+                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${b.status === 'validated'
+                            ? 'bg-emerald-50 text-emerald-700'
+                            : 'bg-amber-50 text-amber-700'
+                            }`}
                         >
-                          {b.status === 'validated' ? 'Tervalidasi' : 'Menunggu Masuk'}
+                          {b.status === 'validated' ? 'Tervalidasi' : 'Menunggu '}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-right font-bold text-slate-900">
+                      <td className="px-6 py-4 text-right font-bold text-slate-900 whitespace-nowrap">
                         {formatRupiah(b.total)}
                       </td>
                     </tr>
@@ -467,10 +464,10 @@ export default function ReportsView({
             {/* Official Letterhead */}
             <div className="border-b-2 border-slate-900 pb-5 text-center">
               <h2 className="text-xl font-black uppercase tracking-wider text-slate-900 sm:text-2xl">
-                Badan Pengelola Destinasi Wisata Exploria
+                Badan Pengelola Destinasi Wisata Ploria
               </h2>
               <p className="text-xs font-semibold text-slate-600 sm:text-sm">
-                Jl. Bahari Nusantara No. 88, Karang Indah • Telp (021) 7890-4321 • Email: info@exploria.id
+                Jl. Bahari Nusantara No. 88, Karang Indah • Telp (021) 7890-4321 • Email: info@Ploria.id
               </p>
               <p className="mt-2 text-xs font-bold uppercase tracking-widest text-ocean-700">
                 LAPORAN KEUANGAN DAN REALISASI PENDAPATAN BULANAN

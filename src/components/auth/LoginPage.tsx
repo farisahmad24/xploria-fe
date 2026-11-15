@@ -6,9 +6,9 @@ import {
   Lock,
   Mail,
   ShieldCheck,
-  Ticket,
   UserCheck,
 } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import AppLogo from '@/components/common/AppLogo';
 import type { UserRole } from '@/types/roles';
 
@@ -18,15 +18,15 @@ type LoginPageProps = {
 
 export default function LoginPage({ onLogin }: LoginPageProps) {
   const [selectedRole, setSelectedRole] = useState<UserRole>('pengelola');
-  const [email, setEmail] = useState('budi.santoso@exploria.id');
+  const [email, setEmail] = useState('budi.santoso@Ploria.id');
   const [password, setPassword] = useState('password123');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
-    if (role === 'pengelola') setEmail('budi.santoso@exploria.id');
-    else if (role === 'admin') setEmail('hasan.alfarisi@exploria.id');
-    else if (role === 'kasir') setEmail('siti.rahma@exploria.id');
+    if (role === 'pengelola') setEmail('budi.santoso@Ploria.id');
+    else if (role === 'admin') setEmail('hasan.alfarisi@Ploria.id');
+    else if (role === 'kasir') setEmail('siti.rahma@Ploria.id');
   };
 
   const handleDirectLogin = (role: UserRole) => {
@@ -75,7 +75,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
           {/* Footer */}
           <p className="relative z-10 text-[11px] text-blue-200/70">
-            © 2026 Exploria Tourism Network
+            © 2026 Ploria Tourism Network
           </p>
         </div>
 
@@ -177,7 +177,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
               </span>
               <span className="flex-1">Login sebagai Pengelola</span>
               <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-                Super Admin
+
               </span>
             </button>
 
@@ -209,7 +209,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
               className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-700 transition hover:border-[#286EF2] hover:bg-blue-50 hover:text-[#286EF2]"
             >
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-700 group-hover:bg-amber-200 transition">
-                <Ticket className="h-4 w-4" />
+                <SlantedTicket className="h-4 w-4" />
               </span>
               <span className="flex-1">Login sebagai Kasir</span>
               <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-800">

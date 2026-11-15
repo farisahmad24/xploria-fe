@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Edit2, Plus, Tag, Trash2, X } from 'lucide-react';
-import { formatRupiah } from '@/lib/bookings';
+import { Edit2, Layers, Plus, Tag, Trash2, X } from 'lucide-react';
 import type { TicketCategory } from '@/types/ticket';
 
 type TicketCategoriesViewProps = {
@@ -17,14 +16,13 @@ export default function TicketCategoriesView({
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<TicketCategory | null>(null);
 
+  // Form states: Nama Kategori (Text) & Deskripsi (Textarea)
   const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
 
   const openAddModal = () => {
     setEditingCategory(null);
     setName('');
-    setPrice('');
     setDescription('');
     setModalOpen(true);
   };
@@ -32,125 +30,150 @@ export default function TicketCategoriesView({
   const openEditModal = (cat: TicketCategory) => {
     setEditingCategory(cat);
     setName(cat.name);
-    setPrice(cat.price.toString());
     setDescription(cat.description);
     setModalOpen(true);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: string, catName: string) => {
     if (categories.length <= 1) {
-      onToast('Minimal harus ada satu kategori tiket!');
+      onToast('Minimal harus ada satu kategori tiket aktif!');
       return;
     }
-    const updated = categories.filter((c) => c.id !== id);
-    onUpdateCategories(updated);
-    onToast('Kategori tiket berhasil dihapus');
+    if (window.confirm(`Yakin ingin menghapus kategori "${catName}"?`)) {
+      const updated = categories.filter((c) => c.id !== id);
+      onUpdateCategories(updated);
+      onToast(`Kategori "${catName}" berhasil dihapus.`);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const numPrice = parseInt(price, 10);
-    if (isNaN(numPrice) || numPrice <= 0) {
-      onToast('Harga tiket tidak valid');
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+      onToast('Nama kategori tidak boleh kosong!');
       return;
     }
 
     if (editingCategory) {
       const updated = categories.map((c) =>
-        c.id === editingCategory.id ? { ...c, name, price: numPrice, description } : c
+        c.id === editingCategory.id
+          ? { ...c, name: trimmedName, description: description.trim() }
+          : c
       );
       onUpdateCategories(updated);
-      onToast(`Kategori ${name} berhasil diperbarui`);
+      onToast(`Kategori "${trimmedName}" berhasil diperbarui.`);
     } else {
       const newCat: TicketCategory = {
         id: `cat-${Date.now()}`,
-        name,
-        price: numPrice,
-        description,
+        name: trimmedName,
+        description: description.trim(),
+        price: 0,
       };
       onUpdateCategories([...categories, newCat]);
-      onToast(`Kategori ${name} berhasil ditambahkan`);
+      onToast(`Kategori baru "${trimmedName}" berhasil dibuat.`);
     }
     setModalOpen(false);
+    setName('');
+    setDescription('');
   };
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* 1. Full-Width Table: Daftar Kategori Tiket */}
+      <div className="w-full overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-card min-h-[540px] flex flex-col justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-ocean-600">
-            Manajemen Tiket dan Transaksi
-          </p>
-          <h1 className="mt-1 text-2xl font-bold text-ocean-900 sm:text-3xl">Kelola Kategori Tiket</h1>
-          <p className="text-sm text-slate-500">
-            Atur jenis tiket, tarif harga masuk, dan ketentuan fasilitas pengunjung.
-          </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-ocean-50 p-6">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-[#286EF2] ring-1 ring-blue-100">
+                <Layers className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-slate-900">Daftar Kategori Tiket Terdaftar</h2>
+                <p className="text-xs text-slate-400">Total {categories.length} kategori aktif</p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={openAddModal}
+              className="inline-flex items-center gap-2 rounded-xl bg-[#286EF2] px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Tambah Kategori Baru</span>
+            </button>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[760px] table-fixed text-left text-sm text-slate-600">
+              <thead className="bg-ocean-50/70 text-xs font-semibold uppercase tracking-wider text-ocean-800 border-b border-ocean-100/60">
+                <tr>
+                  <th className="w-14 px-4 py-4 text-center">No</th>
+                  <th className="w-64 px-6 py-4">Nama Kategori</th>
+                  <th className="px-6 py-4">Deskripsi Batasan Pengunjung</th>
+                  <th className="w-40 px-4 py-4 text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {categories.map((cat, idx) => (
+                  <tr key={cat.id} className="transition-colors hover:bg-ocean-50/30">
+                    <td className="w-14 px-4 py-4 text-center font-mono text-xs text-slate-400">{idx + 1}</td>
+                    <td className="w-64 px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-ocean-50 text-ocean-600 shrink-0">
+                          <Tag className="h-4 w-4" />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="font-bold text-slate-900 text-sm truncate">{cat.name}</p>
+                          <p className="text-[11px] text-slate-400 font-mono">ID: {cat.id}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <p className="text-xs leading-relaxed text-slate-600 line-clamp-2">
+                        {cat.description || '-'}
+                      </p>
+                    </td>
+                    <td className="w-40 px-4 py-4 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => openEditModal(cat)}
+                          className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-ocean-600 shadow-sm transition hover:border-ocean-300 hover:bg-ocean-50"
+                          title="Edit Kategori"
+                        >
+                          <Edit2 className="h-3.5 w-3.5" />
+                          <span>Edit</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(cat.id, cat.name)}
+                          className="inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-white px-3 py-1.5 text-xs font-semibold text-rose-600 shadow-sm transition hover:border-rose-300 hover:bg-rose-50"
+                          title="Hapus Kategori"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                          <span>Hapus</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <button
-          type="button"
-          onClick={openAddModal}
-          className="inline-flex items-center gap-2 rounded-xl bg-ocean-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-ocean-600/25 transition hover:bg-ocean-700"
-        >
-          <Plus className="h-4 w-4" />
-          Tambah Kategori Tiket
-        </button>
+        {/* Footer Bar */}
+        <div className="flex flex-col gap-2 border-t border-slate-100 bg-slate-50/60 px-6 py-4 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <span className="font-medium">
+            Total <strong className="text-slate-800">{categories.length}</strong> kategori tiket terdaftar
+          </span>
+          <span className="text-[11px] text-slate-400">
+            Kategori ini langsung terhubung pada form pemesanan tiket loket &amp; kasir
+          </span>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        {categories.map((cat) => (
-          <div
-            key={cat.id}
-            className="flex flex-col justify-between rounded-3xl border border-ocean-100 bg-white p-6 shadow-card transition-all hover:border-ocean-200 hover:shadow-lg"
-          >
-            <div>
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-ocean-50 text-ocean-600 ring-1 ring-ocean-100">
-                    <Tag className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900">{cat.name}</h3>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-ocean-600">
-                      ID: {cat.id}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => openEditModal(cat)}
-                    className="rounded-lg p-2 text-slate-400 hover:bg-ocean-50 hover:text-ocean-600"
-                    title="Edit Kategori"
-                  >
-                    <Edit2 className="h-4 w-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(cat.id)}
-                    className="rounded-lg p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
-                    title="Hapus Kategori"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-
-              <p className="mt-4 text-sm leading-relaxed text-slate-600">{cat.description}</p>
-            </div>
-
-            <div className="mt-6 flex items-baseline justify-between border-t border-slate-100 pt-4">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                Tarif Tiket
-              </span>
-              <span className="text-xl font-extrabold text-ocean-900">{formatRupiah(cat.price)}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Edit/Add Modal */}
+      {/* Modal Dialog: Tambah / Edit Kategori */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
@@ -170,13 +193,13 @@ export default function TicketCategoriesView({
               {editingCategory ? 'Edit Kategori Tiket' : 'Tambah Kategori Baru'}
             </h3>
             <p className="mt-1 text-xs text-slate-500">
-              Kelola informasi jenis tiket masuk untuk pengunjung wisata.
+              Kelola informasi nama kategori dan deskripsi ketentuan pengunjung.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-4">
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Nama Kategori
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                  Nama Kategori <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -184,37 +207,21 @@ export default function TicketCategoriesView({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Contoh: Tiket Dewasa VIP"
-                  className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:outline-none focus:ring-4 focus:ring-ocean-50"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 transition focus:border-ocean-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-ocean-50"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Tarif Harga (Rp)
-                </label>
-                <input
-                  type="number"
-                  required
-                  min="0"
-                  step="1000"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="35000"
-                  className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:outline-none focus:ring-4 focus:ring-ocean-50"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Deskripsi & Fasilitas
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                  Deskripsi Kategori <span className="text-rose-500">*</span>
                 </label>
                 <textarea
-                  rows={3}
+                  rows={4}
                   required
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Akses penuh pantai, spot foto dan welcome drink..."
-                  className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:outline-none focus:ring-4 focus:ring-ocean-50"
+                  placeholder="Tuliskan keterangan batasan atau sasaran kategori pengunjung ini..."
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 transition focus:border-ocean-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-ocean-50"
                 />
               </div>
 
@@ -230,7 +237,7 @@ export default function TicketCategoriesView({
                   type="submit"
                   className="flex-1 rounded-xl bg-ocean-600 py-2.5 text-sm font-bold text-white shadow-lg shadow-ocean-600/25 hover:bg-ocean-700"
                 >
-                  Simpan Kategori
+                  {editingCategory ? 'Simpan Perubahan' : 'Buat Kategori'}
                 </button>
               </div>
             </form>

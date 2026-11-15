@@ -1,7 +1,8 @@
 import type {
-  Booking,
+  mendatang,
   BookingDraft,
   BookingItem,
+  CloseOrderRecap,
   DraftErrors,
   TicketCategory,
   ValidationResult,
@@ -22,7 +23,7 @@ export function formatNumber(value: number) {
 }
 
 export function formatRupiah(value: number) {
-  return `Rp ${numberFormatter.format(value)}`;
+  return `Rp\u00A0${numberFormatter.format(value)}`;
 }
 
 export function formatVisitDate(isoDate: string) {
@@ -36,19 +37,19 @@ export function toIsoDate(date: Date) {
   return `${year}-${month}-${day}`;
 }
 
-export function countTickets(bookings: Booking[]) {
+export function countTickets(bookings: mendatang[]) {
   return bookings.reduce(
-    (sum, booking) => sum + booking.items.reduce((itemSum, item) => itemSum + item.quantity, 0),
+    (sum, mendatang) => sum + mendatang.items.reduce((itemSum, item) => itemSum + item.quantity, 0),
     0
   );
 }
 
-export function countValidatedTickets(bookings: Booking[]) {
-  return countTickets(bookings.filter((booking) => booking.status === 'validated'));
+export function countValidatedTickets(bookings: mendatang[]) {
+  return countTickets(bookings.filter((mendatang) => mendatang.status === 'validated'));
 }
 
-export function sumRevenue(bookings: Booking[]) {
-  return bookings.reduce((sum, booking) => sum + booking.total, 0);
+export function sumRevenue(bookings: mendatang[]) {
+  return bookings.reduce((sum, mendatang) => sum + mendatang.total, 0);
 }
 
 export function validateDraft(draft: BookingDraft, todayIso: string): DraftErrors {
@@ -64,6 +65,8 @@ export function validateDraft(draft: BookingDraft, todayIso: string): DraftError
   }
   if (!draft.visitDate) {
     errors.visitDate = 'Pilih tanggal kunjungan';
+  } else if (draft.bookingType === 'mendatang' && draft.visitDate <= todayIso) {
+    errors.visitDate = 'Pemesanan mendatang wajib memilih tanggal kunjungan di masa mendatang';
   } else if (draft.visitDate < todayIso) {
     errors.visitDate = 'Tanggal kunjungan tidak boleh di masa lalu';
   }
@@ -93,13 +96,24 @@ export function buildBookingItems(
 export function createBooking(
   draft: BookingDraft,
   categories: TicketCategory[],
-  existing: Booking[],
-  now: Date
-): Booking {
+  existing: mendatang[],
+  now: Date,
+  cashierName?: string
+): mendatang {
   const items = buildBookingItems(draft.quantities, categories);
   const sequence = String(existing.length + 1).padStart(3, '0');
   const datePart = toIsoDate(now).replace(/-/g, '');
-  const code = `TK-${datePart}-${sequence}`;
+  const prefix = draft.bookingType === 'hari_ini' ? 'TK-TODAY' : 'TK-BOOK';
+  const code = `${prefix}-${datePart}-${sequence}`;
+
+  // Pemesanan Hari ini():
+  // "Tiket langsung berstatus Aktif / Valid dan siap untuk divalidasi di gerbang."
+  const isHariIni = draft.bookingType === 'hari_ini';
+  const duration = Math.max(1, draft.durationDays || 1);
+  const subtotalBase = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+  const subtotal = subtotalBase * duration;
+  const discountAmount = Math.min(draft.discountAmount || 0, subtotal);
+  const total = Math.max(0, subtotal - discountAmount);
 
   return {
     id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
@@ -107,11 +121,18 @@ export function createBooking(
     visitorName: draft.visitorName.trim(),
     phone: draft.phone.replace(/[\s-]/g, ''),
     visitDate: draft.visitDate,
+    durationDays: duration,
+    visitEndDate: draft.visitEndDate || draft.visitDate,
     items,
-    total: items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0),
-    status: 'booked',
+    subtotal,
+    discountAmount,
+    total,
+    status: isHariIni ? 'validated' : 'booked',
+    bookingType: draft.bookingType,
+    paymentMethod: draft.paymentMethod,
     createdAt: now.toISOString(),
-    validatedAt: null,
+    validatedAt: isHariIni ? now.toISOString() : null,
+    cashierName: cashierName || 'Siti Rahmawati (Kasir)',
   };
 }
 
@@ -124,21 +145,22 @@ export function formatRelativeTime(iso: string, now: Date) {
   return `${Math.round(hours / 24)} hari yang lalu`;
 }
 
-export function buildActivityItems(bookings: Booking[], now: Date): ActivityItem[] {
-  const events = bookings.flatMap((booking) => {
+export function buildActivityItems(bookings: mendatang[], now: Date): ActivityItem[] {
+  const events = bookings.flatMap((mendatang) => {
+    const isWalkIn = mendatang.bookingType === 'hari_ini';
     const created = {
-      id: `${booking.id}-created`,
-      title: `Pemesanan baru ${booking.code} oleh ${booking.visitorName}`,
-      at: booking.createdAt,
-      tone: 'blue' as const,
+      id: `${mendatang.id}-created`,
+      title: `${isWalkIn ? 'Pemesanan Hari ini' : 'mendatang Tiket'} ${mendatang.code} oleh ${mendatang.visitorName}`,
+      at: mendatang.createdAt,
+      tone: isWalkIn ? ('emerald' as const) : ('blue' as const),
     };
-    if (!booking.validatedAt) return [created];
+    if (!mendatang.validatedAt || isWalkIn) return [created];
     return [
       created,
       {
-        id: `${booking.id}-validated`,
-        title: `Tiket ${booking.code} divalidasi di gerbang`,
-        at: booking.validatedAt,
+        id: `${mendatang.id}-validated`,
+        title: `Tiket mendatang ${mendatang.code} divalidasi di gerbang`,
+        at: mendatang.validatedAt,
         tone: 'emerald' as const,
       },
     ];
@@ -150,23 +172,102 @@ export function buildActivityItems(bookings: Booking[], now: Date): ActivityItem
 }
 
 export function validateTicketCode(
-  bookings: Booking[],
+  bookings: mendatang[],
   rawCode: string,
   now: Date
-): { result: ValidationResult; bookings: Booking[] } {
+): { result: ValidationResult; bookings: mendatang[] } {
   const code = rawCode.trim().toUpperCase();
-  const booking = bookings.find((item) => item.code === code);
+  const mendatang = bookings.find((item) => item.code === code);
 
-  if (!booking) {
+  if (!mendatang) {
     return { result: { kind: 'not_found' }, bookings };
   }
-  if (booking.status === 'validated') {
-    return { result: { kind: 'already_validated', booking }, bookings };
+  if (mendatang.status === 'validated') {
+    return { result: { kind: 'already_validated', mendatang }, bookings };
   }
 
-  const validated: Booking = { ...booking, status: 'validated', validatedAt: now.toISOString() };
+  const validated: mendatang = { ...mendatang, status: 'validated', validatedAt: now.toISOString() };
   return {
-    result: { kind: 'valid', booking: validated },
-    bookings: bookings.map((item) => (item.id === booking.id ? validated : item)),
+    result: { kind: 'valid', mendatang: validated },
+    bookings: bookings.map((item) => (item.id === mendatang.id ? validated : item)),
+  };
+}
+
+// ── Automatic Sales Recap Generator ──────────────────────────────────────────
+export function generateCloseOrderRecap(
+  bookings: mendatang[],
+  cashierName: string,
+  sessionOpenedAt: string,
+  now: Date = new Date()
+): CloseOrderRecap {
+  const dateStr = now.toLocaleDateString('id-ID', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+  const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+  const recapId = `RCP-${toIsoDate(now).replace(/-/g, '')}-${String(Math.floor(Math.random() * 90) + 10)}`;
+
+  const totalRevenue = bookings.reduce((sum, b) => sum + b.total, 0);
+  const totalTransactions = bookings.length;
+  const totalTicketsSold = bookings.reduce(
+    (sum, b) => sum + b.items.reduce((s, it) => s + it.quantity, 0),
+    0
+  );
+
+  const hariIniBookings = bookings.filter((b) => b.bookingType === 'hari_ini');
+  const bookingBookings = bookings.filter((b) => b.bookingType === 'mendatang');
+
+  // Breakdown per jenis tiket
+  const ticketMap = new Map<string, { quantity: number; revenue: number }>();
+  for (const b of bookings) {
+    for (const item of b.items) {
+      const existing = ticketMap.get(item.name) || { quantity: 0, revenue: 0 };
+      ticketMap.set(item.name, {
+        quantity: existing.quantity + item.quantity,
+        revenue: existing.revenue + item.unitPrice * item.quantity,
+      });
+    }
+  }
+
+  const breakdownTicketItems = Array.from(ticketMap.entries()).map(([name, data]) => ({
+    name,
+    quantity: data.quantity,
+    revenue: data.revenue,
+  }));
+
+  // Breakdown metode pembayaran
+  const paymentBreakdown = {
+    cash: 0,
+    qris: 0,
+    ewallet: 0,
+    transfer: 0,
+  };
+
+  for (const b of bookings) {
+    const method = b.paymentMethod || 'cash';
+    if (method in paymentBreakdown) {
+      paymentBreakdown[method] += b.total;
+    } else {
+      paymentBreakdown.cash += b.total;
+    }
+  }
+
+  return {
+    id: recapId,
+    closedAt: `${dateStr}, ${timeStr} WIB`,
+    sessionOpenedAt,
+    cashierName,
+    totalRevenue,
+    totalTransactions,
+    totalTicketsSold,
+    breakdownBookingType: {
+      hariIniCount: hariIniBookings.length,
+      hariIniRevenue: hariIniBookings.reduce((sum, b) => sum + b.total, 0),
+      bookingCount: bookingBookings.length,
+      bookingRevenue: bookingBookings.reduce((sum, b) => sum + b.total, 0),
+    },
+    breakdownTicketItems,
+    breakdownPayment: paymentBreakdown,
   };
 }

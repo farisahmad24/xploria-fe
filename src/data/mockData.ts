@@ -11,7 +11,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-01',
     name: 'Budi Santoso, S.Par',
-    email: 'budi.santoso@exploria.id',
+    email: 'budi.santoso@Ploria.id',
     phone: '0812-3456-7890',
     role: 'Manager Operasional',
     status: 'aktif',
@@ -20,7 +20,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-02',
     name: 'M. Hasan Al-Farisi',
-    email: 'hasan.alfarisi@exploria.id',
+    email: 'hasan.alfarisi@Ploria.id',
     phone: '0813-9876-5432',
     role: 'Admin Pengelola',
     status: 'aktif',
@@ -29,7 +29,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-03',
     name: 'Siti Rahmawati',
-    email: 'siti.rahma@exploria.id',
+    email: 'siti.rahma@Ploria.id',
     phone: '0856-1122-3344',
     role: 'Petugas Kasir Tiket',
     status: 'aktif',
@@ -38,7 +38,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-04',
     name: 'Ahmad Fauzi',
-    email: 'ahmad.fauzi@exploria.id',
+    email: 'ahmad.fauzi@Ploria.id',
     phone: '0878-5566-7788',
     role: 'Petugas Kasir Tiket',
     status: 'aktif',
@@ -47,7 +47,7 @@ export const initialStaffMembers: StaffMember[] = [
   {
     id: 'st-05',
     name: 'Dewi Lestari',
-    email: 'dewi.lestari@exploria.id',
+    email: 'dewi.lestari@Ploria.id',
     phone: '0819-2233-4455',
     role: 'Petugas Validasi Lapangan',
     status: 'aktif',
@@ -161,13 +161,13 @@ export const initialOperationalExpenses: OperationalExpense[] = [
 ];
 
 export const initialDestinationInfo: DestinationInfo = {
-  name: 'Pantai Exploria Indah',
+  name: 'Pantai Ploria Indah',
   tagline: 'Pesona Bahari Tropis & Konservasi Terumbu Karang',
   description:
     'Destinasi wisata pesisir unggulan dengan panorama pasir putih halus, air laut turquoise, serta fasilitas lengkap rekreasi keluarga. Dilengkapi spot snorkeling, gazebo teduh di tepi pantai, dan pusat kuliner hidangan laut segar khas nusantara.',
   location: 'Jl. Bahari Nusantara No. 88, Desa Wisata Karang Indah',
   contactPhone: '(021) 7890-4321 / +62 812-3456-7890',
-  contactEmail: 'info@exploria.id',
+  contactEmail: 'info@Ploria.id',
   openHours: 'Setiap Hari: 07:00 - 18:00 WIB',
   facilities: [
     'Gazebo Pantai & Tempat Santai',
@@ -198,7 +198,7 @@ export const initialReviews: VisitorReview[] = [
       author: 'Budi Santoso',
       role: 'Manager Operasional',
       message:
-        'Terima kasih banyak atas kunjungannya Mas Rendra! Senang mendengar liburan keluarga Anda menyenangkan di Exploria.',
+        'Terima kasih banyak atas kunjungannya Mas Rendra! Senang mendengar liburan keluarga Anda menyenangkan di Ploria.',
       date: '10 Nov 2026',
     },
   },
@@ -235,6 +235,40 @@ export const initialReviews: VisitorReview[] = [
     ticketCode: 'TK-20261107-010',
     comment:
       'Paket keluarga sangat hemat dan pas. Anak-anak sangat menikmati pantai. Hanya saja saat jam makan siang food court cukup ramai.',
+  },
+  {
+    id: 'rev-5',
+    userName: 'Bambang Sudiro',
+    rating: 3,
+    date: '06 Nov 2026',
+    ticketCode: 'TK-20261106-008',
+    comment:
+      'Pemandangan alam pantai luar biasa indah. Namun saat jam sibuk akhir pekan antrean di toilet umum dan mushola cukup panjang. Perlu penambahan fasilitas sanitasi.',
+    reply: {
+      author: 'M. Hasan Al-Farisi',
+      role: 'Admin Pengelola',
+      message:
+        'Terima kasih banyak atas evaluasinya Pak Bambang. Kami sedang menjadwalkan pembangunan fasilitas bilas dan toilet tambahan di sisi timur pantai.',
+      date: '07 Nov 2026',
+    },
+  },
+  {
+    id: 'rev-6',
+    userName: 'Dewi Anggraini',
+    rating: 3,
+    date: '05 Nov 2026',
+    ticketCode: 'TK-20261105-012',
+    comment:
+      'Spot foto pantai sangat estetik untuk konten media sosial. Sayangnya debit air bilas air tawar agak mengecil saat sore hari setelah pengunjung ramai.',
+  },
+  {
+    id: 'rev-7',
+    userName: 'Hendra Gunawan',
+    rating: 3,
+    date: '04 Nov 2026',
+    ticketCode: 'TK-20261104-015',
+    comment:
+      'Secara keseluruhan tempat wisata tertata rapi. Hanya saja kapasitas kantong parkir kendaraan roda empat perlu diperluas agar tidak macet di gerbang masuk.',
   },
 ];
 

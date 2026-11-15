@@ -5,15 +5,15 @@ import {
   ScanLine,
   Star,
   Tag,
-  Ticket,
   type LucideIcon,
 } from 'lucide-react';
+import SlantedTicket from '@/components/common/SlantedTicket';
 import type { UserRole } from '@/types/roles';
 
 export type QuickAction = {
   id: string;
   label: string;
-  icon: LucideIcon;
+  icon: any;
   target: string;
 };
 
@@ -26,17 +26,17 @@ export default function QuickMenu({ currentRole, onSelect }: QuickMenuProps) {
   const getQuickActions = (): QuickAction[] => {
     if (currentRole === 'kasir') {
       return [
-        { id: 'q-kasir-sales', label: 'Jual Tiket', icon: Ticket, target: 'kasir-tiket-sales' },
+        { id: 'q-kasir-sales', label: 'Jual Tiket', icon: SlantedTicket, target: 'kasir-tiket-sales' },
         { id: 'q-kasir-validate', label: 'Validasi QR', icon: ScanLine, target: 'kasir-tiket-validate' },
         { id: 'q-kasir-history', label: 'Riwayat Transaksi', icon: FileText, target: 'kasir-tiket-history' },
-        { id: 'q-kasir-cal', label: 'Jadwal Booking', icon: Tag, target: 'kasir-dash-calendar' },
+        { id: 'q-kasir-cal', label: 'Jadwal mendatang', icon: Tag, target: 'kasir-dash-calendar' },
       ];
     }
 
     if (currentRole === 'admin') {
       return [
         { id: 'q-adm-rekap', label: 'Rekap Harian', icon: FileText, target: 'admin-dash-rekap' },
-        { id: 'q-adm-ticket', label: 'Kelola Tiket', icon: Ticket, target: 'admin-tiket-manage' },
+        { id: 'q-adm-ticket', label: 'Kelola Tiket', icon: SlantedTicket, target: 'admin-tiket-manage' },
         { id: 'q-adm-exp', label: 'Pengeluaran', icon: Tag, target: 'admin-report-expenses' },
         { id: 'q-adm-rep', label: 'Laporan Keuangan', icon: FileText, target: 'admin-report-finance' },
         { id: 'q-adm-dest', label: 'Info Wisata', icon: MapPin, target: 'admin-dest-info' },
@@ -44,9 +44,9 @@ export default function QuickMenu({ currentRole, onSelect }: QuickMenuProps) {
       ];
     }
 
-    // Default: pengelola (super admin)
+    // Default: pengelola ()
     return [
-      { id: 'q-mo-sales', label: 'Penjualan Tiket', icon: Ticket, target: 'mo-tiket-sales' },
+      { id: 'q-mo-sales', label: 'Penjualan Tiket', icon: SlantedTicket, target: 'mo-tiket-sales' },
       { id: 'q-mo-cat', label: 'Kategori Tiket', icon: Tag, target: 'mo-tiket-categories' },
       { id: 'q-mo-val', label: 'Validasi Tiket', icon: ScanLine, target: 'mo-tiket-validate' },
       { id: 'q-mo-rep', label: 'Laporan Keuangan', icon: FileText, target: 'mo-report-finance' },

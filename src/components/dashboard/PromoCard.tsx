@@ -12,7 +12,7 @@ export default function PromoCard({ onExplore }: PromoCardProps) {
     <section className="animate-fade-in-up group relative overflow-hidden rounded-3xl bg-gradient-to-br from-ocean-100 via-sky-50 to-white shadow-card">
       <div className="grid h-full grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div className="flex flex-col justify-center gap-3 p-6 sm:p-8">
-          <h2 className="text-2xl font-bold leading-[1.2] text-ocean-900 sm:text-[28px]">Exploria</h2>
+          <h2 className="text-2xl font-bold leading-[1.2] text-ocean-900 sm:text-[28px]">Ploria</h2>
           <p className="text-base font-semibold leading-snug text-ocean-700">Pesan tiket wisata favoritmu sekarang</p>
           <button
             type="button"

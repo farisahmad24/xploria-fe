@@ -109,7 +109,9 @@ export function createBooking(
   // Pemesanan Hari ini():
   // "Tiket langsung berstatus Aktif / Valid dan siap untuk divalidasi di gerbang."
   const isHariIni = draft.bookingType === 'hari_ini';
-  const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+  const duration = Math.max(1, draft.durationDays || 1);
+  const subtotalBase = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+  const subtotal = subtotalBase * duration;
   const discountAmount = Math.min(draft.discountAmount || 0, subtotal);
   const total = Math.max(0, subtotal - discountAmount);
 
@@ -119,7 +121,7 @@ export function createBooking(
     visitorName: draft.visitorName.trim(),
     phone: draft.phone.replace(/[\s-]/g, ''),
     visitDate: draft.visitDate,
-    durationDays: draft.durationDays || 1,
+    durationDays: duration,
     visitEndDate: draft.visitEndDate || draft.visitDate,
     items,
     subtotal,

@@ -102,7 +102,9 @@ export default function BookingForm({
 
   const selectedItems = buildBookingItems(draft.quantities, ticketCategories);
   const totalTickets = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotalPrice = selectedItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+  const duration = Math.max(1, draft.durationDays || 1);
+  const subtotalBase = selectedItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+  const subtotalPrice = subtotalBase * duration;
 
   const numericDiscount = Math.max(0, parseFloat(discountValue) || 0);
   const discountAmount = useMemo(() => {
@@ -625,7 +627,7 @@ export default function BookingForm({
                           <strong className="text-slate-900">{formatVisitDate(draft.visitEndDate || draft.visitDate)}</strong>
                         </span>
                         <span className="font-extrabold text-[#286EF2]">
-                          Total {draft.durationDays || 1} Hari
+                          Total {draft.durationDays || 1} Hari {((draft.durationDays || 1) > 1) ? `(Tarif × ${draft.durationDays})` : ''}
                         </span>
                       </div>
                     )}
@@ -811,22 +813,37 @@ export default function BookingForm({
             <p className="mt-5 text-sm text-slate-500">Belum ada tiket yang dipilih.</p>
           ) : (
             <ul className="mt-5 space-y-3">
-              {selectedItems.map((item) => (
-                <li key={item.categoryId} className="flex justify-between gap-3 text-sm">
-                  <span className="text-slate-600">
-                    {item.name} <span className="text-slate-400">x{item.quantity}</span>
-                  </span>
-                  <span className="font-semibold text-ocean-900">
-                    {formatRupiah(item.unitPrice * item.quantity)}
-                  </span>
-                </li>
-              ))}
+              {selectedItems.map((item) => {
+                const itemTotal = item.unitPrice * item.quantity * duration;
+                return (
+                  <li key={item.categoryId} className="flex justify-between gap-3 text-sm">
+                    <span className="text-slate-600">
+                      {item.name}{' '}
+                      <span className="text-slate-400">
+                        x{item.quantity} {duration > 1 ? `(${duration} hari)` : ''}
+                      </span>
+                    </span>
+                    <span className="font-semibold text-ocean-900">
+                      {formatRupiah(itemTotal)}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
           )}
 
           <div className="mt-5 space-y-2 border-t border-ocean-100 pt-4">
+            {duration > 1 && (
+              <div className="flex items-center justify-between rounded-lg bg-blue-50/80 px-2.5 py-1.5 text-xs text-[#286EF2]">
+                <span className="font-medium">Durasi Kunjungan:</span>
+                <span className="font-bold">{duration} Hari (Tarif × {duration})</span>
+              </div>
+            )}
+
             <div className="flex items-center justify-between text-sm">
-              <span className="text-slate-500">Subtotal ({totalTickets} tiket)</span>
+              <span className="text-slate-500">
+                Subtotal ({totalTickets} tiket{duration > 1 ? ` × ${duration} hari` : ''})
+              </span>
               <span className="font-semibold text-slate-800">{formatRupiah(subtotalPrice)}</span>
             </div>
 

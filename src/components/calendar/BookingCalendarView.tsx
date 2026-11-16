@@ -173,7 +173,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
             </div>
             <div>
               <h2 className="text-base font-black text-slate-900 leading-tight">
-                Jadwal Mendatang <span className="text-xs text-[#286EF2] font-bold">• Admin</span>
+                Dashboard Kalender <span className="text-xs text-[#286EF2] font-bold">• Jadwal Kunjungan</span>
               </h2>
               <p className="text-[11px] text-slate-400">
                 Pilih tanggal pada kalender untuk melihat rincian pemesanan harian

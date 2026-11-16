@@ -250,7 +250,7 @@ function App() {
       );
     }
 
-    if (activeNav === 'kasir-dash-calendar') {
+    if (activeNav === 'kasir-dash-calendar' || activeNav === 'kasir-calendar') {
       // Pembatasan hak akses: Hanya Kasir yang dapat mengakses modul kalender ini
       if (currentRole === 'kasir') {
         return <BookingCalendarView bookings={bookings} />;

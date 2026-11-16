@@ -71,12 +71,16 @@ export default function Sidebar({
     if (group && group.items.some((item) => item.id === activeId)) return true;
 
     // ── Legacy heuristic mappings for flat-link groups ────────────────────
+    // Kalender
+    if (groupId === 'kasir-calendar' && (activeId === 'kasir-calendar' || activeId === 'kasir-dash-calendar')) return true;
+
     // Dashboard
     if (
       groupId.endsWith('-dash') &&
       (activeId.includes('dash') || activeId === 'dashboard')
     ) {
       if (groupId === 'kasir-dash-rekap') return activeId === 'kasir-dash-rekap';
+      if (activeId === 'kasir-calendar' || activeId === 'kasir-dash-calendar') return false;
       return true;
     }
 

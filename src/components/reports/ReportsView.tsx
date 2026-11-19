@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Coins,
   FileSpreadsheet,
@@ -42,6 +42,12 @@ export default function ReportsView({
   onToast,
 }: ReportsViewProps) {
   const [currentTab, setCurrentTab] = useState<ReportTabType>(activeTab);
+
+  useEffect(() => {
+    if (activeTab) {
+      setCurrentTab(activeTab);
+    }
+  }, [activeTab]);
   const [expenseModalOpen, setExpenseModalOpen] = useState(false);
   const [newExpenseCat, setNewExpenseCat] = useState('Pemeliharaan');
   const [newExpenseDesc, setNewExpenseDesc] = useState('');

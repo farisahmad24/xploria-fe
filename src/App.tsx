@@ -324,6 +324,7 @@ function App() {
     if (
       activeNav === 'kasir-tiket-sales' ||
       activeNav === 'mo-tiket-sales' ||
+      activeNav === 'admin-tiket-sales' ||
       activeNav === 'tiket'
     ) {
       return (
@@ -344,7 +345,11 @@ function App() {
     }
 
     // Validasi Tiket (Gerbang Masuk)
-    if (activeNav === 'kasir-tiket-validate' || activeNav === 'mo-tiket-validate') {
+    if (
+      activeNav === 'kasir-tiket-validate' ||
+      activeNav === 'mo-tiket-validate' ||
+      activeNav === 'admin-tiket-validate'
+    ) {
       return (
         <TicketsPage
           bookings={bookings}
@@ -365,7 +370,9 @@ function App() {
     // Rekap & Close Order (Kasir: Laporan Keuangan & Rekapan)
     if (
       activeNav === 'kasir-dash-rekap' ||
-      activeNav === 'admin-dash-rekap'
+      activeNav === 'admin-dash-rekap' ||
+      activeNav === 'mo-tiket-closeorder' ||
+      activeNav === 'admin-tiket-closeorder'
     ) {
       return (
         <TicketsPage
@@ -385,7 +392,11 @@ function App() {
     }
 
     // Riwayat Penjualan
-    if (activeNav === 'admin-tiket-history' || activeNav === 'kasir-tiket-history') {
+    if (
+      activeNav === 'admin-tiket-history' ||
+      activeNav === 'kasir-tiket-history' ||
+      activeNav === 'mo-tiket-history'
+    ) {
       return (
         <TicketsPage
           bookings={bookings}
@@ -465,7 +476,7 @@ function App() {
       );
     }
 
-    if (activeNav === 'admin-report-expenses') {
+    if (activeNav === 'admin-report-expenses' || activeNav === 'mo-report-expenses') {
       return (
         <ReportsView
           activeTab="expenses"
@@ -479,7 +490,7 @@ function App() {
       );
     }
 
-    if (activeNav === 'admin-report-tickets') {
+    if (activeNav === 'admin-report-tickets' || activeNav === 'mo-report-tickets') {
       return (
         <ReportsView
           activeTab="tickets"

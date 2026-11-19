@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  Menu, 
-  Bell, 
-  Search, 
-  ShieldAlert, 
-  ShieldCheck, 
-  Building2, 
-  User, 
-  ChevronRight,
-  Sparkles
+import {
+  Bell,
+  ChevronDown,
+  LogOut,
+  Menu,
+  Search,
+  X,
 } from 'lucide-react';
 import { SuperAdminSidebar } from './SuperAdminSidebar';
 
@@ -27,104 +24,134 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({
   onLogout,
   children,
 }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [query, setQuery] = useState('');
 
-  const getBreadcrumbTitle = () => {
-    switch (activeTab) {
-      case 'validasi-mitra':
-        return 'Validasi Mitra Wisata';
-      case 'audit-log':
-        return 'Audit Log Sistem';
-      default:
-        return 'Dashboard';
-    }
+  const profile = {
+    userName: 'Raka Daniswara, S.Kom',
+    userRoleName: 'Super Admin Xploria',
+    title: 'Super Admin',
+    avatarText: 'RD',
   };
 
   return (
-    <div className="min-h-screen bg-slate-100/70 font-sans text-slate-800 flex">
-      {/* Sidebar Khusus Super Admin */}
+    <div className="flex min-h-screen bg-slate-50">
+      {/* Sidebar — sama persis dengan Sidebar.tsx */}
       <SuperAdminSidebar
         activeTab={activeTab}
         onSelectTab={onSelectTab}
         pendingCount={pendingCount}
         onLogout={onLogout}
-        isOpenMobile={isMobileMenuOpen}
-        onCloseMobile={() => setIsMobileMenuOpen(false)}
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
       />
 
-      {/* Main Content Area */}
-      <div className="flex-1 lg:pl-72 flex flex-col min-h-screen">
-        {/* Top Navbar */}
-        <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-xs">
-          <div className="flex items-center gap-3">
-            {/* Hamburger Button (Mobile) */}
+      {/* Right Panel: Header + Content — sama persis dengan App.tsx */}
+      <div className="flex flex-1 flex-col min-w-0">
+
+        {/* Header — identik styling dengan Header.tsx */}
+        <header className="sticky top-0 z-30 border-b border-ocean-100/80 bg-white/90 backdrop-blur-md">
+          <div className="flex items-center gap-3 px-4 py-3.5 sm:px-6 lg:px-8">
+            {/* Mobile menu toggle */}
             <button
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition"
-              aria-label="Buka Menu"
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              className="rounded-xl p-2 text-ocean-800 transition hover:bg-ocean-50 lg:hidden"
+              aria-label="Buka menu"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="h-6 w-6" />
             </button>
 
-            {/* Breadcrumb Info */}
-            <div className="flex items-center gap-2 text-sm text-slate-500">
-              <span className="font-semibold text-slate-700 hidden sm:inline">Portal Super Admin</span>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-400 hidden sm:inline" />
-              <span className="font-bold text-slate-900">{getBreadcrumbTitle()}</span>
+            {/* Search Bar — identik dengan Header.tsx */}
+            <div className="relative w-full max-w-md">
+              <label className="group relative flex w-full items-center">
+                <Search className="pointer-events-none absolute left-4 h-[18px] w-[18px] text-ocean-400 transition-colors group-focus-within:text-[#286EF2]" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Cari mitra wisata, nama PIC, atau status..."
+                  className="w-full rounded-full border border-ocean-100 bg-ocean-50/70 py-2.5 pl-11 pr-10 text-xs sm:text-sm text-slate-700 placeholder:text-slate-400 transition focus:border-[#286EF2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-100"
+                  autoComplete="off"
+                />
+                {query && (
+                  <button
+                    type="button"
+                    onClick={() => setQuery('')}
+                    className="absolute right-3 rounded-full p-0.5 text-slate-400 hover:text-slate-700 transition"
+                    aria-label="Hapus pencarian"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </label>
             </div>
-          </div>
 
-          {/* Right Header Actions */}
-          <div className="flex items-center gap-3">
-            {/* Environment Badge */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#286EF2]" />
-              <span>HQ Otoritas Pusat</span>
-            </div>
+            {/* Right side items — identik dengan Header.tsx */}
+            <div className="ml-auto flex items-center gap-2 sm:gap-4">
+              {/* Notifikasi pending */}
+              {pendingCount > 0 && (
+                <button
+                  type="button"
+                  onClick={() => onSelectTab('validasi-mitra')}
+                  className="relative rounded-full p-2.5 text-ocean-700 transition hover:bg-ocean-50"
+                  aria-label="Notifikasi"
+                >
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[11px] font-bold text-white ring-2 ring-white">
+                    {pendingCount}
+                  </span>
+                </button>
+              )}
 
-            {/* Notification Indicator */}
-            {pendingCount > 0 && (
-              <div 
-                onClick={() => onSelectTab('validasi-mitra')}
-                className="cursor-pointer flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold hover:bg-amber-100 transition"
-                title={`${pendingCount} antrean pendaftaran menunggu verifikasi`}
-              >
-                <Bell className="w-3.5 h-3.5 text-amber-600 animate-bounce" />
-                <span>{pendingCount} Verifikasi Tertunda</span>
-              </div>
-            )}
+              {/* User Profile dropdown */}
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="flex items-center gap-2.5 rounded-full p-1 transition hover:bg-ocean-50 sm:pl-2 sm:pr-3"
+                >
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-ocean-600 to-ocean-800 text-xs font-extrabold text-white ring-2 ring-ocean-100">
+                    {profile.avatarText}
+                  </div>
+                  <div className="hidden text-left leading-tight sm:block">
+                    <p className="text-xs font-bold text-ocean-950">{profile.userName}</p>
+                    <p className="text-[11px] font-medium text-ocean-600">{profile.title}</p>
+                  </div>
+                  <ChevronDown className="hidden h-3.5 w-3.5 text-slate-400 sm:block" />
+                </button>
 
-            {/* Profile Avatar Pill */}
-            <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
-              <div className="w-8 h-8 rounded-full bg-[#286EF2] text-white font-black text-xs flex items-center justify-center shadow-xs">
-                RD
-              </div>
-              <div className="hidden md:block text-left">
-                <div className="text-xs font-bold text-slate-800 leading-tight">Raka Daniswara</div>
-                <div className="text-[10px] text-slate-500 font-medium">Lead Super Admin</div>
+                {profileOpen && (
+                  <div className="animate-fade-in-up absolute right-0 top-12 z-50 w-60 overflow-hidden rounded-2xl border border-ocean-100 bg-white p-2 shadow-2xl">
+                    <div className="border-b border-slate-100 px-3 py-2.5">
+                      <p className="text-xs font-bold text-slate-900">{profile.userName}</p>
+                      <p className="text-[11px] text-slate-500">{profile.userRoleName}</p>
+                    </div>
+                    <div className="pt-1.5">
+                      <button
+                        type="button"
+                        onClick={() => { setProfileOpen(false); onLogout(); }}
+                        className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Logout / Keluar Sesi
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </header>
 
-        {/* Page Content Container */}
-        <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto">
+        {/* Page Content — identik padding dengan App.tsx */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">
           {children}
         </main>
-
-        {/* Footer */}
-        <footer className="py-4 px-8 border-t border-slate-200/80 bg-white/60 text-center sm:flex sm:justify-between sm:items-center text-xs text-slate-500">
-          <div>
-            &copy; {new Date().getFullYear()} <strong className="text-slate-700">Xploria Agency Indonesia</strong> &mdash; Modul Super Administrator.
-          </div>
-          <div className="mt-1 sm:mt-0 flex items-center justify-center gap-4 text-[11px] text-slate-400">
-            <span>SLA Verifikasi Mitra: Maks 2x24 Jam</span>
-            <span>&bull;</span>
-            <span>Standar Keamanan ISO 27001</span>
-          </div>
-        </footer>
       </div>
     </div>
   );
 };
+
 export default SuperAdminLayout;

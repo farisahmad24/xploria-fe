@@ -77,10 +77,10 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-[#EBF0F8] p-3 sm:p-6 lg:p-10 font-sans">
-      {/* ── Outer Card Frame ── */}
-      <div className="relative flex w-full max-w-5xl flex-col overflow-hidden rounded-[32px] sm:rounded-[40px] bg-white shadow-2xl shadow-blue-900/10 lg:min-h-[640px] lg:flex-row">
-        {/* ── LEFT SIDE: Form & Branding ── */}
-        <div className="relative z-10 flex flex-1 flex-col justify-between bg-white px-7 py-8 sm:px-12 sm:py-10">
+      {/* ── Outer Card Frame: Fixed consistent height & width on desktop ── */}
+      <div className="relative flex w-full max-w-5xl flex-col overflow-hidden rounded-[32px] sm:rounded-[40px] bg-white shadow-2xl shadow-blue-900/10 min-h-[600px] lg:h-[660px] lg:flex-row">
+        {/* ── LEFT SIDE: Form & Branding (Consistent Height) ── */}
+        <div className="relative z-10 flex flex-1 flex-col justify-between bg-white px-7 py-8 sm:px-12 sm:py-9 h-full">
           <div>
             {/* Top Bar: Brand & Navigation */}
             <div className="flex items-center justify-between">
@@ -118,7 +118,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             </div>
 
             {/* Header Titles */}
-            <div className="mt-8 sm:mt-10">
+            <div className="mt-7 sm:mt-8">
               <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                 {mode === 'register' ? 'START FOR FREE' : 'WELCOME BACK'}
               </span>
@@ -126,7 +126,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 {mode === 'register' ? 'Create new account' : 'Log in to account'}
                 <span className="text-[#286EF2]">.</span>
               </h1>
-              <p className="mt-2 text-xs sm:text-sm text-slate-500">
+              <p className="mt-1.5 text-xs sm:text-sm text-slate-500">
                 {mode === 'register' ? (
                   <>
                     Already A Member?{' '}
@@ -153,11 +153,11 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
               </p>
             </div>
 
-            {/* Form Fields */}
-            <form onSubmit={handleSubmit} className="mt-6 space-y-3.5">
+            {/* Form Fields Container */}
+            <form onSubmit={handleSubmit} className="mt-5 space-y-3">
               {/* If Register Mode: First Name & Last Name (2 Cols) */}
-              {mode === 'register' && (
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {mode === 'register' ? (
+                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                   <div className="relative rounded-2xl bg-[#F4F7FC] px-4 py-2 border border-transparent transition-all focus-within:border-[#286EF2] focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-100/60">
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">
                       First name
@@ -188,7 +188,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                     <Contact className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400/80 pointer-events-none" />
                   </div>
                 </div>
-              )}
+              ) : null}
 
               {/* Email Field */}
               <div className="relative rounded-2xl bg-[#F4F7FC] px-4 py-2 border border-transparent transition-all focus-within:border-[#286EF2] focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-100/60">
@@ -280,25 +280,40 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 </div>
               </div>
 
-              {/* Forgot password on login mode */}
-              {mode === 'login' && (
-                <div className="flex justify-end pt-0.5">
+              {/* Login Extra Options (Remember & Forgot Password) for vertical visual balance */}
+              {mode === 'login' ? (
+                <div className="flex items-center justify-between pt-1">
+                  <label className="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      className="h-3.5 w-3.5 rounded border-slate-300 text-[#286EF2] focus:ring-[#286EF2]"
+                    />
+                    <span className="text-[11px] font-medium text-slate-500">Ingat sesi saya</span>
+                  </label>
                   <button
                     type="button"
                     onClick={() => setShowRoleModal(true)}
                     className="text-[11px] font-semibold text-slate-400 hover:text-[#286EF2] transition"
                   >
-                    Bantuan / Login Cepat?
+                    Lupa Kata Sandi?
                   </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 pt-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  <span className="text-[10px] text-slate-400">
+                    Akses instan langsung siap digunakan setelah registrasi
+                  </span>
                 </div>
               )}
 
               {/* Action Buttons Row */}
-              <div className="flex items-center gap-3 pt-3">
+              <div className="flex items-center gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowRoleModal(true)}
-                  className="rounded-full bg-[#F0F4FA] px-5 py-3 text-xs font-bold text-slate-600 hover:bg-[#E4ECF7] transition"
+                  className="rounded-full bg-[#F0F4FA] px-5 py-3 text-xs font-bold text-slate-600 hover:bg-[#E4ECF7] transition shrink-0"
                 >
                   Change method
                 </button>
@@ -316,21 +331,21 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
           {/* Toast Notification */}
           {toastMessage && (
-            <div className="mt-4 rounded-2xl bg-emerald-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md animate-fade-in-up">
+            <div className="my-2 rounded-2xl bg-emerald-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md animate-fade-in-up">
               {toastMessage}
             </div>
           )}
 
           {/* Footer Copyright */}
-          <div className="pt-6">
+          <div className="pt-4 border-t border-slate-100/80">
             <p className="text-[11px] text-slate-400">
               © 2026 Ploria Tourism Network • Sistem Manajemen Tiket Wisata
             </p>
           </div>
         </div>
 
-        {/* ── RIGHT SIDE: Scenic Mountain Lake & Organic Wave Divider ── */}
-        <div className="relative hidden w-full lg:flex lg:w-[48%] overflow-hidden bg-slate-900 select-none">
+        {/* ── RIGHT SIDE: Scenic Mountain Lake & Organic Wave Divider (Consistent Frame) ── */}
+        <div className="relative hidden w-full lg:flex lg:w-[48%] h-full overflow-hidden bg-slate-900 select-none">
           {/* Nature Scenic Image */}
           <img
             src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop"

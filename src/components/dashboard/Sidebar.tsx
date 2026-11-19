@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react';
 import {
   ChevronDown,
-  ChevronRight,
   LogOut,
-  Palmtree,
-  UserCheck,
+  User,
   X,
 } from 'lucide-react';
-import AppLogo from '@/components/common/AppLogo';
 import { roleProfiles, rolesNavigation } from '@/data/rolesNavData';
-import type { UserRole } from '@/types/roles';
+import type { NavGroup, NavSubItem, UserRole } from '@/types/roles';
 
 type SidebarProps = {
   currentRole: UserRole;
@@ -33,19 +30,19 @@ export default function Sidebar({
 
   // ── Accordion state: track which group is currently expanded ─────────────
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(() => {
-    // Auto-expand the group that contains the initial activeId (sub-item match)
+    // Auto-expand the group that contains the initial activeId
     for (const group of rolesNavigation[currentRole].groups) {
-      if (group.items.some((item) => item.id === activeId)) {
+      if (group.items.some((item) => item.id === activeId) || group.id === activeId) {
         return group.id;
       }
     }
     return null;
   });
 
-  // If activeId changes (e.g. from Header search nav), auto-expand the parent group
+  // If activeId changes, auto-expand the parent group
   useEffect(() => {
     for (const group of navConfig.groups) {
-      if (group.items.some((item) => item.id === activeId)) {
+      if (group.items.some((item) => item.id === activeId) || group.id === activeId) {
         setExpandedGroupId(group.id);
         return;
       }
@@ -57,21 +54,33 @@ export default function Sidebar({
     onClose();
   };
 
-  const toggleGroup = (groupId: string) => {
-    setExpandedGroupId((prev) => (prev === groupId ? null : groupId));
+  const handleGroupClick = (group: NavGroup) => {
+    if (group.items.length > 0) {
+      // Toggle dropdown expansion
+      setExpandedGroupId((prev) => (prev === group.id ? null : group.id));
+      // If this group is not currently active, also navigate to the parent group
+      if (!isGroupActive(group.id)) {
+        handleSelect(group.id, group.title);
+      }
+    } else {
+      handleSelect(group.id, group.title);
+    }
+  };
+
+  const handleSubItemClick = (item: NavSubItem) => {
+    handleSelect(item.id, item.label);
   };
 
   // ── Determine if a group header should be highlighted as "active" ─────────
   const isGroupActive = (groupId: string): boolean => {
-    // Direct match (group itself selected, e.g. flat-link groups)
+    // Direct match (group itself selected)
     if (activeId === groupId) return true;
 
     // Check if any sub-item of this group is active
     const group = navConfig.groups.find((g) => g.id === groupId);
     if (group && group.items.some((item) => item.id === activeId)) return true;
 
-    // ── Legacy heuristic mappings for flat-link groups ────────────────────
-    // Kalender
+    // Kalender Kasir
     if (groupId === 'kasir-calendar' && (activeId === 'kasir-calendar' || activeId === 'kasir-dash-calendar')) return true;
 
     // Dashboard
@@ -86,12 +95,13 @@ export default function Sidebar({
 
     // Tiketing
     if (
-      (groupId === 'mo-tiket' || groupId === 'admin-tiket') &&
+      (groupId === 'mo-tiket' || groupId === 'admin-tiket' || groupId === 'kasir-tiket-sales') &&
       (activeId.includes('tiket') || activeId === 'tiket')
-    ) return true;
+    ) {
+      if (groupId === 'kasir-tiket-sales') return activeId === 'kasir-tiket-sales';
+      return true;
+    }
 
-    // Kasir items
-    if (groupId === 'kasir-tiket-sales' && activeId === 'kasir-tiket-sales') return true;
     if (groupId === 'kasir-tiket-validate' && activeId === 'kasir-tiket-validate') return true;
     if (
       groupId === 'kasir-dash-rekap' &&
@@ -107,7 +117,7 @@ export default function Sidebar({
     // Destinasi
     if (
       (groupId === 'mo-destinasi' || groupId === 'admin-destinasi') &&
-      (activeId.includes('dest-profile') || activeId.includes('dest-info') || activeId.includes('dest-gallery'))
+      (activeId.includes('dest-profile') || activeId.includes('dest-info') || activeId.includes('dest-gallery') || activeId.includes('destinasi'))
     ) return true;
 
     // Ulasan
@@ -127,165 +137,150 @@ export default function Sidebar({
       {/* Mobile Backdrop */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 z-40 bg-ocean-950/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${open ? 'opacity-100' : 'pointer-events-none opacity-0'
-          }`}
+        className={`fixed inset-0 z-40 bg-ocean-950/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+          open ? 'opacity-100' : 'pointer-events-none opacity-0'
+        }`}
         aria-hidden="true"
       />
 
       {/* Sidebar Panel */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:translate-x-0 lg:shadow-none ${open ? 'translate-x-0' : '-translate-x-full'
-          }`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:translate-x-0 lg:shadow-none ${
+          open ? 'translate-x-0' : '-translate-x-full'
+        }`}
       >
-        {/* Header: Logo + Close */}
-        <div className="flex items-center justify-between px-5 pb-4 pt-6">
-          <AppLogo colorScheme="white" size={38} />
+        {/* Header: Centered Logo + "Ploria Agency" */}
+        <div className="relative flex flex-col items-center justify-center pt-8 pb-5 px-5">
+          <img
+            src="/logo-white.png"
+            alt="Ploria Logo"
+            className="h-10 w-auto object-contain drop-shadow-sm select-none"
+          />
+          <h1 className="mt-2 text-base font-bold text-white tracking-wide">
+            Ploria Agency
+          </h1>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-white/80 transition hover:bg-white/15 hover:text-white lg:hidden"
+            className="absolute right-4 top-5 rounded-lg p-1.5 text-white/80 transition hover:bg-white/15 hover:text-white lg:hidden"
             aria-label="Tutup menu"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Role Badge */}
-        <div className="px-4 pb-3">
-          <div className="rounded-2xl border border-white/20 bg-white/10 p-3 shadow-inner">
-            <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-blue-100">
-              <UserCheck className="h-3.5 w-3.5 text-white" />
-              Role Pengguna Aktif
-            </span>
-            <p className="mt-0.5 truncate text-xs font-extrabold text-white">
-              {navConfig.roleTitle}
-            </p>
-          </div>
-        </div>
+        {/* Navigation Items */}
+        <nav className="no-scrollbar flex-1 overflow-y-auto px-4 py-2 space-y-1.5">
+          {navConfig.groups.map((group) => {
+            const GroupIcon = group.icon;
+            const hasSubItems = group.items.length > 0;
+            const isActive = isGroupActive(group.id);
+            const isExpanded = expandedGroupId === group.id;
 
-        {/* Navigation */}
-        <nav className="no-scrollbar flex-1 overflow-y-auto px-3.5 pb-6">
-          <div className="space-y-2">
-            {navConfig.groups.map((group) => {
-              const GroupIcon = group.icon;
-              const hasSubItems = group.items.length > 0;
-              const isActive = isGroupActive(group.id);
-              const isExpanded = expandedGroupId === group.id;
-
-              return (
-                <div
-                  key={group.id}
-                  className="overflow-hidden rounded-2xl bg-white/[0.06] ring-1 ring-white/10"
+            return (
+              <div key={group.id} className="w-full">
+                {/* ── Main Group Button ── */}
+                <button
+                  type="button"
+                  onClick={() => handleGroupClick(group)}
+                  aria-expanded={hasSubItems ? isExpanded : undefined}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={`flex w-full items-center gap-3.5 rounded-full px-4 py-3 text-left text-sm transition-all duration-150 ${
+                    isActive
+                      ? 'bg-white text-[#286EF2] font-bold shadow-md'
+                      : 'font-semibold text-white hover:bg-white/10'
+                  }`}
                 >
-                  {/* ── FLAT LINK (no sub-items) ───────────────────────── */}
-                  {!hasSubItems ? (
-                    <button
-                      type="button"
-                      onClick={() => handleSelect(group.id, group.title)}
-                      aria-current={isActive ? 'page' : undefined}
-                      className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-left text-xs transition-all duration-150 ${isActive
-                        ? 'bg-white text-[#286EF2] font-extrabold shadow-md shadow-blue-950/25 ring-1 ring-white'
-                        : 'font-semibold text-white hover:bg-white/15 hover:text-white'
-                        }`}
-                    >
-                      <GroupIcon
-                        className={`h-4 w-4 shrink-0 transition-transform ${isActive ? 'scale-110 text-[#286EF2]' : 'text-white'
-                          }`}
-                      />
-                      <span className="flex-1 leading-snug">{group.title}</span>
-                    </button>
-                  ) : (
-                    /* ── ACCORDION (has sub-items) ──────────────────────── */
-                    <>
-                      {/* Accordion Header */}
-                      <button
-                        type="button"
-                        onClick={() => toggleGroup(group.id)}
-                        aria-expanded={isExpanded}
-                        className={`flex w-full items-center gap-3 px-3.5 py-3 text-left text-xs transition-all duration-150 ${isActive && !isExpanded
-                          ? 'bg-white text-[#286EF2] font-extrabold shadow-md shadow-blue-950/25'
-                          : isActive && isExpanded
-                            ? 'bg-white/20 text-white font-extrabold'
-                            : 'font-semibold text-white hover:bg-white/15'
-                          }`}
-                      >
-                        <GroupIcon
-                          className={`h-4 w-4 shrink-0 transition-transform ${isActive && !isExpanded
-                            ? 'scale-110 text-[#286EF2]'
-                            : 'text-white'
-                            }`}
-                        />
-                        <span className="flex-1 leading-snug">{group.title}</span>
-                        {isExpanded ? (
-                          <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-80" />
-                        ) : (
-                          <ChevronRight className="h-3.5 w-3.5 shrink-0 opacity-60" />
-                        )}
-                      </button>
+                  <GroupIcon
+                    className={`h-4 w-4 shrink-0 transition-colors ${
+                      isActive ? 'text-[#286EF2]' : 'text-white'
+                    }`}
+                  />
+                  <span className="flex-1 truncate leading-snug">{group.title}</span>
 
-                      {/* Sub-items panel (animated) */}
-                      <div
-                        className={`overflow-hidden transition-all duration-200 ease-in-out ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                          }`}
-                      >
-                        <div className="mx-3 mb-2.5 mt-1 space-y-0.5 border-l-2 border-white/25 pl-3">
-                          {group.items.map((item) => {
-                            const SubIcon = item.icon;
-                            const isSubActive = activeId === item.id;
-                            return (
-                              <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => handleSelect(item.id, item.label)}
-                                aria-current={isSubActive ? 'page' : undefined}
-                                className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-xs transition-all duration-100 ${isSubActive
-                                  ? 'bg-white/25 font-extrabold text-white ring-1 ring-white/40 shadow-sm'
-                                  : 'font-medium text-blue-100 hover:bg-white/10 hover:text-white'
-                                  }`}
-                              >
-                                {SubIcon && (
-                                  <SubIcon
-                                    className={`h-3.5 w-3.5 shrink-0 ${isSubActive ? 'text-white' : 'text-blue-200'
-                                      }`}
-                                  />
-                                )}
-                                <span className="leading-snug">{item.label}</span>
-                                {item.badge && (
-                                  <span className="ml-auto rounded-full bg-rose-500 px-1.5 py-0.5 text-[9px] font-bold text-white">
-                                    {item.badge}
-                                  </span>
-                                )}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </>
+                  {hasSubItems && (
+                    <ChevronDown
+                      className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
+                        isActive ? 'text-[#286EF2]' : 'text-white'
+                      } ${isExpanded ? 'rotate-180' : ''}`}
+                    />
                   )}
-                </div>
-              );
-            })}
-          </div>
+                </button>
+
+                {/* ── Dropdown Sub-Items ── */}
+                {hasSubItems && (
+                  <div
+                    className={`overflow-hidden transition-all duration-200 ease-in-out ${
+                      isExpanded ? 'max-h-96 opacity-100 mt-1 mb-2' : 'max-h-0 opacity-0'
+                    }`}
+                  >
+                    <div className="space-y-1 pl-6 pr-1">
+                      {group.items.map((item) => {
+                        const SubIcon = item.icon;
+                        const isSubActive = activeId === item.id;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => handleSubItemClick(item)}
+                            className={`flex w-full items-center gap-2.5 rounded-full px-3.5 py-2 text-left text-xs transition-all duration-150 ${
+                              isSubActive
+                                ? 'bg-white text-[#286EF2] font-bold shadow-sm'
+                                : 'font-medium text-white/90 hover:bg-white/15 hover:text-white'
+                            }`}
+                          >
+                            {SubIcon ? (
+                              <SubIcon
+                                className={`h-3.5 w-3.5 shrink-0 ${
+                                  isSubActive ? 'text-[#286EF2]' : 'text-blue-100'
+                                }`}
+                              />
+                            ) : (
+                              <span
+                                className={`h-1.5 w-1.5 rounded-full shrink-0 ${
+                                  isSubActive ? 'bg-[#286EF2]' : 'bg-white/60'
+                                }`}
+                              />
+                            )}
+                            <span className="truncate leading-snug">{item.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
 
-        {/* Footer: User Info + Logout */}
-        <div className="relative mt-auto border-t border-white/15 px-5 pb-5 pt-3">
-          <Palmtree className="pointer-events-none absolute -bottom-2 -right-2 h-20 w-20 text-white/5" />
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 animate-pulse rounded-full bg-emerald-300" />
-            <p className="text-[11px] font-bold text-white">Ploria Wisata Aktif</p>
+        {/* Footer Area: Status Wisata, Role Pengguna, Logout */}
+        <div className="mt-auto px-4 pb-5 pt-3 space-y-2.5 border-t border-white/15">
+          {/* Status Wisata Aktif */}
+          <div className="flex items-center gap-2 px-1">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <span className="text-xs font-semibold text-white">Xploria Wisata Aktif</span>
           </div>
-          <p className="mt-0.5 text-[10px] text-blue-100">
-            {profile.userName} • {profile.userRoleName}
-          </p>
 
+          {/* Role Card */}
+          <div className="rounded-2xl border border-white/20 bg-white/10 p-3 shadow-inner">
+            <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-blue-100">
+              <User className="h-3.5 w-3.5 text-white shrink-0" />
+              <span>ROLE PENGGUNA AKTIF</span>
+            </div>
+            <p className="mt-1 truncate text-xs font-extrabold text-white">
+              {profile.userRoleName.toUpperCase()}
+            </p>
+          </div>
+
+          {/* Logout Button */}
           <button
             type="button"
             onClick={onLogout}
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-white/15 px-3 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-rose-500 hover:text-white"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#FF4D5E] px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-red-900/20 transition hover:bg-[#ff3347]"
           >
-            <LogOut className="h-3.5 w-3.5" />
-            Logout Sesi
+            <LogOut className="h-4 w-4 shrink-0" />
+            <span>Logout Sesi</span>
           </button>
         </div>
       </aside>

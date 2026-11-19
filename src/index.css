@@ -83,3 +83,8 @@
   pointer-events: none;
   z-index: 20;
 }
+
+/* Item pertama: sembunyikan corner atas (tidak ada ruang di atas nav) */
+.sidebar-curved-tab-first::before {
+  display: none;
+}

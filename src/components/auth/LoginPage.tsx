@@ -1,224 +1,454 @@
 import { useState } from 'react';
 import {
   ArrowRight,
+  Contact,
   Eye,
   EyeOff,
   Lock,
   Mail,
   ShieldCheck,
+  Sparkles,
+  User,
   UserCheck,
+  X,
 } from 'lucide-react';
 import SlantedTicket from '@/components/common/SlantedTicket';
-import AppLogo from '@/components/common/AppLogo';
 import type { UserRole } from '@/types/roles';
+
+type AuthMode = 'login' | 'register';
 
 type LoginPageProps = {
   onLogin: (role: UserRole) => void;
 };
 
 export default function LoginPage({ onLogin }: LoginPageProps) {
+  const [mode, setMode] = useState<AuthMode>('login');
   const [selectedRole, setSelectedRole] = useState<UserRole>('pengelola');
-  const [email, setEmail] = useState('budi.santoso@Ploria.id');
+  const [email, setEmail] = useState('budi.santoso@ploria.id');
   const [password, setPassword] = useState('password123');
+  const [firstName, setFirstName] = useState('Budi');
+  const [lastName, setLastName] = useState('Santoso');
   const [showPassword, setShowPassword] = useState(false);
+  const [showRoleModal, setShowRoleModal] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
-    if (role === 'pengelola') setEmail('budi.santoso@Ploria.id');
-    else if (role === 'admin') setEmail('hasan.alfarisi@Ploria.id');
-    else if (role === 'kasir') setEmail('siti.rahma@Ploria.id');
+    if (role === 'pengelola') {
+      setEmail('budi.santoso@ploria.id');
+      setFirstName('Budi');
+      setLastName('Santoso');
+    } else if (role === 'admin') {
+      setEmail('hasan.alfarisi@ploria.id');
+      setFirstName('M. Hasan');
+      setLastName('Al-Farisi');
+    } else if (role === 'kasir') {
+      setEmail('siti.rahma@ploria.id');
+      setFirstName('Siti');
+      setLastName('Rahmawati');
+    }
   };
 
   const handleDirectLogin = (role: UserRole) => {
+    handleRoleSelect(role);
+    setShowRoleModal(false);
     onLogin(role);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onLogin(selectedRole);
+    if (mode === 'register') {
+      setToastMessage(
+        `Registrasi akun ${firstName} ${lastName} berhasil! Masuk ke sistem sebagai ${
+          selectedRole === 'pengelola'
+            ? 'Pengelola (Super Admin)'
+            : selectedRole === 'admin'
+            ? 'Admin (Aktor Pengelola)'
+            : 'Kasir / Loket Tiket'
+        }`
+      );
+      setTimeout(() => {
+        onLogin(selectedRole);
+      }, 1000);
+    } else {
+      onLogin(selectedRole);
+    }
   };
 
   return (
-    /* Full-screen gray background */
-    <div className="flex min-h-screen w-full items-center justify-center bg-slate-100 p-4 sm:p-6 lg:p-8">
-      {/* Floating Card Container */}
-      <div className="flex w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl shadow-slate-300/60">
+    <div className="flex min-h-screen w-full items-center justify-center bg-[#EBF0F8] p-3 sm:p-6 lg:p-10 font-sans">
+      {/* ── Outer Card Frame ── */}
+      <div className="relative flex w-full max-w-5xl flex-col overflow-hidden rounded-[32px] sm:rounded-[40px] bg-white shadow-2xl shadow-blue-900/10 lg:min-h-[640px] lg:flex-row">
+        {/* ── LEFT SIDE: Form & Branding ── */}
+        <div className="relative z-10 flex flex-1 flex-col justify-between bg-white px-7 py-8 sm:px-12 sm:py-10">
+          <div>
+            {/* Top Bar: Brand & Navigation */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#286EF2] ring-4 ring-blue-100 shadow-sm" />
+                <span className="text-base font-extrabold text-slate-900 tracking-tight">
+                  Ploria app<span className="text-[#286EF2]">.</span>
+                </span>
+              </div>
 
-        {/* ── LEFT PANEL: Blue solid panel ── */}
-        <div className="relative hidden w-[42%] flex-col justify-between overflow-hidden bg-[#286EF2] p-10 lg:flex">
-          {/* Decorative circles */}
-          <div className="absolute -top-16 -left-16 h-56 w-56 rounded-full bg-white/10" />
-          <div className="absolute -bottom-20 -right-20 h-72 w-72 rounded-full bg-white/10" />
-          <div className="absolute bottom-32 -left-10 h-36 w-36 rounded-full bg-white/5" />
+              <div className="flex items-center gap-5 text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={() => setMode('login')}
+                  className={`transition-colors ${
+                    mode === 'login'
+                      ? 'text-[#286EF2] font-bold'
+                      : 'text-slate-400 hover:text-slate-700'
+                  }`}
+                >
+                  Home
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+                  className={`transition-colors ${
+                    mode === 'register'
+                      ? 'text-[#286EF2] font-bold'
+                      : 'text-slate-400 hover:text-slate-700'
+                  }`}
+                >
+                  {mode === 'login' ? 'Join' : 'Sign In'}
+                </button>
+              </div>
+            </div>
 
-          {/* Headline */}
-          <div className="relative z-10">
-            <h2 className="text-2xl font-extrabold leading-snug text-white xl:text-3xl">
-              Sederhanakan manajemen wisata dengan dashboard kami
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-blue-100/90">
-              Sistem terintegrasi untuk tiket digital, validasi QR, laporan keuangan, dan transparansi bagi hasil destinasi wisata.
+            {/* Header Titles */}
+            <div className="mt-8 sm:mt-10">
+              <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+                {mode === 'register' ? 'START FOR FREE' : 'WELCOME BACK'}
+              </span>
+              <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl lg:text-[34px] tracking-tight leading-tight">
+                {mode === 'register' ? 'Create new account' : 'Log in to account'}
+                <span className="text-[#286EF2]">.</span>
+              </h1>
+              <p className="mt-2 text-xs sm:text-sm text-slate-500">
+                {mode === 'register' ? (
+                  <>
+                    Already A Member?{' '}
+                    <button
+                      type="button"
+                      onClick={() => setMode('login')}
+                      className="font-bold text-[#286EF2] hover:underline"
+                    >
+                      Log In
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    Don't have an account?{' '}
+                    <button
+                      type="button"
+                      onClick={() => setMode('register')}
+                      className="font-bold text-[#286EF2] hover:underline"
+                    >
+                      Create account
+                    </button>
+                  </>
+                )}
+              </p>
+            </div>
+
+            {/* Form Fields */}
+            <form onSubmit={handleSubmit} className="mt-6 space-y-3.5">
+              {/* If Register Mode: First Name & Last Name (2 Cols) */}
+              {mode === 'register' && (
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div className="relative rounded-2xl bg-[#F4F7FC] px-4 py-2 border border-transparent transition-all focus-within:border-[#286EF2] focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-100/60">
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      First name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="e.g. Budi"
+                      className="w-full bg-transparent text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none"
+                    />
+                    <Contact className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400/80 pointer-events-none" />
+                  </div>
+
+                  <div className="relative rounded-2xl bg-[#F4F7FC] px-4 py-2 border border-transparent transition-all focus-within:border-[#286EF2] focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-100/60">
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      Last name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="e.g. Santoso"
+                      className="w-full bg-transparent text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none"
+                    />
+                    <Contact className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400/80 pointer-events-none" />
+                  </div>
+                </div>
+              )}
+
+              {/* Email Field */}
+              <div className="relative rounded-2xl bg-[#F4F7FC] px-4 py-2 border border-transparent transition-all focus-within:border-[#286EF2] focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-100/60">
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@ploria.id"
+                  className="w-full bg-transparent text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none pr-6"
+                />
+                <Mail className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400/80 pointer-events-none" />
+              </div>
+
+              {/* Password Field */}
+              <div className="relative rounded-2xl bg-[#F4F7FC] px-4 py-2 border border-transparent transition-all focus-within:border-[#286EF2] focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-100/60">
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  Password
+                </label>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full bg-transparent text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none pr-6"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+                  aria-label={showPassword ? 'Sembunyikan password' : 'Lihat password'}
+                >
+                  {showPassword ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                </button>
+              </div>
+
+              {/* Role Selection Field */}
+              <div className="relative rounded-2xl bg-[#F4F7FC] px-4 py-2 border border-transparent transition-all focus-within:border-[#286EF2] focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-100/60">
+                <div className="flex items-center justify-between">
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Role Akun (Hak Akses)
+                  </label>
+                  <span className="text-[10px] font-semibold text-[#286EF2]">
+                    {selectedRole === 'pengelola'
+                      ? 'Super Admin'
+                      : selectedRole === 'admin'
+                      ? 'Aktor Pengelola'
+                      : 'Kasir Loket'}
+                  </span>
+                </div>
+                <div className="mt-1 flex items-center gap-1.5 sm:gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleRoleSelect('pengelola')}
+                    className={`flex-1 rounded-xl py-1.5 text-[11px] font-bold transition-all ${
+                      selectedRole === 'pengelola'
+                        ? 'bg-[#286EF2] text-white shadow-sm'
+                        : 'bg-white/80 text-slate-600 hover:bg-white'
+                    }`}
+                  >
+                    Pengelola
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleRoleSelect('admin')}
+                    className={`flex-1 rounded-xl py-1.5 text-[11px] font-bold transition-all ${
+                      selectedRole === 'admin'
+                        ? 'bg-[#286EF2] text-white shadow-sm'
+                        : 'bg-white/80 text-slate-600 hover:bg-white'
+                    }`}
+                  >
+                    Admin
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleRoleSelect('kasir')}
+                    className={`flex-1 rounded-xl py-1.5 text-[11px] font-bold transition-all ${
+                      selectedRole === 'kasir'
+                        ? 'bg-[#286EF2] text-white shadow-sm'
+                        : 'bg-white/80 text-slate-600 hover:bg-white'
+                    }`}
+                  >
+                    Kasir
+                  </button>
+                </div>
+              </div>
+
+              {/* Forgot password on login mode */}
+              {mode === 'login' && (
+                <div className="flex justify-end pt-0.5">
+                  <button
+                    type="button"
+                    onClick={() => setShowRoleModal(true)}
+                    className="text-[11px] font-semibold text-slate-400 hover:text-[#286EF2] transition"
+                  >
+                    Bantuan / Login Cepat?
+                  </button>
+                </div>
+              )}
+
+              {/* Action Buttons Row */}
+              <div className="flex items-center gap-3 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setShowRoleModal(true)}
+                  className="rounded-full bg-[#F0F4FA] px-5 py-3 text-xs font-bold text-slate-600 hover:bg-[#E4ECF7] transition"
+                >
+                  Change method
+                </button>
+
+                <button
+                  type="submit"
+                  className="flex-1 rounded-full bg-[#286EF2] px-6 py-3.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-blue-500/30 hover:bg-[#1a5adb] transition-all flex items-center justify-center gap-2"
+                >
+                  <span>{mode === 'register' ? 'Create account' : 'Log in'}</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </form>
+          </div>
+
+          {/* Toast Notification */}
+          {toastMessage && (
+            <div className="mt-4 rounded-2xl bg-emerald-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md animate-fade-in-up">
+              {toastMessage}
+            </div>
+          )}
+
+          {/* Footer Copyright */}
+          <div className="pt-6">
+            <p className="text-[11px] text-slate-400">
+              © 2026 Ploria Tourism Network • Sistem Manajemen Tiket Wisata
             </p>
           </div>
-
-          {/* Illustration */}
-          <div className="relative z-10 flex flex-1 items-center justify-center py-6">
-            <img
-              src="https://cdn3d.iconscout.com/3d/premium/thumb/man-working-on-laptop-5684898-4716266.png"
-              alt="Ilustrasi Dashboard"
-              className="w-full max-w-[260px] drop-shadow-2xl"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = 'none';
-              }}
-            />
-          </div>
-
-          {/* Footer */}
-          <p className="relative z-10 text-[11px] text-blue-200/70">
-            © 2026 Ploria Tourism Network
-          </p>
         </div>
 
-        {/* ── RIGHT PANEL: White form ── */}
-        <div className="flex flex-1 flex-col justify-center px-8 py-10 sm:px-12">
-          {/* Logo */}
-          <div className="mb-6 flex justify-center lg:justify-start">
-            <AppLogo colorScheme="blue" size={40} />
-          </div>
+        {/* ── RIGHT SIDE: Scenic Mountain Lake & Organic Wave Divider ── */}
+        <div className="relative hidden w-full lg:flex lg:w-[48%] overflow-hidden bg-slate-900 select-none">
+          {/* Nature Scenic Image */}
+          <img
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop"
+            alt="Scenic Mountain Lake"
+            className="h-full w-full object-cover object-center filter saturate-[1.08] contrast-[1.03]"
+          />
 
-          {/* Heading */}
-          <h1 className="text-2xl font-black text-slate-900 sm:text-3xl">
-            Selamat Datang Kembali
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Silakan masuk ke akun Anda
-          </p>
+          {/* Gentle gradient overlay for atmospheric depth */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
-          {/* Email Input */}
-          <form onSubmit={handleSubmit} className="mt-7 flex flex-col gap-4">
-            <div className="relative">
-              <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <input
-                type="email"
-                required
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 placeholder-slate-400 transition focus:border-[#286EF2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-100"
-              />
-            </div>
+          {/* ── SVG Organic Wave Divider ── */}
+          <svg
+            className="absolute top-0 -left-1 bottom-0 h-full w-[150px] pointer-events-none z-10"
+            viewBox="0 0 150 640"
+            preserveAspectRatio="none"
+          >
+            {/* Dashed Guideline Curve */}
+            <path
+              d="M 50 0 C 18 160, 125 300, 48 450 C 12 530, 85 590, 25 640"
+              fill="none"
+              stroke="#E2E8F0"
+              strokeWidth="1.8"
+              strokeDasharray="4 6"
+            />
+            {/* White Organic Wave Fill */}
+            <path
+              d="M 0 0 L 85 0 C 42 160, 150 300, 72 450 C 28 530, 105 590, 50 640 L 0 640 Z"
+              fill="#FFFFFF"
+            />
+          </svg>
 
-            {/* Password Input */}
-            <div className="relative">
-              <Lock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                required
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-11 text-sm text-slate-800 placeholder-slate-400 transition focus:border-[#286EF2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-100"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((v) => !v)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-              >
-                {showPassword ? (
-                  <Eye className="h-4 w-4" />
-                ) : (
-                  <EyeOff className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-
-            {/* Forgot Password */}
-            <div className="flex justify-end -mt-1">
-              <button
-                type="button"
-                className="text-xs text-slate-400 hover:text-[#286EF2] transition"
-              >
-                Lupa Kata Sandi?
-              </button>
-            </div>
-
-            {/* Primary Login Button */}
-            <button
-              type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#286EF2] py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-200"
-            >
-              <span>Masuk</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </form>
-
-          {/* Divider */}
-          <div className="relative my-6 flex items-center">
-            <div className="flex-1 border-t border-slate-200" />
-            <span className="mx-3 text-xs font-medium text-slate-400">
-              atau masuk sebagai
-            </span>
-            <div className="flex-1 border-t border-slate-200" />
-          </div>
-
-          {/* Role Login Buttons */}
-          <div className="flex flex-col gap-2.5">
-            {/* Pengelola */}
-            <button
-              type="button"
-              onClick={() => {
-                handleRoleSelect('pengelola');
-                handleDirectLogin('pengelola');
-              }}
-              className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-700 transition hover:border-[#286EF2] hover:bg-blue-50 hover:text-[#286EF2]"
-            >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 group-hover:bg-emerald-200 transition">
-                <ShieldCheck className="h-4 w-4" />
-              </span>
-              <span className="flex-1">Login sebagai Pengelola</span>
-              <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-
-              </span>
-            </button>
-
-            {/* Admin */}
-            <button
-              type="button"
-              onClick={() => {
-                handleRoleSelect('admin');
-                handleDirectLogin('admin');
-              }}
-              className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-700 transition hover:border-[#286EF2] hover:bg-blue-50 hover:text-[#286EF2]"
-            >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sky-700 group-hover:bg-sky-200 transition">
-                <UserCheck className="h-4 w-4" />
-              </span>
-              <span className="flex-1">Login sebagai Admin</span>
-              <span className="rounded-full bg-sky-50 px-2 py-0.5 text-[10px] font-bold text-sky-700">
-                Aktor Pengelola
-              </span>
-            </button>
-
-            {/* Kasir */}
-            <button
-              type="button"
-              onClick={() => {
-                handleRoleSelect('kasir');
-                handleDirectLogin('kasir');
-              }}
-              className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-700 transition hover:border-[#286EF2] hover:bg-blue-50 hover:text-[#286EF2]"
-            >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-700 group-hover:bg-amber-200 transition">
-                <SlantedTicket className="h-4 w-4" />
-              </span>
-              <span className="flex-1">Login sebagai Kasir</span>
-              <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-800">
-                Loket Tiket
-              </span>
-            </button>
+          {/* Monogram Watermark 'AW' / 'Ploria' bottom right */}
+          <div className="absolute bottom-8 right-8 z-20 flex items-center gap-2 text-white/90 drop-shadow-md">
+            <span className="font-black text-2xl tracking-tighter">.AW</span>
           </div>
         </div>
       </div>
+
+      {/* ── Role Demo Modal ("Change method") ── */}
+      {showRoleModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 backdrop-blur-sm p-4">
+          <div className="relative w-full max-w-sm overflow-hidden rounded-3xl bg-white p-6 shadow-2xl animate-fade-in-up">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-[#286EF2]" />
+                <h3 className="text-sm font-bold text-slate-800">Pilih Akun Demo (Role)</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowRoleModal(false)}
+                className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <p className="mt-2 text-xs text-slate-500">
+              Klik salah satu akun di bawah untuk auto-fill data dan langsung masuk ke dashboard:
+            </p>
+
+            <div className="mt-4 space-y-2.5">
+              {/* Pengelola */}
+              <button
+                type="button"
+                onClick={() => handleDirectLogin('pengelola')}
+                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 p-3 text-left transition hover:border-[#286EF2] hover:bg-blue-50/60"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+                  <ShieldCheck className="h-5 w-5" />
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-slate-800 truncate">Budi Santoso, S.Par</p>
+                  <p className="text-[10px] text-slate-400 truncate">budi.santoso@ploria.id</p>
+                </div>
+                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[9px] font-bold text-emerald-700">
+                  Pengelola
+                </span>
+              </button>
+
+              {/* Admin */}
+              <button
+                type="button"
+                onClick={() => handleDirectLogin('admin')}
+                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 p-3 text-left transition hover:border-[#286EF2] hover:bg-blue-50/60"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
+                  <UserCheck className="h-5 w-5" />
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-slate-800 truncate">M. Hasan Al-Farisi</p>
+                  <p className="text-[10px] text-slate-400 truncate">hasan.alfarisi@ploria.id</p>
+                </div>
+                <span className="rounded-full bg-sky-100 px-2 py-0.5 text-[9px] font-bold text-sky-700">
+                  Admin
+                </span>
+              </button>
+
+              {/* Kasir */}
+              <button
+                type="button"
+                onClick={() => handleDirectLogin('kasir')}
+                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 p-3 text-left transition hover:border-[#286EF2] hover:bg-blue-50/60"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+                  <SlantedTicket className="h-5 w-5" />
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-slate-800 truncate">Siti Rahmawati</p>
+                  <p className="text-[10px] text-slate-400 truncate">siti.rahma@ploria.id</p>
+                </div>
+                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[9px] font-bold text-amber-800">
+                  Kasir Loket
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

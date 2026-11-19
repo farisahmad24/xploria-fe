@@ -32,8 +32,10 @@ export default function Sidebar({
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(() => {
     // Auto-expand the group that contains the initial activeId
     for (const group of rolesNavigation[currentRole].groups) {
-      if (group.items.some((item) => item.id === activeId) || group.id === activeId) {
-        return group.id;
+      if (group.items.length > 0) {
+        if (group.items.some((item) => item.id === activeId) || group.id === activeId) {
+          return group.id;
+        }
       }
     }
     return null;
@@ -42,9 +44,11 @@ export default function Sidebar({
   // If activeId changes, auto-expand the parent group
   useEffect(() => {
     for (const group of navConfig.groups) {
-      if (group.items.some((item) => item.id === activeId) || group.id === activeId) {
-        setExpandedGroupId(group.id);
-        return;
+      if (group.items.length > 0) {
+        if (group.items.some((item) => item.id === activeId) || group.id === activeId) {
+          setExpandedGroupId(group.id);
+          return;
+        }
       }
     }
   }, [activeId, navConfig.groups]);
@@ -56,11 +60,17 @@ export default function Sidebar({
 
   const handleGroupClick = (group: NavGroup) => {
     if (group.items.length > 0) {
-      // Toggle dropdown expansion
-      setExpandedGroupId((prev) => (prev === group.id ? null : group.id));
-      // If this group is not currently active, also navigate to the parent group
-      if (!isGroupActive(group.id)) {
-        handleSelect(group.id, group.title);
+      if (expandedGroupId === group.id) {
+        // Toggle collapse jika user mengklik grup yang sudah terbuka
+        setExpandedGroupId(null);
+      } else {
+        // Buka dropdown
+        setExpandedGroupId(group.id);
+        // Jika belum ada sub-item aktif dari grup ini, aktifkan sub-item pertama
+        const isChildActive = group.items.some((item) => item.id === activeId);
+        if (!isChildActive) {
+          handleSelect(group.items[0].id, group.items[0].label);
+        }
       }
     } else {
       handleSelect(group.id, group.title);
@@ -208,45 +218,45 @@ export default function Sidebar({
                 </button>
 
                 {/* ── Dropdown Sub-Items ── */}
-                {hasSubItems && (
-                  <div
-                    className={`overflow-hidden transition-all duration-200 ease-in-out ${
-                      isExpanded ? 'max-h-96 opacity-100 mt-1 mb-2' : 'max-h-0 opacity-0'
-                    }`}
-                  >
-                    <div className="space-y-1 pl-6 pr-1">
-                      {group.items.map((item) => {
-                        const SubIcon = item.icon;
-                        const isSubActive = activeId === item.id;
-                        return (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => handleSubItemClick(item)}
-                            className={`flex w-full items-center gap-2.5 rounded-full px-3.5 py-2 text-left text-xs transition-all duration-150 ${
-                              isSubActive
-                                ? 'bg-white text-[#286EF2] font-bold shadow-sm'
-                                : 'font-medium text-white/90 hover:bg-white/15 hover:text-white'
-                            }`}
-                          >
-                            {SubIcon ? (
-                              <SubIcon
-                                className={`h-3.5 w-3.5 shrink-0 ${
-                                  isSubActive ? 'text-[#286EF2]' : 'text-blue-100'
-                                }`}
-                              />
-                            ) : (
-                              <span
-                                className={`h-1.5 w-1.5 rounded-full shrink-0 ${
-                                  isSubActive ? 'bg-[#286EF2]' : 'bg-white/60'
-                                }`}
-                              />
-                            )}
-                            <span className="truncate leading-snug">{item.label}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
+                {hasSubItems && isExpanded && (
+                  <div className="relative my-1.5 ml-6 pl-3.5 border-l-2 border-white/30 space-y-1 animate-fadeIn">
+                    {group.items.map((item) => {
+                      const SubIcon = item.icon;
+                      const isSubActive =
+                        activeId === item.id ||
+                        (group.id === 'mo-tiket' && (activeId === 'mo-tiket' || activeId === 'tiket') && item.id === 'mo-tiket-manage') ||
+                        (group.id === 'admin-tiket' && activeId === 'admin-tiket' && item.id === 'admin-tiket-manage') ||
+                        (group.id === 'mo-laporan' && activeId === 'mo-laporan' && item.id === 'mo-report-visitors-cat') ||
+                        (group.id === 'admin-laporan' && activeId === 'admin-laporan' && item.id === 'admin-report-visitors-cat');
+
+                      return (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => handleSubItemClick(item)}
+                          className={`flex w-full items-center gap-3 rounded-2xl px-3.5 py-2.5 text-left text-xs transition-all duration-150 ${
+                            isSubActive
+                              ? 'bg-white/20 border border-white/25 text-white font-bold shadow-sm backdrop-blur-sm'
+                              : 'font-medium text-white/85 hover:bg-white/10 hover:text-white'
+                          }`}
+                        >
+                          {SubIcon ? (
+                            <SubIcon
+                              className={`h-4 w-4 shrink-0 ${
+                                isSubActive ? 'text-white' : 'text-blue-100'
+                              }`}
+                            />
+                          ) : (
+                            <span
+                              className={`h-1.5 w-1.5 rounded-full shrink-0 ${
+                                isSubActive ? 'bg-white' : 'bg-white/60'
+                              }`}
+                            />
+                          )}
+                          <span className="truncate leading-snug">{item.label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
               </div>

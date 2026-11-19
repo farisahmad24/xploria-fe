@@ -46,6 +46,10 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
       setEmail('siti.rahma@ploria.id');
       setFirstName('Siti');
       setLastName('Rahmawati');
+    } else if (role === 'superadmin') {
+      setEmail('raka.superadmin@ploria.id');
+      setFirstName('Raka');
+      setLastName('Daniswara');
     }
   };
 
@@ -59,12 +63,13 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
     e.preventDefault();
     if (mode === 'register') {
       setToastMessage(
-        `Registrasi akun ${firstName} ${lastName} berhasil! Masuk ke sistem sebagai ${
-          selectedRole === 'pengelola'
-            ? 'Pengelola (Super Admin)'
-            : selectedRole === 'admin'
+        `Registrasi akun ${firstName} ${lastName} berhasil! Masuk ke sistem sebagai ${selectedRole === 'pengelola'
+          ? 'Pengelola Wisata'
+          : selectedRole === 'admin'
             ? 'Admin (Aktor Pengelola)'
-            : 'Kasir / Loket Tiket'
+            : selectedRole === 'kasir'
+              ? 'Kasir / Loket Tiket'
+              : 'Super Admin Pusat'
         }`
       );
       setTimeout(() => {
@@ -95,22 +100,20 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 <button
                   type="button"
                   onClick={() => setMode('login')}
-                  className={`transition-colors ${
-                    mode === 'login'
+                  className={`transition-colors ${mode === 'login'
                       ? 'text-[#286EF2] font-bold'
                       : 'text-slate-400 hover:text-slate-700'
-                  }`}
+                    }`}
                 >
                   Home
                 </button>
                 <button
                   type="button"
                   onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-                  className={`transition-colors ${
-                    mode === 'register'
+                  className={`transition-colors ${mode === 'register'
                       ? 'text-[#286EF2] font-bold'
                       : 'text-slate-400 hover:text-slate-700'
-                  }`}
+                    }`}
                 >
                   {mode === 'login' ? 'Join' : 'Sign In'}
                 </button>
@@ -237,45 +240,54 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                   </label>
                   <span className="text-[10px] font-semibold text-[#286EF2]">
                     {selectedRole === 'pengelola'
-                      ? 'Super Admin'
+                      ? 'Pengelola Wisata'
                       : selectedRole === 'admin'
-                      ? 'Aktor Pengelola'
-                      : 'Kasir Loket'}
+                        ? 'Aktor Pengelola'
+                        : selectedRole === 'kasir'
+                          ? 'Kasir Loket'
+                          : 'Super Admin HQ'}
                   </span>
                 </div>
-                <div className="mt-1 flex items-center gap-1.5 sm:gap-2">
+                <div className="mt-1 grid grid-cols-4 gap-1.5">
                   <button
                     type="button"
                     onClick={() => handleRoleSelect('pengelola')}
-                    className={`flex-1 rounded-xl py-1.5 text-[11px] font-bold transition-all ${
-                      selectedRole === 'pengelola'
+                    className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'pengelola'
                         ? 'bg-[#286EF2] text-white shadow-sm'
                         : 'bg-white/80 text-slate-600 hover:bg-white'
-                    }`}
+                      }`}
                   >
                     Pengelola
                   </button>
                   <button
                     type="button"
                     onClick={() => handleRoleSelect('admin')}
-                    className={`flex-1 rounded-xl py-1.5 text-[11px] font-bold transition-all ${
-                      selectedRole === 'admin'
+                    className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'admin'
                         ? 'bg-[#286EF2] text-white shadow-sm'
                         : 'bg-white/80 text-slate-600 hover:bg-white'
-                    }`}
+                      }`}
                   >
                     Admin
                   </button>
                   <button
                     type="button"
                     onClick={() => handleRoleSelect('kasir')}
-                    className={`flex-1 rounded-xl py-1.5 text-[11px] font-bold transition-all ${
-                      selectedRole === 'kasir'
+                    className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'kasir'
                         ? 'bg-[#286EF2] text-white shadow-sm'
                         : 'bg-white/80 text-slate-600 hover:bg-white'
-                    }`}
+                      }`}
                   >
                     Kasir
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleRoleSelect('superadmin')}
+                    className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'superadmin'
+                        ? 'bg-[#286EF2] text-white shadow-sm'
+                        : 'bg-white/80 text-slate-600 hover:bg-white'
+                      }`}
+                  >
+                    Super Admin
                   </button>
                 </div>
               </div>
@@ -377,10 +389,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             />
           </svg>
 
-          {/* Monogram Watermark 'AW' / 'Ploria' bottom right */}
-          <div className="absolute bottom-8 right-8 z-20 flex items-center gap-2 text-white/90 drop-shadow-md">
-            <span className="font-black text-2xl tracking-tighter">.AW</span>
-          </div>
+
         </div>
       </div>
 
@@ -458,6 +467,24 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 </div>
                 <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[9px] font-bold text-amber-800">
                   Kasir Loket
+                </span>
+              </button>
+
+              {/* Super Admin */}
+              <button
+                type="button"
+                onClick={() => handleDirectLogin('superadmin')}
+                className="flex w-full items-center gap-3 rounded-2xl border border-blue-200 bg-blue-50/40 p-3 text-left transition hover:border-[#286EF2] hover:bg-blue-50"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#286EF2] text-white shadow-xs">
+                  <ShieldCheck className="h-5 w-5" />
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-slate-900 truncate">Raka Daniswara, S.Kom</p>
+                  <p className="text-[10px] text-[#286EF2] font-semibold truncate">raka.superadmin@ploria.id</p>
+                </div>
+                <span className="rounded-full bg-[#286EF2] px-2 py-0.5 text-[9px] font-bold text-white shadow-xs">
+                  Super Admin
                 </span>
               </button>
             </div>

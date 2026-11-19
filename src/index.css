@@ -84,11 +84,7 @@
   z-index: 20;
 }
 
-/* Item pertama: sembunyikan corner atas (tidak ada ruang di atas nav),
-   ganti dengan border-radius biasa di sudut kanan atas agar mulus */
+/* Item pertama: sembunyikan corner atas (tidak ada ruang di atas nav) */
 .sidebar-curved-tab-first::before {
   display: none;
-}
-.sidebar-curved-tab-first {
-  border-top-right-radius: 20px !important;
 }

@@ -194,7 +194,7 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       },
       {
         id: 'kasir-dash-rekap',
-        title: 'Laporan Keuangan & Rekapan',
+        title: 'Laporan Keuangan & Rekapitulasi',
         icon: FileSearch,
         items: [],
       },

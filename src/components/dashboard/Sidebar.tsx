@@ -180,7 +180,7 @@ export default function Sidebar({
         </div>
 
         {/* Navigation Items */}
-        <nav className="no-scrollbar flex-1 overflow-y-auto px-4 py-2 space-y-1.5">
+        <nav className="no-scrollbar flex-1 overflow-y-auto pl-4 pr-0 py-2 space-y-1.5">
           {navConfig.groups.map((group) => {
             const GroupIcon = group.icon;
             const hasSubItems = group.items.length > 0;
@@ -195,10 +195,10 @@ export default function Sidebar({
                   onClick={() => handleGroupClick(group)}
                   aria-expanded={hasSubItems ? isExpanded : undefined}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`flex w-full items-center gap-3.5 rounded-full px-4 py-3 text-left text-sm transition-all duration-150 ${
+                  className={`flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm transition-all duration-200 ${
                     isActive
-                      ? 'bg-white text-[#286EF2] font-bold shadow-md'
-                      : 'font-semibold text-white hover:bg-white/10'
+                      ? 'sidebar-curved-tab-active'
+                      : 'mr-4 rounded-full font-semibold text-white hover:bg-white/10'
                   }`}
                 >
                   <GroupIcon
@@ -219,7 +219,7 @@ export default function Sidebar({
 
                 {/* ── Dropdown Sub-Items ── */}
                 {hasSubItems && isExpanded && (
-                  <div className="relative my-1.5 ml-6 pl-3.5 border-l-2 border-white/30 space-y-1 animate-fadeIn">
+                  <div className="relative my-1.5 ml-6 mr-4 pl-3.5 border-l-2 border-white/30 space-y-1 animate-fadeIn">
                     {group.items.map((item) => {
                       const SubIcon = item.icon;
                       const isSubActive =

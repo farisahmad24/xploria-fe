@@ -90,25 +90,31 @@ export default function Sidebar({
     const group = navConfig.groups.find((g) => g.id === groupId);
     if (group && group.items.some((item) => item.id === activeId)) return true;
 
-    // Dashboard Kasir (termasuk sub-menu kalender & overview)
-    if (
-      groupId === 'kasir-dash' &&
-      (activeId === 'kasir-dash' ||
+    // ── Kasir Dashboard: hanya aktif untuk ID yang benar-benar miliknya ──
+    if (groupId === 'kasir-dash') {
+      return (
+        activeId === 'kasir-dash' ||
         activeId === 'kasir-dash-overview' ||
         activeId === 'kasir-dash-calendar' ||
         activeId === 'kasir-calendar' ||
         activeId === 'kasir' ||
-        activeId === 'dashboard')
-    ) {
-      return true;
+        activeId === 'dashboard'
+      );
     }
 
-    // Dashboard lainnya
+    // kasir-dash-rekap HANYA aktif untuk dirinya sendiri – jangan masuk blok generic -dash
+    if (groupId === 'kasir-dash-rekap') {
+      return activeId === 'kasir-dash-rekap' || activeId.includes('rekap');
+    }
+
+    // Dashboard generik (mo-dash, admin-dash, dst) – KECUALIKAN kasir-dash-rekap agar tidak bentrok
     if (
       groupId.endsWith('-dash') &&
+      groupId !== 'kasir-dash-rekap' &&
       (activeId.includes('dash') || activeId === 'dashboard')
     ) {
-      if (groupId === 'kasir-dash-rekap') return activeId === 'kasir-dash-rekap';
+      // Pastikan activeId 'kasir-dash-rekap' tidak menyebabkan kasir-dash aktif lagi
+      if (activeId === 'kasir-dash-rekap') return false;
       return true;
     }
 
@@ -189,12 +195,14 @@ export default function Sidebar({
         </div>
 
         {/* Navigation Items */}
-        <nav className="no-scrollbar flex-1 overflow-y-auto pl-4 pr-0 py-2 space-y-1.5">
-          {navConfig.groups.map((group) => {
+        {/* Navigation Items */}
+        <nav className="no-scrollbar flex-1 overflow-y-auto pl-4 pr-0 pt-2 pb-2 space-y-1.5">
+          {navConfig.groups.map((group, groupIndex) => {
             const GroupIcon = group.icon;
             const hasSubItems = group.items.length > 0;
             const isActive = isGroupActive(group.id);
             const isExpanded = expandedGroupId === group.id;
+            const isFirstItem = groupIndex === 0;
 
             return (
               <div key={group.id} className="w-full">
@@ -206,7 +214,9 @@ export default function Sidebar({
                   aria-current={isActive ? 'page' : undefined}
                   className={`flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm transition-all duration-200 ${
                     isActive
-                      ? 'sidebar-curved-tab-active'
+                      ? isFirstItem
+                        ? 'sidebar-curved-tab-active sidebar-curved-tab-first'
+                        : 'sidebar-curved-tab-active'
                       : 'mr-4 rounded-full font-semibold text-white hover:bg-white/10'
                   }`}
                 >

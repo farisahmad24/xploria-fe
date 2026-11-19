@@ -344,12 +344,12 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
           </div>
         </div>
 
-        {/* ── RIGHT SIDE: Scenic Mountain Lake & Organic Wave Divider (Consistent Frame) ── */}
+        {/* ── RIGHT SIDE: Scenic Tourism Coastal Rock & Organic Wave Divider (Consistent Frame) ── */}
         <div className="relative hidden w-full lg:flex lg:w-[48%] h-full overflow-hidden bg-slate-900 select-none">
-          {/* Nature Scenic Image */}
+          {/* Nature Scenic Image: Pantai Karang Gigi Hiu */}
           <img
-            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop"
-            alt="Scenic Mountain Lake"
+            src="/login-bg.jpg"
+            alt="Destinasi Wisata Pantai Karang"
             className="h-full w-full object-cover object-center filter saturate-[1.08] contrast-[1.03]"
           />
 

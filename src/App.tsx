@@ -206,6 +206,7 @@ function App() {
       activeNav === 'mo-dash-stats' ||
       activeNav === 'admin-dash-stats' ||
       activeNav === 'kasir-dash-stats' ||
+      activeNav === 'kasir-dash-overview' ||
       activeNav === 'dashboard'
     ) {
       return (

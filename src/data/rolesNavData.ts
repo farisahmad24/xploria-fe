@@ -172,13 +172,10 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
         id: 'kasir-dash',
         title: 'Dashboard Kasir',
         icon: LayoutGrid,
-        items: [],
-      },
-      {
-        id: 'kasir-calendar',
-        title: 'Dashboard Kalender',
-        icon: CalendarDays,
-        items: [],
+        items: [
+          { id: 'kasir-dash-overview', label: 'Statistik & Overview', icon: TrendingUp },
+          { id: 'kasir-dash-calendar', label: 'Kalender Jadwal mendatang', icon: CalendarDays },
+        ],
       },
       {
         id: 'kasir-tiket-sales',

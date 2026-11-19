@@ -90,16 +90,25 @@ export default function Sidebar({
     const group = navConfig.groups.find((g) => g.id === groupId);
     if (group && group.items.some((item) => item.id === activeId)) return true;
 
-    // Kalender Kasir
-    if (groupId === 'kasir-calendar' && (activeId === 'kasir-calendar' || activeId === 'kasir-dash-calendar')) return true;
+    // Dashboard Kasir (termasuk sub-menu kalender & overview)
+    if (
+      groupId === 'kasir-dash' &&
+      (activeId === 'kasir-dash' ||
+        activeId === 'kasir-dash-overview' ||
+        activeId === 'kasir-dash-calendar' ||
+        activeId === 'kasir-calendar' ||
+        activeId === 'kasir' ||
+        activeId === 'dashboard')
+    ) {
+      return true;
+    }
 
-    // Dashboard
+    // Dashboard lainnya
     if (
       groupId.endsWith('-dash') &&
       (activeId.includes('dash') || activeId === 'dashboard')
     ) {
       if (groupId === 'kasir-dash-rekap') return activeId === 'kasir-dash-rekap';
-      if (activeId === 'kasir-calendar' || activeId === 'kasir-dash-calendar') return false;
       return true;
     }
 
@@ -224,6 +233,12 @@ export default function Sidebar({
                       const SubIcon = item.icon;
                       const isSubActive =
                         activeId === item.id ||
+                        (group.id === 'kasir-dash' &&
+                          (activeId === 'kasir-dash' || activeId === 'kasir' || activeId === 'dashboard') &&
+                          item.id === 'kasir-dash-overview') ||
+                        (group.id === 'kasir-dash' &&
+                          (activeId === 'kasir-calendar' || activeId === 'kasir-dash-calendar') &&
+                          item.id === 'kasir-dash-calendar') ||
                         (group.id === 'mo-tiket' && (activeId === 'mo-tiket' || activeId === 'tiket') && item.id === 'mo-tiket-manage') ||
                         (group.id === 'admin-tiket' && activeId === 'admin-tiket' && item.id === 'admin-tiket-manage') ||
                         (group.id === 'mo-laporan' && activeId === 'mo-laporan' && item.id === 'mo-report-visitors-cat') ||

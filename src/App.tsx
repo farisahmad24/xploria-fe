@@ -15,6 +15,7 @@ import ReviewsView from '@/components/reviews/ReviewsView';
 import StaffManagementView from '@/components/staff/StaffManagementView';
 import BookingCalendarView from '@/components/calendar/BookingCalendarView';
 import LoginPage from '@/components/auth/LoginPage';
+import SuperAdminPortal from '@/components/super-admin/SuperAdminPortal';
 
 import { statItems, type StatItem } from '@/data/dashboardData';
 import { seedBookings } from '@/data/seedBookings';
@@ -51,7 +52,7 @@ function App() {
   // State Login Dummy: check localStorage or start as null (LoginPage)
   const [currentRole, setCurrentRole] = useState<UserRole | null>(() => {
     const saved = localStorage.getItem(ROLE_STORAGE_KEY);
-    if (saved === 'pengelola' || saved === 'admin' || saved === 'kasir') {
+    if (saved === 'pengelola' || saved === 'admin' || saved === 'kasir' || saved === 'superadmin') {
       return saved as UserRole;
     }
     return null;
@@ -62,6 +63,7 @@ function App() {
     if (saved === 'pengelola') return 'mo-dash';
     if (saved === 'admin') return 'admin-dash';
     if (saved === 'kasir') return 'kasir-dash';
+    if (saved === 'superadmin') return 'validasi-mitra';
     return 'mo-dash';
   });
 
@@ -95,6 +97,7 @@ function App() {
     if (role === 'pengelola') setActiveNav('mo-dash');
     else if (role === 'admin') setActiveNav('admin-dash');
     else if (role === 'kasir') setActiveNav('kasir-dash');
+    else if (role === 'superadmin') setActiveNav('validasi-mitra');
     showToast(`Berhasil login sebagai ${roleProfiles[role].title}`);
   };
 
@@ -187,6 +190,25 @@ function App() {
             key={toast.id}
             role="status"
             className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-ocean-950 px-5 py-3 text-sm font-medium text-white shadow-2xl ring-1 ring-white/10"
+          >
+            <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+            <span>{toast.message}</span>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // KHUSUS ROLE SUPER ADMIN: Route & Layout Terisolasi Penuh (ADD-ONLY)
+  if (currentRole === 'superadmin') {
+    return (
+      <>
+        <SuperAdminPortal onLogout={handleLogout} />
+        {toast && (
+          <div
+            key={toast.id}
+            role="status"
+            className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-medium text-white shadow-2xl ring-1 ring-white/10"
           >
             <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
             <span>{toast.message}</span>

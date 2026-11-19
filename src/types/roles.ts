@@ -1,7 +1,7 @@
 import type React from 'react';
 import type { LucideIcon } from 'lucide-react';
 
-export type UserRole = 'pengelola' | 'admin' | 'kasir';
+export type UserRole = 'pengelola' | 'admin' | 'kasir' | 'superadmin';
 
 export type RoleProfile = {
   id: UserRole;

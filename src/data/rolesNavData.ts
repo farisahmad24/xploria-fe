@@ -51,9 +51,23 @@ export const roleProfiles: Record<UserRole, RoleProfile> = {
     avatarText: 'KL',
     badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/30',
   },
+  superadmin: {
+    id: 'superadmin',
+    title: 'Super Admin',
+    subtitle: 'SUPER ADMIN (PUSAT KONTROL)',
+    userName: 'Raka Daniswara, S.Kom',
+    userRoleName: 'Super Admin Xploria',
+    avatarText: 'SA',
+    badgeColor: 'bg-indigo-500/20 text-indigo-300 border-indigo-400/30',
+  },
 };
 
 export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
+  superadmin: {
+    role: 'superadmin',
+    roleTitle: 'SUPER ADMIN (PUSAT KONTROL)',
+    groups: [],
+  },
   // ─── PENGELOLA (SUPER ADMIN) ───────────────────────────────────────────────
   pengelola: {
     role: 'pengelola',

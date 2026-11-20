@@ -58,9 +58,7 @@ export default function DestinationProfileView({
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-ocean-600">
-            Manajemen Informasi Destinasi
-          </p>
+        
           <h1 className="mt-1 text-2xl font-bold text-ocean-900 sm:text-3xl">
             Kelola Profil & Informasi Wisata
           </h1>

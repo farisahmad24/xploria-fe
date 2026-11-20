@@ -77,9 +77,7 @@ export default function StaffManagementView({
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-ocean-600">
-            Manajemen Akun dan Hak Akses Pengguna
-          </p>
+         
           <h1 className="mt-1 text-2xl font-bold text-ocean-900 sm:text-3xl">Kelola Akun Staf Wisata</h1>
           <p className="text-sm text-slate-500">
             Manajemen akun petugas loket kasir, administrator, dan hak akses operasional.

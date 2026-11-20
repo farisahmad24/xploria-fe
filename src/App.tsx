@@ -590,7 +590,7 @@ function App() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50 print:bg-white print:block">
       <Sidebar
         currentRole={currentRole}
         activeId={activeNav}
@@ -600,7 +600,7 @@ function App() {
         onClose={() => setMenuOpen(false)}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col bg-white">
+      <div className="flex min-w-0 flex-1 flex-col bg-white print:block print:w-full print:p-0">
         <Header
           currentRole={currentRole}
           query={query}
@@ -611,7 +611,7 @@ function App() {
           onNavSelect={handleNavSelect}
         />
 
-        <main className="flex flex-col gap-6 p-4 sm:p-6 lg:p-8">
+        <main className="flex flex-col gap-6 p-4 sm:p-6 lg:p-8 print:block print:p-0 print:m-0 print:gap-0">
           {renderMainContent()}
         </main>
       </div>
@@ -621,7 +621,7 @@ function App() {
         <div
           key={toast.id}
           role="status"
-          className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-ocean-950 px-5 py-3 text-sm font-medium text-white shadow-2xl ring-1 ring-white/10"
+          className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-ocean-950 px-5 py-3 text-sm font-medium text-white shadow-2xl ring-1 ring-white/10 print:hidden"
         >
           <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
           <span>{toast.message}</span>

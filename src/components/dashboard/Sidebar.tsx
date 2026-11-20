@@ -162,7 +162,7 @@ export default function Sidebar({
       {/* Mobile Backdrop */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 z-40 bg-ocean-950/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-40 bg-ocean-950/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden print:hidden ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         aria-hidden="true"
@@ -170,7 +170,7 @@ export default function Sidebar({
 
       {/* Sidebar Panel */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:translate-x-0 lg:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:translate-x-0 lg:shadow-none print:hidden ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

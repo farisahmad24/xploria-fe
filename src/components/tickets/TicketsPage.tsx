@@ -105,9 +105,7 @@ export default function TicketsPage({
       {/* ── 1. HEADER JUDUL & DESKRIPSI MODUL DI ATAS NAVBAR ── */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-wider text-[#286EF2]">
-            {isKasir ? 'Kasir Loket Tiket' : 'Aktor Pengelola & Admin'} • Modul Tiketing &amp; Transaksi
-          </p>
+        
           <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
             {tab === 'kelola-tiket' && 'Mengelola Jenis Tiket'}
             {tab === 'kategori' && 'Mengelola Kategori Tiket'}

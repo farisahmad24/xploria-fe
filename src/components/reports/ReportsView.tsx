@@ -89,9 +89,7 @@ export default function ReportsView({
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-ocean-600">
-            Manajemen Data Pengunjung dan Laporan
-          </p>
+        
           <h1 className="mt-1 text-2xl font-bold text-ocean-900 sm:text-3xl">
             {currentTab === 'visitors-cat' && 'Kunjungan Berdasarkan Kategori Pengunjung'}
             {currentTab === 'finance' && 'Laporan Keuangan & Pendapatan'}

@@ -87,7 +87,7 @@ export default function ReportsView({
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between print:hidden">
         <div>
         
           <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
@@ -129,7 +129,7 @@ export default function ReportsView({
       </div>
 
       {/* Summary Stat Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 print:hidden">
         <div className="rounded-2xl border border-ocean-100 bg-white p-5 shadow-card">
           <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Pengunjung</p>
           <p className="mt-2 text-2xl font-black text-slate-900">{formatNumber(totalVisitors)} Orang</p>
@@ -450,15 +450,15 @@ export default function ReportsView({
 
       {/* VIEW: Print Preview (Cetak Laporan Keuangan) */}
       {currentTab === 'print' && (
-        <div className="flex flex-col gap-6">
-          <div className="rounded-3xl border-2 border-slate-300 bg-white p-8 shadow-2xl print:border-none print:p-0 print:shadow-none">
+        <div className="flex flex-col gap-6 print:m-0 print:p-0 print:block">
+          <div className="rounded-3xl border-2 border-slate-300 bg-white p-8 shadow-2xl print:m-0 print:w-full print:max-w-none print:rounded-none print:border-none print:p-0 print:shadow-none">
             {/* Official Letterhead */}
             <div className="border-b-2 border-slate-900 pb-5 text-center">
               <h2 className="text-xl font-black uppercase tracking-wider text-slate-900 sm:text-2xl">
                 Badan Pengelola Destinasi Wisata Ploria
               </h2>
               <p className="text-xs font-semibold text-slate-600 sm:text-sm">
-                Jl. Bahari Nusantara No. 88, Karang Indah â€¢ Telp (021) 7890-4321 â€¢ Email: info@Ploria.id
+                Jl. Bahari Nusantara No. 88, Karang Indah • Telp (021) 7890-4321 • Email: info@Ploria.id
               </p>
               <p className="mt-2 text-xs font-bold uppercase tracking-widest text-ocean-700">
                 LAPORAN KEUANGAN DAN REALISASI PENDAPATAN BULANAN

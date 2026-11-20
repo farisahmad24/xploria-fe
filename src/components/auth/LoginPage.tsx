@@ -105,21 +105,21 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                   type="button"
                   onClick={() => setMode('login')}
                   className={`transition-colors ${mode === 'login'
-                      ? 'text-[#286EF2] font-bold'
-                      : 'text-slate-400 hover:text-slate-700'
+                    ? 'text-[#286EF2] font-bold'
+                    : 'text-slate-400 hover:text-slate-700'
                     }`}
                 >
-                  Home
+                  Masuk
                 </button>
                 <button
                   type="button"
                   onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
                   className={`transition-colors ${mode === 'register'
-                      ? 'text-[#286EF2] font-bold'
-                      : 'text-slate-400 hover:text-slate-700'
+                    ? 'text-[#286EF2] font-bold'
+                    : 'text-slate-400 hover:text-slate-700'
                     }`}
                 >
-                  {mode === 'login' ? 'Join' : 'Sign In'}
+                  {mode === 'login' ? 'Daftar' : 'Daftar'}
                 </button>
               </div>
             </div>
@@ -127,33 +127,33 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             {/* Header Titles */}
             <div className="mt-7 sm:mt-8">
               <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-                {mode === 'register' ? 'START FOR FREE' : 'WELCOME BACK'}
+                {mode === 'register' ? 'MULAI SECARA GRATIS' : 'SELAMAT DATANG'}
               </span>
               <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl lg:text-[34px] tracking-tight leading-tight">
-                {mode === 'register' ? 'Create new account' : 'Log in to account'}
+                {mode === 'register' ? 'Buat akun baru' : 'Masuk ke akun'}
                 <span className="text-[#286EF2]">.</span>
               </h1>
               <p className="mt-1.5 text-xs sm:text-sm text-slate-500">
                 {mode === 'register' ? (
                   <>
-                    Already A Member?{' '}
+                    Sudah Memiliki Akun?{' '}
                     <button
                       type="button"
                       onClick={() => setMode('login')}
                       className="font-bold text-[#286EF2] hover:underline"
                     >
-                      Log In
+                      Masuk
                     </button>
                   </>
                 ) : (
                   <>
-                    Don't have an account?{' '}
+                    Belum punya akun?{' '}
                     <button
                       type="button"
                       onClick={() => setMode('register')}
                       className="font-bold text-[#286EF2] hover:underline"
                     >
-                      Create account
+                      Buat akun
                     </button>
                   </>
                 )}
@@ -167,7 +167,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                   <div className="relative rounded-2xl bg-[#F4F7FC] px-4 py-2 border border-transparent transition-all focus-within:border-[#286EF2] focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-100/60">
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      First name
+                      Nama depan
                     </label>
                     <input
                       type="text"
@@ -182,7 +182,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
                   <div className="relative rounded-2xl bg-[#F4F7FC] px-4 py-2 border border-transparent transition-all focus-within:border-[#286EF2] focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-100/60">
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      Last name
+                      Nama belakang
                     </label>
                     <input
                       type="text"
@@ -257,8 +257,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                     type="button"
                     onClick={() => handleRoleSelect('pengelola')}
                     className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'pengelola'
-                        ? 'bg-[#286EF2] text-white shadow-sm'
-                        : 'bg-white/80 text-slate-600 hover:bg-white'
+                      ? 'bg-[#286EF2] text-white shadow-sm'
+                      : 'bg-white/80 text-slate-600 hover:bg-white'
                       }`}
                   >
                     Pengelola
@@ -267,8 +267,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                     type="button"
                     onClick={() => handleRoleSelect('admin')}
                     className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'admin'
-                        ? 'bg-[#286EF2] text-white shadow-sm'
-                        : 'bg-white/80 text-slate-600 hover:bg-white'
+                      ? 'bg-[#286EF2] text-white shadow-sm'
+                      : 'bg-white/80 text-slate-600 hover:bg-white'
                       }`}
                   >
                     Admin
@@ -277,8 +277,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                     type="button"
                     onClick={() => handleRoleSelect('kasir')}
                     className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'kasir'
-                        ? 'bg-[#286EF2] text-white shadow-sm'
-                        : 'bg-white/80 text-slate-600 hover:bg-white'
+                      ? 'bg-[#286EF2] text-white shadow-sm'
+                      : 'bg-white/80 text-slate-600 hover:bg-white'
                       }`}
                   >
                     Kasir
@@ -287,8 +287,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                     type="button"
                     onClick={() => handleRoleSelect('superadmin')}
                     className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'superadmin'
-                        ? 'bg-[#286EF2] text-white shadow-sm'
-                        : 'bg-white/80 text-slate-600 hover:bg-white'
+                      ? 'bg-[#286EF2] text-white shadow-sm'
+                      : 'bg-white/80 text-slate-600 hover:bg-white'
                       }`}
                   >
                     Super Admin
@@ -331,14 +331,14 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                   onClick={() => setShowRoleModal(true)}
                   className="rounded-full bg-[#F0F4FA] px-5 py-3 text-xs font-bold text-slate-600 hover:bg-[#E4ECF7] transition shrink-0"
                 >
-                  Change method
+                  Ganti metode
                 </button>
 
                 <button
                   type="submit"
                   className="flex-1 rounded-full bg-[#286EF2] px-6 py-3.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-blue-500/30 hover:bg-[#1a5adb] transition-all flex items-center justify-center gap-2"
                 >
-                  <span>{mode === 'register' ? 'Create account' : 'Log in'}</span>
+                  <span>{mode === 'register' ? 'Buat akun' : 'Masuk'}</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>

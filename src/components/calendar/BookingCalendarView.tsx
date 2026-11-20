@@ -169,7 +169,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
         <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-slate-100">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-[#286EF2]">
-              <Sparkles className="h-5 w-5" />
+              <Calendar className="h-5 w-5" />
             </div>
             <div>
               <h2 className="text-base font-black text-slate-900 leading-tight">

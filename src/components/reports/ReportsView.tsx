@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import {
   Plus,
   Printer,
@@ -167,7 +167,7 @@ export default function ReportsView({
               <h3 className="text-lg font-bold text-slate-900">Distribusi Kunjungan Berdasarkan Kategori</h3>
               <p className="text-sm text-slate-500">Rincian volume pengunjung dan kontribusi omset per kategori tiket.</p>
             </div>
-            {/* Column header stripe — same look as thead bg-ocean-50/70 on other tabs */}
+            {/* Column header stripe â€” same look as thead bg-ocean-50/70 on other tabs */}
             <div className="bg-ocean-50/70 px-6 py-4 text-xs font-semibold uppercase tracking-wider text-ocean-800">
               <div className="flex items-center justify-between">
                 <span>Kategori Pengunjung</span>
@@ -210,7 +210,7 @@ export default function ReportsView({
       {currentTab === 'finance' && (
         <div className="flex flex-col gap-6">
           <div className="overflow-hidden rounded-3xl border border-ocean-100 bg-white shadow-card">
-            <div className="border-b border-ocean-50 p-6">
+            <div className="border-b border-ocean-100 p-6">
               <h3 className="text-lg font-bold text-slate-900">Buku Laporan Arus Keuangan</h3>
               <p className="text-sm text-slate-500">Rekapitulasi pemasukan tiket dan beban operasional destinasi wisata.</p>
             </div>
@@ -278,7 +278,7 @@ export default function ReportsView({
       {currentTab === 'revenue-sharing' && (
         <div className="flex flex-col gap-6">
           <div className="overflow-hidden rounded-3xl border border-ocean-100 bg-white shadow-card">
-            <div className="border-b border-ocean-50 p-6">
+            <div className="border-b border-ocean-100 p-6">
               <h3 className="text-lg font-bold text-slate-900">Data Pembagian Hasil Pendapatan Wisata</h3>
               <p className="text-sm text-slate-500">
                 Alokasi persentase bagi hasil pendapatan kotor antara Pengelola Desa, Manajemen, dan Kas Konservasi.
@@ -334,11 +334,9 @@ export default function ReportsView({
       {currentTab === 'expenses' && (
         <div className="flex flex-col gap-6">
           <div className="overflow-hidden rounded-3xl border border-ocean-100 bg-white shadow-card">
-            <div className="flex items-center justify-between border-b border-ocean-50 p-6">
-              <div>
-                <h3 className="text-lg font-bold text-slate-900">Daftar Pengeluaran Operasional</h3>
-                <p className="text-sm text-slate-500">Catatan pengeluaran harian dan pemeliharaan fasilitas.</p>
-              </div>
+            <div className="border-b border-ocean-100 p-6">
+              <h3 className="text-lg font-bold text-slate-900">Daftar Pengeluaran Operasional</h3>
+              <p className="text-sm text-slate-500">Catatan pengeluaran harian dan pemeliharaan fasilitas.</p>
             </div>
 
             <div className="overflow-x-auto">
@@ -375,7 +373,7 @@ export default function ReportsView({
       {currentTab === 'tickets' && (
         <div className="flex flex-col gap-6">
           <div className="overflow-hidden rounded-3xl border border-ocean-100 bg-white shadow-card">
-            <div className="border-b border-ocean-50 p-6">
+            <div className="border-b border-ocean-100 p-6">
               <h3 className="text-lg font-bold text-slate-900">Rekapitulasi Penjualan Tiket</h3>
               <p className="text-sm text-slate-500">Daftar transaksi pemesanan tiket pengunjung terbaru.</p>
             </div>
@@ -440,7 +438,7 @@ export default function ReportsView({
                 Badan Pengelola Destinasi Wisata Ploria
               </h2>
               <p className="text-xs font-semibold text-slate-600 sm:text-sm">
-                Jl. Bahari Nusantara No. 88, Karang Indah • Telp (021) 7890-4321 • Email: info@Ploria.id
+                Jl. Bahari Nusantara No. 88, Karang Indah â€¢ Telp (021) 7890-4321 â€¢ Email: info@Ploria.id
               </p>
               <p className="mt-2 text-xs font-bold uppercase tracking-widest text-ocean-700">
                 LAPORAN KEUANGAN DAN REALISASI PENDAPATAN BULANAN
@@ -641,3 +639,4 @@ export default function ReportsView({
     </div>
   );
 }
+

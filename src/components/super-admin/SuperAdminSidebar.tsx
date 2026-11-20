@@ -89,11 +89,10 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
         </div>
 
         {/* Navigation */}
-        <nav className="no-scrollbar flex-1 overflow-y-auto pl-4 pr-0 pt-2 pb-2 space-y-1.5">
-          {navItems.map((item, index) => {
+        <nav className="no-scrollbar flex-1 overflow-y-auto px-4 pt-2 pb-2 space-y-1.5">
+          {navItems.map((item) => {
             const { id, label, Icon, badge } = item;
             const isActive = activeTab === id;
-            const isFirstItem = index === 0;
 
             return (
               <div key={id} className="w-full">
@@ -101,10 +100,10 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
                   type="button"
                   onClick={() => handleSelect(id)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm transition-all duration-200 rounded-l-full rounded-r-none ${
+                  className={`flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm font-semibold rounded-full transition-all duration-200 ${
                     isActive
-                      ? 'bg-white text-[#286EF2] font-semibold shadow-none'
-                      : 'text-white font-semibold hover:bg-white/10'
+                      ? 'bg-white text-[#286EF2] shadow-sm'
+                      : 'text-white hover:bg-white/10'
                   }`}
                 >
                   <Icon
@@ -113,7 +112,7 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
                     }`}
                   />
                   <span
-                    className={`flex-1 truncate leading-snug font-semibold transition-colors ${
+                    className={`flex-1 truncate leading-snug transition-colors ${
                       isActive ? 'text-[#286EF2]' : 'text-white'
                     }`}
                   >

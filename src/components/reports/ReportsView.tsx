@@ -90,7 +90,7 @@ export default function ReportsView({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
         
-          <h1 className="mt-1 text-2xl font-bold text-ocean-900 sm:text-3xl">
+          <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
             {currentTab === 'visitors-cat' && 'Kunjungan Berdasarkan Kategori Pengunjung'}
             {currentTab === 'finance' && 'Laporan Keuangan & Pendapatan'}
             {currentTab === 'print' && 'Cetak Laporan Keuangan Resmi'}

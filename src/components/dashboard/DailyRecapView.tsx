@@ -76,7 +76,7 @@ export default function DailyRecapView({ bookings, onToast }: DailyRecapViewProp
           <p className="text-xs font-bold uppercase tracking-wider text-ocean-600">
             Aktor Pengelola (Admin) • Dashboard
           </p>
-          <h1 className="mt-1 text-2xl font-bold text-ocean-900 sm:text-3xl">
+          <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
             Rekap Pendapatan Harian &amp; Sesi Kasir
           </h1>
           <p className="text-sm text-slate-500">

@@ -3,6 +3,7 @@ import {
   FileCheck2,
   History,
   LogOut,
+  Menu,
   User,
   X,
 } from 'lucide-react';
@@ -14,6 +15,7 @@ interface SuperAdminSidebarProps {
   onLogout: () => void;
   open: boolean;
   onClose: () => void;
+  onOpenMenu: () => void;
 }
 
 type NavItem = {
@@ -30,6 +32,7 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
   onLogout,
   open,
   onClose,
+  onOpenMenu,
 }) => {
   const navItems: NavItem[] = [
     {
@@ -61,13 +64,25 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
         aria-hidden="true"
       />
 
-      {/* Sidebar Panel — identik dgn Sidebar.tsx */}
+      {/* Floating hamburger button — hanya tampil di mobile saat sidebar tertutup */}
+      {!open && (
+        <button
+          type="button"
+          onClick={onOpenMenu}
+          className="fixed top-4 left-4 z-30 flex h-10 w-10 items-center justify-center rounded-xl bg-[#286EF2] text-white shadow-lg lg:hidden"
+          aria-label="Buka menu"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+      )}
+
+      {/* Sidebar Panel — identik dengan Sidebar.tsx */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:translate-x-0 lg:shadow-none ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Header: Logo + nama app — sama persis dengan Sidebar.tsx */}
+        {/* Header: Logo + nama app */}
         <div className="relative flex flex-col items-center justify-center pt-8 pb-5 px-5">
           <img
             src="/logo-white.png"
@@ -153,7 +168,7 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
             </p>
           </div>
 
-          {/* Logout Button — sama persis */}
+          {/* Logout Button */}
           <button
             type="button"
             onClick={onLogout}

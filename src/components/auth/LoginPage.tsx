@@ -90,9 +90,13 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             {/* Top Bar: Brand & Navigation */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#286EF2] ring-4 ring-blue-100 shadow-sm" />
+                <img
+                  src="/logo.png"
+                  alt="Ploria Logo"
+                  className="h-7 w-auto object-contain select-none drop-shadow-xs"
+                />
                 <span className="text-base font-extrabold text-slate-900 tracking-tight">
-                  Ploria app<span className="text-[#286EF2]">.</span>
+                  Ploria
                 </span>
               </div>
 

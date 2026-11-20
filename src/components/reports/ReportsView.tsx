@@ -162,11 +162,12 @@ export default function ReportsView({
       {/* VIEW: Visitors by Category */}
       {currentTab === 'visitors-cat' && (
         <div className="flex flex-col gap-6">
-          <div className="rounded-3xl border border-ocean-100 bg-white p-6 shadow-card">
-            <h3 className="text-lg font-bold text-slate-900">Distribusi Kunjungan Berdasarkan Kategori</h3>
-            <p className="text-sm text-slate-500">Rincian volume pengunjung dan kontribusi omset per kategori tiket.</p>
-
-            <div className="mt-6 flex flex-col gap-5">
+          <div className="overflow-hidden rounded-3xl border border-ocean-100 bg-white shadow-card">
+            <div className="border-b border-ocean-50 p-6">
+              <h3 className="text-lg font-bold text-slate-900">Distribusi Kunjungan Berdasarkan Kategori</h3>
+              <p className="text-sm text-slate-500">Rincian volume pengunjung dan kontribusi omset per kategori tiket.</p>
+            </div>
+            <div className="flex flex-col gap-5 p-6">
               {categoryStats.map((item) => (
                 <div key={item.id} className="flex flex-col gap-2">
                   <div className="flex items-center justify-between text-sm">

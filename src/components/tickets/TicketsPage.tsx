@@ -1,13 +1,4 @@
 import { useEffect, useState } from 'react';
-import {
-  History,
-  Layers,
-  Receipt,
-  ScanLine,
-  Wrench,
-  type LucideIcon,
-} from 'lucide-react';
-import SlantedTicket from '@/components/common/SlantedTicket';
 import BookingForm from '@/components/tickets/BookingForm';
 import CloseOrderConfirmModal from '@/components/tickets/CloseOrderConfirmModal';
 import CloseOrderHistoryView from '@/components/tickets/CloseOrderHistoryView';
@@ -35,15 +26,6 @@ export type TicketTab =
   | 'validasi'
   | 'riwayat'
   | 'rekap-close-order';
-
-const tabs: { id: TicketTab; label: string; icon: any }[] = [
-  { id: 'kelola-tiket', label: 'Mengelola Tiket', icon: Wrench },
-  { id: 'kategori', label: 'Kategori Tiket', icon: Layers },
-  { id: 'pesan', label: 'Penjualan / Pesan', icon: SlantedTicket },
-  { id: 'validasi', label: 'Validasi Tiket', icon: ScanLine },
-  { id: 'riwayat', label: 'Riwayat Penjualan', icon: History },
-  { id: 'rekap-close-order', label: 'Rekap & Close Order', icon: Receipt },
-];
 
 type TicketsPageProps = {
   bookings: mendatang[];
@@ -97,14 +79,6 @@ export default function TicketsPage({
     }
   }, [initialTab, isKasir]);
 
-  // RBAC Filter: Kasir TIDAK BISA mengakses 'kelola-tiket' dan 'kategori'
-  const visibleTabs = tabs.filter((t) => {
-    if (isKasir && (t.id === 'kelola-tiket' || t.id === 'kategori')) {
-      return false;
-    }
-    return true;
-  });
-
   // Eksekusi Close Order:
   // 1. Kunci transaksi pada sesi ini
   // 2. Generate rekapan otomatis
@@ -155,39 +129,7 @@ export default function TicketsPage({
         </div>
       </div>
 
-      {/* ── 2. NAVBAR TIKETING: MEMANJANG FULL-WIDTH (100% LEBAR KONTAINER) ── */}
-      <nav
-        aria-label="Navigasi Fitur Tiketing"
-        className="w-full rounded-2xl bg-white p-2 shadow-card border border-slate-200/80"
-      >
-        <div
-          role="tablist"
-          className="no-scrollbar flex w-full flex-wrap sm:flex-nowrap items-center gap-1.5 overflow-x-auto"
-        >
-          {visibleTabs.map((item) => {
-            const Icon = item.icon;
-            const active = tab === item.id;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                role="tab"
-                aria-selected={active}
-                onClick={() => setTab(item.id)}
-                className={`flex flex-1 min-w-[140px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs sm:text-sm font-bold transition-all duration-200 ${active
-                    ? 'bg-[#286EF2] text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-200'
-                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
-              >
-                <Icon className="h-4 w-4 shrink-0" />
-                <span className="truncate">{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </nav>
-
-      {/* ── 3. TAB PANELS ── */}
+      {/* ── 2. TAB PANELS ── */}
       {tab === 'kelola-tiket' && !isKasir && (
         <ManageTicketsView
           tickets={tickets}

@@ -1,13 +1,8 @@
 import { useState, useEffect } from 'react';
 import {
-  Coins,
-  FileSpreadsheet,
   Plus,
   Printer,
-  TrendingDown,
   TrendingUp,
-  Users,
-  Wallet,
   X,
 } from 'lucide-react';
 import { formatNumber, formatRupiah } from '@/lib/bookings';
@@ -122,7 +117,7 @@ export default function ReportsView({
             </button>
           )}
 
-          {currentTab === 'print' ? (
+          {currentTab === 'print' && (
             <button
               type="button"
               onClick={handlePrint}
@@ -131,46 +126,8 @@ export default function ReportsView({
               <Printer className="h-4 w-4" />
               Cetak Sekarang
             </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setCurrentTab('print')}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50"
-            >
-              <Printer className="h-4 w-4 text-slate-500" />
-              Format Cetak
-            </button>
           )}
         </div>
-      </div>
-
-      {/* Tab Selector */}
-      <div className="no-scrollbar flex overflow-x-auto rounded-2xl bg-white p-1.5 shadow-card">
-        {[
-          { id: 'visitors-cat', label: 'Kategori Pengunjung', icon: Users },
-          { id: 'finance', label: 'Laporan Keuangan', icon: Wallet },
-          { id: 'revenue-sharing', label: 'Pembagian Hasil', icon: Coins },
-          { id: 'expenses', label: 'Pengeluaran Operasional', icon: TrendingDown },
-          { id: 'tickets', label: 'Penjualan Tiket', icon: FileSpreadsheet },
-          { id: 'print', label: 'Cetak Laporan', icon: Printer },
-        ].map((tab) => {
-          const Icon = tab.icon;
-          const active = currentTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setCurrentTab(tab.id as ReportTabType)}
-              className={`flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${active
-                ? 'bg-ocean-600 text-white shadow-md shadow-ocean-600/20'
-                : 'text-slate-600 hover:bg-ocean-50 hover:text-ocean-700'
-                }`}
-            >
-              <Icon className="h-4 w-4" />
-              <span>{tab.label}</span>
-            </button>
-          );
-        })}
       </div>
 
       {/* Summary Stat Cards */}

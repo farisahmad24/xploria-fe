@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Plus,
   Printer,
@@ -202,6 +202,16 @@ export default function ReportsView({
                 </div>
               ))}
             </div>
+            {/* Footer total — sama seperti tfoot di tab lain */}
+            <div className="border-t-2 border-ocean-200 bg-ocean-50 px-6 py-4 font-bold text-slate-900">
+              <div className="flex items-center justify-between">
+                <span className="text-base">Total Keseluruhan Pengunjung</span>
+                <div className="flex items-center gap-6 text-sm">
+                  <span className="text-ocean-800">{formatNumber(totalVisitors)} Orang</span>
+                  <span className="text-lg text-ocean-900">{formatRupiah(categoryStats.reduce((s, i) => s + i.revenue, 0))}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -363,6 +373,16 @@ export default function ReportsView({
                     </tr>
                   ))}
                 </tbody>
+                <tfoot className="border-t-2 border-ocean-200 bg-ocean-50 font-bold text-slate-900">
+                  <tr>
+                    <td colSpan={4} className="px-6 py-4 text-base">
+                      Total Pengeluaran Operasional
+                    </td>
+                    <td className="px-6 py-4 text-right text-lg text-rose-700">
+                      {formatRupiah(totalExpenses)}
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>

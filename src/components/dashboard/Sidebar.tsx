@@ -175,7 +175,7 @@ export default function Sidebar({
         }`}
       >
         {/* Header: Centered Logo + "Ploria Agency" */}
-        <div className="relative flex flex-col items-center justify-center pt-8 pb-5 px-5">
+        <div className="relative flex flex-col items-center justify-center pt-7 pb-2 px-5">
           <img
             src="/logo-white.png"
             alt="Ploria Logo"
@@ -195,7 +195,7 @@ export default function Sidebar({
         </div>
 
         {/* Navigation Items */}
-        <nav className="no-scrollbar flex-1 overflow-y-auto px-4 pt-2 pb-2 space-y-1.5">
+        <nav className="no-scrollbar flex-1 overflow-y-auto pl-4 pr-0 pt-6 pb-6 space-y-1.5">
           {navConfig.groups.map((group) => {
             const GroupIcon = group.icon;
             const hasSubItems = group.items.length > 0;
@@ -210,10 +210,10 @@ export default function Sidebar({
                   onClick={() => handleGroupClick(group)}
                   aria-expanded={hasSubItems ? isExpanded : undefined}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm font-semibold rounded-full transition-all duration-200 ${
+                  className={`flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm transition-all duration-200 ${
                     isActive
-                      ? 'bg-white text-[#286EF2] shadow-sm'
-                      : 'text-white hover:bg-white/10'
+                      ? 'sidebar-curved-tab-active'
+                      : 'mr-4 rounded-full font-semibold text-white hover:bg-white/10'
                   }`}
                 >
                   <GroupIcon
@@ -221,13 +221,7 @@ export default function Sidebar({
                       isActive ? 'text-[#286EF2]' : 'text-white'
                     }`}
                   />
-                  <span
-                    className={`flex-1 truncate leading-snug transition-colors ${
-                      isActive ? 'text-[#286EF2]' : 'text-white'
-                    }`}
-                  >
-                    {group.title}
-                  </span>
+                  <span className="flex-1 truncate leading-snug">{group.title}</span>
 
                   {hasSubItems && (
                     <ChevronDown

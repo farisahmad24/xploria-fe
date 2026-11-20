@@ -163,13 +163,24 @@ export default function ReportsView({
       {currentTab === 'visitors-cat' && (
         <div className="flex flex-col gap-6">
           <div className="overflow-hidden rounded-3xl border border-ocean-100 bg-white shadow-card">
-            <div className="border-b border-ocean-50 p-6">
+            <div className="border-b border-ocean-100 p-6">
               <h3 className="text-lg font-bold text-slate-900">Distribusi Kunjungan Berdasarkan Kategori</h3>
               <p className="text-sm text-slate-500">Rincian volume pengunjung dan kontribusi omset per kategori tiket.</p>
             </div>
-            <div className="flex flex-col gap-5 p-6">
+            {/* Column header stripe — same look as thead bg-ocean-50/70 on other tabs */}
+            <div className="bg-ocean-50/70 px-6 py-4 text-xs font-semibold uppercase tracking-wider text-ocean-800">
+              <div className="flex items-center justify-between">
+                <span>Kategori Pengunjung</span>
+                <div className="flex items-center gap-8 pr-1">
+                  <span>Jumlah</span>
+                  <span>Pendapatan</span>
+                  <span>Porsi</span>
+                </div>
+              </div>
+            </div>
+            <div className="divide-y divide-slate-100">
               {categoryStats.map((item) => (
-                <div key={item.id} className="flex flex-col gap-2">
+                <div key={item.id} className="flex flex-col gap-2 px-6 py-5 hover:bg-ocean-50/30">
                   <div className="flex items-center justify-between text-sm">
                     <span className="font-semibold text-slate-800">{item.name}</span>
                     <div className="flex items-center gap-4 text-xs">

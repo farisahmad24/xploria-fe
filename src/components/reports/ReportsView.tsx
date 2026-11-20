@@ -334,6 +334,22 @@ export default function ReportsView({
                     </tr>
                   ))}
                 </tbody>
+                <tfoot className="border-t-2 border-ocean-200 bg-ocean-50 font-bold text-slate-900">
+                  <tr>
+                    <td className="px-6 py-4 text-base">Total Penyaluran Bagi Hasil</td>
+                    <td className="px-6 py-4">
+                      <span className="rounded-full bg-ocean-100 px-2.5 py-1 text-xs font-black text-ocean-800">
+                        100%
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-lg text-ocean-900">
+                      {formatRupiah(totalRevenue)}
+                    </td>
+                    <td colSpan={2} className="px-6 py-4 text-xs font-medium text-slate-500">
+                      Seluruh alokasi pendapatan terdistribusi
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>
@@ -442,6 +458,16 @@ export default function ReportsView({
                     </tr>
                   ))}
                 </tbody>
+                <tfoot className="border-t-2 border-ocean-200 bg-ocean-50 font-bold text-slate-900">
+                  <tr>
+                    <td colSpan={5} className="px-6 py-4 text-base">
+                      Total Penjualan Tiket Masuk (Rekapitulasi)
+                    </td>
+                    <td className="px-6 py-4 text-right text-lg text-ocean-900 whitespace-nowrap">
+                      {formatRupiah(totalRevenue)}
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>

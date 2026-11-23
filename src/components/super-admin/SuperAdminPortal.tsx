@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CheckCircle2 } from 'lucide-react';
 import { initialMitraAccounts, initialAuditLogs } from '../../data/seedSuperAdmin';
 import { MitraAccount, AuditLogEntry } from '../../types/superAdmin';
 import { SuperAdminLayout } from './SuperAdminLayout';
@@ -17,6 +18,12 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(initialAuditLogs);
   const [selectedMitra, setSelectedMitra] = useState<MitraAccount | null>(null);
   const [isNewMitraModalOpen, setIsNewMitraModalOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3200);
+  };
 
   // Jumlah mitra berstatus PENDING
   const pendingCount = mitraList.filter((m) => m.status === 'PENDING').length;
@@ -97,6 +104,8 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
           }
         : null
     );
+
+    showToast(`Mitra "${target.destinationName}" berhasil disetujui & diaktifkan.`);
   };
 
   // Aksi 2: Tolak Pendaftaran Mitra
@@ -128,6 +137,7 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
     );
 
     setSelectedMitra(null);
+    showToast(`Pendaftaran mitra "${target.destinationName}" telah ditolak & berkas dikembalikan.`);
   };
 
   // Aksi 3: Bekukan Akun Mitra (Suspend)
@@ -167,6 +177,8 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
           }
         : null
     );
+
+    showToast(`Akun mitra "${target.destinationName}" telah dibekukan.`);
   };
 
   // Aksi 4: Aktifkan Kembali Akun (Reactivate)
@@ -206,6 +218,8 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
           }
         : null
     );
+
+    showToast(`Akun mitra "${target.destinationName}" berhasil dipulihkan & aktif kembali.`);
   };
 
   // Aksi 5: Simulasi Pendaftaran Mitra Baru
@@ -258,6 +272,17 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
         onClose={() => setIsNewMitraModalOpen(false)}
         onSubmit={handleAddMitra}
       />
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div
+          role="status"
+          className="fixed bottom-6 left-1/2 z-[80] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-slate-900/95 px-5 py-3 text-sm font-medium text-white shadow-2xl ring-1 ring-white/10 backdrop-blur-md transition-all duration-300 animate-fadeIn"
+        >
+          <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
     </SuperAdminLayout>
   );
 };

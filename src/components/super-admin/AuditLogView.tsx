@@ -229,59 +229,99 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({ auditLogs }) => {
 
       {/* KPI Cards Ringkasan Audit */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+        {/* Card 1: TOTAL ENTRI LOG */}
+        <div
+          onClick={() => setActionFilter('ALL')}
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#4F5D73] to-[#606F86] text-white ${
+            actionFilter === 'ALL'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
+          }`}
+        >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Entri Log</span>
-            <div className="p-2 rounded-xl bg-slate-100 text-slate-600">
+            <span className="text-xs font-bold text-white uppercase tracking-wider">TOTAL ENTRI LOG</span>
+            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shrink-0">
               <FileText className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-slate-900">{stats.total}</div>
-          <p className="text-[11px] text-slate-500 mt-0.5">Seluruh jejak terekam</p>
+          <div className="text-3xl font-black text-white">{stats.total}</div>
+          <p className="text-xs text-white/90 mt-1">Seluruh jejak terekam</p>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-emerald-200/80 shadow-sm bg-gradient-to-br from-white to-emerald-50/40">
+        {/* Card 2: DISETUJUI */}
+        <div
+          onClick={() => setActionFilter('APPROVE')}
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#129A70] to-[#1AA97E] text-white ${
+            actionFilter === 'APPROVE'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
+          }`}
+        >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Disetujui</span>
-            <div className="p-2 rounded-xl bg-emerald-100 text-emerald-700">
+            <span className="text-xs font-bold text-white uppercase tracking-wider">DISETUJUI</span>
+            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shrink-0">
               <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-emerald-700">{stats.approved}</div>
-          <p className="text-[11px] text-emerald-600/80 mt-0.5">Mitra resmi aktif</p>
+          <div className="text-3xl font-black text-white">{stats.approved}</div>
+          <p className="text-xs text-white/90 mt-1">Mitra resmi aktif</p>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-rose-200/80 shadow-sm bg-gradient-to-br from-white to-rose-50/40">
+        {/* Card 3: DITOLAK */}
+        <div
+          onClick={() => setActionFilter('REJECT')}
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#D9344E] to-[#E63F59] text-white ${
+            actionFilter === 'REJECT'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
+          }`}
+        >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-rose-800 uppercase tracking-wider">Ditolak</span>
-            <div className="p-2 rounded-xl bg-rose-100 text-rose-700">
+            <span className="text-xs font-bold text-white uppercase tracking-wider">DITOLAK</span>
+            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shrink-0">
               <XCircle className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-rose-700">{stats.rejected}</div>
-          <p className="text-[11px] text-rose-600/80 mt-0.5">Memerlukan revisi</p>
+          <div className="text-3xl font-black text-white">{stats.rejected}</div>
+          <p className="text-xs text-white/90 mt-1">Memerlukan revisi</p>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-amber-200/80 shadow-sm bg-gradient-to-br from-white to-amber-50/40">
+        {/* Card 4: DIBEKUKAN */}
+        <div
+          onClick={() => setActionFilter('SUSPEND')}
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#D98009] to-[#E78F14] text-white ${
+            actionFilter === 'SUSPEND'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
+          }`}
+        >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-amber-800 uppercase tracking-wider">Dibekukan</span>
-            <div className="p-2 rounded-xl bg-amber-100 text-amber-700">
+            <span className="text-xs font-bold text-white uppercase tracking-wider">DIBEKUKAN</span>
+            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shrink-0">
               <AlertTriangle className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-amber-700">{stats.suspended}</div>
-          <p className="text-[11px] text-amber-600/80 mt-0.5">Akses ditangguhkan</p>
+          <div className="text-3xl font-black text-white">{stats.suspended}</div>
+          <p className="text-xs text-white/90 mt-1">Akses ditangguhkan</p>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-indigo-200/80 shadow-sm bg-gradient-to-br from-white to-indigo-50/40">
+        {/* Card 5: PENDAFTARAN */}
+        <div
+          onClick={() => setActionFilter('REGISTER')}
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#235ECE] to-[#2E69E1] text-white ${
+            actionFilter === 'REGISTER'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
+          }`}
+        >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-indigo-800 uppercase tracking-wider">Pendaftaran</span>
-            <div className="p-2 rounded-xl bg-indigo-100 text-indigo-700">
+            <span className="text-xs font-bold text-white uppercase tracking-wider">PENDAFTARAN</span>
+            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shrink-0">
               <UserCheck className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-indigo-700">{stats.registered}</div>
-          <p className="text-[11px] text-indigo-600/80 mt-0.5">Calon mitra masuk</p>
+          <div className="text-3xl font-black text-white">{stats.registered}</div>
+          <p className="text-xs text-white/90 mt-1">Calon mitra masuk</p>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   Clock,
   CreditCard,
+  History,
   Lock,
   Minus,
   Percent,
@@ -34,6 +35,7 @@ type BookingFormProps = {
   isSessionOpen?: boolean;
   onCloseOrder?: () => void;
   onOpenNewSession?: () => void;
+  onViewHistory?: () => void;
   cashierName?: string;
   sessionStartTime?: string;
 };
@@ -52,6 +54,7 @@ export default function BookingForm({
   isSessionOpen = true,
   onCloseOrder,
   onOpenNewSession,
+  onViewHistory,
   cashierName = 'Siti Rahmawati (Kasir)',
   sessionStartTime = '07:30 WIB',
 }: BookingFormProps) {
@@ -275,17 +278,32 @@ export default function BookingForm({
           )}
         </dl>
 
-        <button
-          type="button"
-          onClick={() => {
-            setConfirmed(null);
-            setDraft(emptyDraft());
-            setDiscountValue('0');
-          }}
-          className="mt-6 w-full rounded-xl bg-[#286EF2] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:-translate-y-0.5 hover:bg-blue-600"
-        >
-          Layani Pemesanan Tiket Berikutnya
-        </button>
+        <div className="mt-6 flex flex-col sm:flex-row gap-2.5">
+          <button
+            type="button"
+            onClick={() => {
+              setConfirmed(null);
+              setDraft(emptyDraft());
+              setDiscountValue('0');
+            }}
+            className="flex-1 rounded-xl bg-[#286EF2] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-500/25 transition hover:-translate-y-0.5 hover:bg-blue-600"
+          >
+            Layani Pemesanan Tiket Berikutnya
+          </button>
+          {onViewHistory && (
+            <button
+              type="button"
+              onClick={() => {
+                setConfirmed(null);
+                onViewHistory();
+              }}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition"
+            >
+              <History className="h-4 w-4 text-[#286EF2]" />
+              <span>Lihat di Riwayat</span>
+            </button>
+          )}
+        </div>
       </section>
     );
   }
@@ -320,7 +338,19 @@ export default function BookingForm({
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {onViewHistory && (
+            <button
+              type="button"
+              onClick={onViewHistory}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:border-slate-300 transition shadow-2xs"
+              title="Lihat seluruh data riwayat penjualan tiket"
+            >
+              <History className="h-3.5 w-3.5 text-[#286EF2]" />
+              <span>Riwayat Penjualan</span>
+            </button>
+          )}
+
           {isSessionOpen ? (
             onCloseOrder && (
               <button

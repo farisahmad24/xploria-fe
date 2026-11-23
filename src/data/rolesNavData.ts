@@ -198,6 +198,12 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
         items: [],
       },
       {
+        id: 'kasir-tiket-history',
+        title: 'Riwayat Penjualan',
+        icon: History,
+        items: [],
+      },
+      {
         id: 'kasir-tiket-validate',
         title: 'Validasi Tiket',
         icon: QrCode,

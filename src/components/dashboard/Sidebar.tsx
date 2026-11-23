@@ -127,7 +127,8 @@ export default function Sidebar({
       return true;
     }
 
-    if (groupId === 'kasir-tiket-validate' && activeId === 'kasir-tiket-validate') return true;
+    if (groupId === 'kasir-tiket-history') return activeId === 'kasir-tiket-history';
+    if (groupId === 'kasir-tiket-validate') return activeId === 'kasir-tiket-validate';
     if (
       groupId === 'kasir-dash-rekap' &&
       (activeId === 'kasir-dash-rekap' || activeId.includes('rekap'))

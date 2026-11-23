@@ -113,7 +113,7 @@ export function MitraValidationView({
         {/* Total Mitra */}
         <div
           onClick={() => setSelectedStatusFilter('ALL')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#4F5D73] to-[#606F86] ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#1E6BFF] via-[#286EF2] to-[#60A5FA] ${
             selectedStatusFilter === 'ALL'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'
@@ -138,7 +138,7 @@ export function MitraValidationView({
         {/* Menunggu Verifikasi (Pending) */}
         <div
           onClick={() => setSelectedStatusFilter('PENDING')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#D98009] to-[#E78F14] ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24] ${
             selectedStatusFilter === 'PENDING'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'
@@ -166,7 +166,7 @@ export function MitraValidationView({
         {/* Mitra Aktif (Active) */}
         <div
           onClick={() => setSelectedStatusFilter('ACTIVE')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#129A70] to-[#1AA97E] ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#059669] via-[#10B981] to-[#34D399] ${
             selectedStatusFilter === 'ACTIVE'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'
@@ -191,7 +191,7 @@ export function MitraValidationView({
         {/* Ditolak / Revisi (Rejected) */}
         <div
           onClick={() => setSelectedStatusFilter('REJECTED')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#D9344E] to-[#E63F59] ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#E11D48] via-[#F43F5E] to-[#FB7185] ${
             selectedStatusFilter === 'REJECTED'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'
@@ -216,7 +216,7 @@ export function MitraValidationView({
         {/* Dibekukan (Suspended) */}
         <div
           onClick={() => setSelectedStatusFilter('SUSPENDED')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] col-span-2 sm:col-span-1 bg-gradient-to-br from-[#4F5D73] to-[#606F86] ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] col-span-2 sm:col-span-1 bg-gradient-to-br from-[#4F46E5] via-[#6366F1] to-[#A855F7] ${
             selectedStatusFilter === 'SUSPENDED'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'

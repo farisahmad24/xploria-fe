@@ -18,20 +18,20 @@ const cardTheme: Record<
   }
 > = {
   tickets: {
-    gradient: 'bg-gradient-to-br from-[#0F3D91] to-[#286EF2]',
-    badgeText: 'text-[#1D5AD6]',
+    gradient: 'bg-gradient-to-br from-[#1E6BFF] via-[#286EF2] to-[#60A5FA]',
+    badgeText: 'text-[#1E6BFF]',
   },
   validated: {
-    gradient: 'bg-gradient-to-br from-[#064E3B] to-[#10B981]',
+    gradient: 'bg-gradient-to-br from-[#059669] via-[#10B981] to-[#34D399]',
     badgeText: 'text-[#059669]',
   },
   visitors: {
-    gradient: 'bg-gradient-to-br from-[#312E81] to-[#4F46E5]',
-    badgeText: 'text-[#4338CA]',
+    gradient: 'bg-gradient-to-br from-[#4F46E5] via-[#6366F1] to-[#A855F7]',
+    badgeText: 'text-[#4F46E5]',
   },
   revenue: {
-    gradient: 'bg-gradient-to-br from-[#9A3412] to-[#F59E0B]',
-    badgeText: 'text-[#B45309]',
+    gradient: 'bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24]',
+    badgeText: 'text-[#D97706]',
   },
 };
 

@@ -19,7 +19,7 @@ export default function AppLogo({
   const logoSrc = isWhite ? '/logo-white.png' : '/logo.png';
 
   return (
-    <div className={`inline-flex items-center gap-3 ${className}`}>
+    <div className={`inline-flex items-center gap-3 font-sans ${className}`}>
       {/* Exact Logo from User with Transparent Background */}
       <img
         src={logoSrc}
@@ -30,15 +30,15 @@ export default function AppLogo({
       />
 
       {showText && (
-        <div className="leading-tight">
+        <div className="leading-tight font-sans">
           <p
-            className={`text-base font-extrabold tracking-tight ${textClassName || (isWhite ? 'text-white' : 'text-slate-900')
+            className={`text-base font-extrabold tracking-tight font-sans ${textClassName || (isWhite ? 'text-white' : 'text-slate-900')
               }`}
           >
             Ploria
           </p>
           <p
-            className={`text-xs font-semibold ${subtitleClassName || (isWhite ? 'text-blue-100' : 'text-[#286EF2]')
+            className={`text-xs font-semibold font-sans ${subtitleClassName || (isWhite ? 'text-blue-100' : 'text-[#286EF2]')
               }`}
           >
             Pemesanan Tiket Wisata

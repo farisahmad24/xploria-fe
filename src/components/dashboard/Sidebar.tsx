@@ -120,19 +120,11 @@ export default function Sidebar({
 
     // Tiketing
     if (
-      (groupId === 'mo-tiket' || groupId === 'admin-tiket' || groupId === 'kasir-tiket-sales') &&
-      (activeId.includes('tiket') || activeId === 'tiket')
+      (groupId === 'mo-tiket' || groupId === 'admin-tiket' || groupId === 'kasir-tiket') &&
+      (activeId.includes('tiket') || activeId === 'tiket' || activeId === 'kasir-dash-rekap')
     ) {
-      if (groupId === 'kasir-tiket-sales') return activeId === 'kasir-tiket-sales';
       return true;
     }
-
-    if (groupId === 'kasir-tiket-history') return activeId === 'kasir-tiket-history';
-    if (groupId === 'kasir-tiket-validate') return activeId === 'kasir-tiket-validate';
-    if (
-      groupId === 'kasir-dash-rekap' &&
-      (activeId === 'kasir-dash-rekap' || activeId.includes('rekap'))
-    ) return true;
 
     // Laporan
     if (

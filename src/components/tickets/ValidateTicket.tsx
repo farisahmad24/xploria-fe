@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import {
+  Camera,
   CheckCircle2,
   Clock,
   Filter,
@@ -15,6 +16,7 @@ import {
 import SlantedTicket from '@/components/common/SlantedTicket';
 import { formatNumber, formatRupiah, formatVisitDate } from '@/lib/bookings';
 import type { mendatang, ValidationResult } from '@/types/ticket';
+import { QrScannerModal } from './QrScannerModal';
 
 type ValidateTicketProps = {
   onValidate: (code: string) => ValidationResult;
@@ -28,6 +30,7 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
   const [searchLog, setSearchLog] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'validated' | 'booked'>('all');
   const [typeFilter, setTypeFilter] = useState<'all' | 'hari_ini' | 'mendatang'>('all');
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Validated & Pending tickets data
@@ -182,6 +185,15 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
               className="w-full rounded-2xl border border-slate-200 bg-slate-50/70 py-3.5 pl-11 pr-4 font-mono text-sm uppercase tracking-wider text-slate-800 placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400 transition focus:border-[#286EF2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-100"
             />
           </div>
+          <button
+            type="button"
+            onClick={() => setIsScannerOpen(true)}
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-[#286EF2]/30 bg-blue-50/80 px-6 py-3.5 text-sm font-bold text-[#286EF2] hover:bg-blue-100 transition shadow-xs active:scale-95 shrink-0"
+            title="Buka kamera scanner QR Code tiket"
+          >
+            <Camera className="h-4 w-4" />
+            <span>Scan QR Kamera</span>
+          </button>
           <button
             type="submit"
             className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#286EF2] px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/25 transition hover:bg-blue-700 focus:outline-none shrink-0"
@@ -478,6 +490,20 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
           </span>
         </div>
       </div>
+
+      {/* Modal Pemindai Kamera QR Code */}
+      <QrScannerModal
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(false)}
+        onScanSuccess={(scannedCode) => {
+          setCode(scannedCode);
+          setFormError('');
+          setResult(null);
+          inputRef.current?.focus();
+          window.scrollTo({ top: 120, behavior: 'smooth' });
+        }}
+        pendingSampleCodes={pendingBookings.slice(0, 3).map((b) => b.code)}
+      />
     </div>
   );
 }

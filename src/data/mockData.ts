@@ -161,14 +161,27 @@ export const initialOperationalExpenses: OperationalExpense[] = [
 ];
 
 export const initialDestinationInfo: DestinationInfo = {
+  // 1. Gambar (bisa lebih dari 1)
+  images: [
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80',
+  ],
+  // 2. Nama Tempat
   name: 'Pantai Ploria Indah',
   tagline: 'Pesona Bahari Tropis & Konservasi Terumbu Karang',
+  // 3. Lokasi
+  location: 'Jl. Bahari Nusantara No. 88, Desa Wisata Karang Indah, Malang, Jawa Timur',
+  // 4. Jam Operasional
+  openHours: 'Setiap Hari: 07:00 - 18:00 WIB (Gate ditutup 17.30 WIB)',
+  // 5. Deskripsi
   description:
     'Destinasi wisata pesisir unggulan dengan panorama pasir putih halus, air laut turquoise, serta fasilitas lengkap rekreasi keluarga. Dilengkapi spot snorkeling, gazebo teduh di tepi pantai, dan pusat kuliner hidangan laut segar khas nusantara.',
-  location: 'Jl. Bahari Nusantara No. 88, Desa Wisata Karang Indah',
-  contactPhone: '(021) 7890-4321 / +62 812-3456-7890',
-  contactEmail: 'info@Ploria.id',
-  openHours: 'Setiap Hari: 07:00 - 18:00 WIB',
+  // 6. Himbauan / Informasi Penting (Jika Ada)
+  importantNotice:
+    'Seluruh pengunjung wajib mengenakan pelampung keselamatan saat bermain wahana air. Dilarang membawa botol kaca dan sampah plastik ke bibir pantai demi kelestarian ekosistem terumbu karang.',
+  // 7. Fasilitas
   facilities: [
     'Gazebo Pantai & Tempat Santai',
     'Pusat Snorkeling & Penyewaan Alat',
@@ -176,7 +189,23 @@ export const initialDestinationInfo: DestinationInfo = {
     'Musholla & Ruang Ganti Bersih',
     'Sentra Kuliner Makanan Laut',
     'Area Parkir Luas & Keamanan 24 Jam',
+    'Pos Medis & Lifeguard Siaga',
   ],
+  // 8. Kontak Pengelola
+  contactPhone: '+62 812-3456-7890 / (021) 7890-4321',
+  contactEmail: 'info@ploria.id',
+  managerContact: 'Budi Santoso, S.Par (Manajer Operasional Wisata - 0812-9876-5432)',
+  // 9. Pilihan tiket (harga terendah/penawaran terbaik)
+  lowestTicketPrice: 15000,
+  bestOffer: 'Mulai dari Rp 15.000 / orang (Diskon 10% untuk Paket Keluarga Bahari)',
+  // 10. Rating
+  rating: 4.9,
+  totalReviews: 128,
+  // 11. Prediksi Kepadatan
+  crowdPrediction: 'Rendah (Pagi: 07.00 - 10.00) • Sedang (Siang: 10.00 - 14.00) • Padat / Ramai (Sore: 14.00 - 17.30)',
+  // 12. Rekomendasi
+  recommendation:
+    'Waktu terbaik berkunjung pukul 15.30 WIB untuk menikmati panorama matahari terbenam (sunset) dan wahana snorkeling air jernih.',
   rules: [
     'Wajib menunjukkan tiket resmi di pintu masuk',
     'Dilarang merusak terumbu karang & biota laut',

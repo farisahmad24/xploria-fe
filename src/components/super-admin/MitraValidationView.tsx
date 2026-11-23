@@ -216,7 +216,7 @@ export function MitraValidationView({
         {/* Dibekukan (Suspended) */}
         <div
           onClick={() => setSelectedStatusFilter('SUSPENDED')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] col-span-2 sm:col-span-1 bg-gradient-to-br from-[#4F46E5] via-[#6366F1] to-[#A855F7] ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] col-span-2 sm:col-span-1 bg-gradient-to-br from-[#475569] via-[#64748B] to-[#94A3B8] ${
             selectedStatusFilter === 'SUSPENDED'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'

@@ -113,49 +113,51 @@ export function MitraValidationView({
         {/* Total Mitra */}
         <div
           onClick={() => setSelectedStatusFilter('ALL')}
-          className={`cursor-pointer rounded-3xl p-4 sm:p-5 border transition-all ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#4F5D73] to-[#606F86] ${
             selectedStatusFilter === 'ALL'
-              ? 'border-[#286EF2] bg-white shadow-md ring-2 ring-blue-100'
-              : 'border-slate-200/80 bg-white hover:border-slate-300 shadow-sm'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
           }`}
         >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-white">
               Total Mitra
             </span>
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm">
               <Users className="h-4 w-4" />
             </span>
           </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-black text-slate-900">{totalCount}</span>
-            <span className="text-[10px] font-bold text-slate-400">Destinasi</span>
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-black text-white">{totalCount}</span>
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-bold text-white">
+              Destinasi
+            </span>
           </div>
         </div>
 
         {/* Menunggu Verifikasi (Pending) */}
         <div
           onClick={() => setSelectedStatusFilter('PENDING')}
-          className={`cursor-pointer rounded-3xl p-4 sm:p-5 border transition-all ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#D98009] to-[#E78F14] ${
             selectedStatusFilter === 'PENDING'
-              ? 'border-amber-400 bg-amber-50/60 shadow-md ring-2 ring-amber-100'
-              : 'border-slate-200/80 bg-white hover:border-amber-200 shadow-sm'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
           }`}
         >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-white">
               Menunggu Review
             </span>
-            <span className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+            <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm">
               <Clock className="h-4 w-4" />
               {pendingCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-amber-500 animate-ping" />
+                <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-white animate-ping" />
               )}
             </span>
           </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-black text-amber-900">{pendingCount}</span>
-            <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[9px] font-black text-amber-800 uppercase">
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-black text-white">{pendingCount}</span>
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-black uppercase text-white tracking-wide">
               PENDING
             </span>
           </div>
@@ -164,23 +166,23 @@ export function MitraValidationView({
         {/* Mitra Aktif (Active) */}
         <div
           onClick={() => setSelectedStatusFilter('ACTIVE')}
-          className={`cursor-pointer rounded-3xl p-4 sm:p-5 border transition-all ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#129A70] to-[#1AA97E] ${
             selectedStatusFilter === 'ACTIVE'
-              ? 'border-emerald-400 bg-emerald-50/60 shadow-md ring-2 ring-emerald-100'
-              : 'border-slate-200/80 bg-white hover:border-emerald-200 shadow-sm'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
           }`}
         >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-white">
               Mitra Aktif
             </span>
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm">
               <CheckCircle2 className="h-4 w-4" />
             </span>
           </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-black text-emerald-900">{activeCount}</span>
-            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[9px] font-black text-emerald-800 uppercase">
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-black text-white">{activeCount}</span>
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-black uppercase text-white tracking-wide">
               ACTIVE
             </span>
           </div>
@@ -189,23 +191,23 @@ export function MitraValidationView({
         {/* Ditolak / Revisi (Rejected) */}
         <div
           onClick={() => setSelectedStatusFilter('REJECTED')}
-          className={`cursor-pointer rounded-3xl p-4 sm:p-5 border transition-all ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#D9344E] to-[#E63F59] ${
             selectedStatusFilter === 'REJECTED'
-              ? 'border-rose-400 bg-rose-50/60 shadow-md ring-2 ring-rose-100'
-              : 'border-slate-200/80 bg-white hover:border-rose-200 shadow-sm'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
           }`}
         >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-white">
               Ditolak / Revisi
             </span>
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-rose-100 text-rose-700">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm">
               <XCircle className="h-4 w-4" />
             </span>
           </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-black text-rose-900">{rejectedCount}</span>
-            <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[9px] font-black text-rose-800 uppercase">
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-black text-white">{rejectedCount}</span>
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-black uppercase text-white tracking-wide">
               REJECTED
             </span>
           </div>
@@ -214,23 +216,23 @@ export function MitraValidationView({
         {/* Dibekukan (Suspended) */}
         <div
           onClick={() => setSelectedStatusFilter('SUSPENDED')}
-          className={`cursor-pointer rounded-3xl p-4 sm:p-5 border transition-all col-span-2 sm:col-span-1 ${
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] col-span-2 sm:col-span-1 bg-gradient-to-br from-[#4F5D73] to-[#606F86] ${
             selectedStatusFilter === 'SUSPENDED'
-              ? 'border-slate-400 bg-slate-100 shadow-md ring-2 ring-slate-200'
-              : 'border-slate-200/80 bg-white hover:border-slate-300 shadow-sm'
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+              : 'opacity-95 hover:opacity-100'
           }`}
         >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-white">
               Dibekukan
             </span>
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-200 text-slate-700">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm">
               <Power className="h-4 w-4" />
             </span>
           </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-black text-slate-900">{suspendedCount}</span>
-            <span className="rounded-full bg-slate-200 px-2 py-0.5 text-[9px] font-black text-slate-700 uppercase">
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-black text-white">{suspendedCount}</span>
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-black uppercase text-white tracking-wide">
               SUSPENDED
             </span>
           </div>

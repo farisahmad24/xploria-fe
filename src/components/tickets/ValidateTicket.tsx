@@ -88,55 +88,58 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
     <div className="flex w-full flex-col gap-6">
       {/* ── 1. STATISTIK RINGKASAN GERBANG VALIDASI ── */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-card">
+        {/* Card 1: Tiket Tervalidasi Masuk (Hijau Emerald - Sukses / Valid) */}
+        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#059669] via-[#10B981] to-[#34D399] text-white">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
               Tiket Tervalidasi Masuk
             </span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white">
               <UserCheck className="h-4 w-4" />
             </div>
           </div>
-          <p className="mt-2 text-2xl font-black text-slate-900 sm:text-3xl">
+          <p className="mt-2 text-2xl font-black text-white sm:text-3xl">
             {formatNumber(totalValidatedCount)}
           </p>
-          <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-white/90">
+            <span className="h-2 w-2 rounded-full bg-white animate-pulse" />
             {validatedBookings.length} transaksi lolos check-in
           </p>
         </div>
 
-        <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-card">
+        {/* Card 2: Tiket Belum Masuk / Antre (Amber / Oranye - Menunggu / Antrean) */}
+        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24] text-white">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
               Tiket Belum Masuk / Antre
             </span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-[#286EF2]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white">
               <Clock className="h-4 w-4" />
             </div>
           </div>
-          <p className="mt-2 text-2xl font-black text-slate-900 sm:text-3xl">
+          <p className="mt-2 text-2xl font-black text-white sm:text-3xl">
             {formatNumber(totalPendingCount)}
           </p>
-          <p className="mt-1 text-xs font-medium text-slate-400">
+          <p className="mt-1 text-xs font-medium text-white/90">
             {pendingBookings.length} pesanan menunggu kehadiran
           </p>
         </div>
 
-        <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-card">
+        {/* Card 3: Status Pintu Masuk (Biru Ploria - Operasional / Scanner Aktif) */}
+        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#1E6BFF] via-[#286EF2] to-[#60A5FA] text-white">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
               Status Pintu Masuk
             </span>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-[#286EF2]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white">
               <ScanLine className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-2 flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <p className="text-lg font-black text-emerald-700">Online &amp; Siap</p>
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-300 animate-pulse" />
+            <p className="text-lg font-black text-white">Online &amp; Siap</p>
           </div>
-          <p className="mt-1 text-xs font-medium text-slate-400">Scanner gerbang 1 &amp; 2 terhubung</p>
+          <p className="mt-1 text-xs font-medium text-white/90">Scanner gerbang 1 &amp; 2 terhubung</p>
         </div>
       </div>
 

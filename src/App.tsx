@@ -349,6 +349,7 @@ function App() {
 
     // Penjualan Tiket (Kasir / Loket Transaksi)
     if (
+      activeNav === 'kasir-tiket' ||
       activeNav === 'kasir-tiket-sales' ||
       activeNav === 'mo-tiket-sales' ||
       activeNav === 'admin-tiket-sales' ||

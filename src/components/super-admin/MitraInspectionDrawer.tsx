@@ -97,20 +97,17 @@ export function MitraInspectionDrawer({
   };
 
   const handleRejectSubmit = () => {
-    if (!actionNote.trim()) {
-      alert('Mohon isi catatan instruksi revisi untuk calon mitra.');
-      return;
-    }
-    onReject(mitra.id, selectedQuickReason, actionNote);
+    const reason = selectedQuickReason;
+    const note = actionNote.trim() || 'Dokumen belum memenuhi standar kelayakan dan kepatuhan operasional. Silakan periksa kembali instruksi dan unggah ulang berkas yang valid.';
+    onReject(mitra.id, reason, note);
+    setActionFlow('none');
     onClose();
   };
 
   const handleSuspendSubmit = () => {
-    if (!actionNote.trim()) {
-      alert('Mohon isi alasan pembekuan / suspend akun mitra.');
-      return;
-    }
-    onSuspend(mitra.id, actionNote);
+    const reason = actionNote.trim() || 'Pembekuan akun sementara untuk keperluan audit dan investigasi operasional.';
+    onSuspend(mitra.id, reason);
+    setActionFlow('none');
     onClose();
   };
 
@@ -438,105 +435,6 @@ export function MitraInspectionDrawer({
               </label>
             </div>
           </div>
-
-          {/* Rejection Form Box if Action Mode is 'rejecting' */}
-          {actionFlow === 'rejecting' && (
-            <div className="rounded-2xl border-2 border-rose-300 bg-rose-50/60 p-4 space-y-3 animate-fadeIn">
-              <div className="flex items-center justify-between text-rose-800">
-                <div className="flex items-center gap-2">
-                  <XCircle className="h-4 w-4" />
-                  <h4 className="text-xs font-black uppercase tracking-wider">Form Penolakan Berkas Mitra</h4>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActionFlow('none')}
-                  className="text-xs font-bold text-slate-500 hover:text-slate-800"
-                >
-                  Batal
-                </button>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                  Pilih Alasan Penolakan Cepat:
-                </label>
-                <select
-                  value={selectedQuickReason}
-                  onChange={(e) => setSelectedQuickReason(e.target.value)}
-                  className="w-full rounded-xl border border-rose-200 bg-white p-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-400"
-                >
-                  {QUICK_REJECTION_REASONS.map((r, i) => (
-                    <option key={i} value={r}>
-                      {r}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                  Catatan Revisi Wajib (Akan Diberitahukan ke PIC Mitra):
-                </label>
-                <textarea
-                  rows={3}
-                  required
-                  value={actionNote}
-                  onChange={(e) => setActionNote(e.target.value)}
-                  placeholder="Jelaskan secara detail berkas apa yang harus diunggah ulang oleh calon mitra..."
-                  className="w-full rounded-xl border border-rose-200 bg-white p-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-400"
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={handleRejectSubmit}
-                className="w-full rounded-xl bg-rose-600 py-2.5 text-xs font-bold text-white shadow hover:bg-rose-700 transition"
-              >
-                Konfirmasi Tolak Pendaftaran
-              </button>
-            </div>
-          )}
-
-          {/* Suspend Form Box if Action Mode is 'suspending' */}
-          {actionFlow === 'suspending' && (
-            <div className="rounded-2xl border-2 border-slate-400 bg-slate-100 p-4 space-y-3 animate-fadeIn">
-              <div className="flex items-center justify-between text-slate-800">
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="h-4 w-4 text-amber-600" />
-                  <h4 className="text-xs font-black uppercase tracking-wider">Form Pembekuan Akun Mitra (Suspend)</h4>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActionFlow('none')}
-                  className="text-xs font-bold text-slate-500 hover:text-slate-800"
-                >
-                  Batal
-                </button>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                  Alasan Pembekuan Akun:
-                </label>
-                <textarea
-                  rows={2}
-                  required
-                  value={actionNote}
-                  onChange={(e) => setActionNote(e.target.value)}
-                  placeholder="Misal: Investigasi selisih rekonsiliasi kasir / kendala scanner QR lapangan..."
-                  className="w-full rounded-xl border border-slate-300 bg-white p-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={handleSuspendSubmit}
-                className="w-full rounded-xl bg-slate-800 py-2.5 text-xs font-bold text-white shadow hover:bg-slate-900 transition"
-              >
-                Konfirmasi Bekukan Akun Mitra
-              </button>
-            </div>
-          )}
         </div>
 
         {/* Drawer Footer Actions */}
@@ -632,6 +530,141 @@ export function MitraInspectionDrawer({
         mitra={mitra}
         activeDocType={activeDocTab}
       />
+
+      {/* Modal Dialog: Tolak Pendaftaran Mitra */}
+      {actionFlow === 'rejecting' && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
+          <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl border border-rose-100 space-y-4 animate-scaleUp">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-100 text-rose-600 shrink-0">
+                  <XCircle className="h-6 w-6" />
+                </span>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">Tolak Pendaftaran Mitra</h3>
+                  <p className="text-xs text-slate-500">{mitra.destinationName} • PIC: {mitra.pic.fullName}</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActionFlow('none')}
+                className="rounded-full p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="rounded-2xl bg-rose-50/70 p-3.5 border border-rose-200/80 text-xs text-rose-800">
+              <p className="font-semibold leading-relaxed">
+                Status mitra akan diubah menjadi <strong className="font-black text-rose-900">REJECTED</strong>. Berkas akan dikembalikan ke calon mitra untuk diperbaiki dan dilengkapi.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                Alasan Penolakan:
+              </label>
+              <select
+                value={selectedQuickReason}
+                onChange={(e) => setSelectedQuickReason(e.target.value)}
+                className="w-full rounded-xl border border-slate-300 bg-white p-3 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500"
+              >
+                {QUICK_REJECTION_REASONS.map((r, i) => (
+                  <option key={i} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                Catatan Tambahan untuk PIC Mitra (Opsional):
+              </label>
+              <textarea
+                rows={3}
+                value={actionNote}
+                onChange={(e) => setActionNote(e.target.value)}
+                placeholder="Misal: Foto KTP mohon diunggah ulang tanpa pantulan cahaya..."
+                className="w-full rounded-xl border border-slate-300 bg-white p-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500"
+              />
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setActionFlow('none')}
+                className="flex-1 rounded-xl border border-slate-200 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleRejectSubmit}
+                className="flex-1 rounded-xl bg-rose-600 py-2.5 text-xs font-bold text-white shadow-md shadow-rose-600/30 hover:bg-rose-700 transition"
+              >
+                Konfirmasi Tolak Pendaftaran
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Dialog: Suspend Mitra */}
+      {actionFlow === 'suspending' && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
+          <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl border border-slate-200 space-y-4 animate-scaleUp">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 shrink-0">
+                  <AlertTriangle className="h-6 w-6" />
+                </span>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">Bekukan Akun Mitra (Suspend)</h3>
+                  <p className="text-xs text-slate-500">{mitra.destinationName}</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActionFlow('none')}
+                className="rounded-full p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                Alasan Pembekuan Akun:
+              </label>
+              <textarea
+                rows={3}
+                value={actionNote}
+                onChange={(e) => setActionNote(e.target.value)}
+                placeholder="Misal: Investigasi selisih rekonsiliasi kasir / kendala scanner QR..."
+                className="w-full rounded-xl border border-slate-300 bg-white p-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-500"
+              />
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setActionFlow('none')}
+                className="flex-1 rounded-xl border border-slate-200 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleSuspendSubmit}
+                className="flex-1 rounded-xl bg-slate-800 py-2.5 text-xs font-bold text-white shadow hover:bg-slate-900 transition"
+              >
+                Konfirmasi Bekukan Akun
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

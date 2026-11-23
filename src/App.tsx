@@ -189,10 +189,12 @@ function App() {
           <div
             key={toast.id}
             role="status"
-            className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-ocean-950 px-5 py-3 text-sm font-medium text-white shadow-2xl ring-1 ring-white/10"
+            className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-ocean-950 px-5 py-3 text-sm font-medium shadow-2xl ring-1 ring-white/10"
           >
-            <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-            <span>{toast.message}</span>
+            <CheckCircle2 className={`h-4 w-4 shrink-0 ${toast.message.toLowerCase().includes('logout') ? 'text-blue-400' : 'text-emerald-400'}`} />
+            <span className={toast.message.toLowerCase().includes('logout') ? 'text-blue-400 font-semibold' : 'text-white'}>
+              {toast.message}
+            </span>
           </div>
         )}
       </>
@@ -208,10 +210,12 @@ function App() {
           <div
             key={toast.id}
             role="status"
-            className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-medium text-white shadow-2xl ring-1 ring-white/10"
+            className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-medium shadow-2xl ring-1 ring-white/10"
           >
-            <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-            <span>{toast.message}</span>
+            <CheckCircle2 className={`h-4 w-4 shrink-0 ${toast.message.toLowerCase().includes('logout') ? 'text-blue-400' : 'text-emerald-400'}`} />
+            <span className={toast.message.toLowerCase().includes('logout') ? 'text-blue-400 font-semibold' : 'text-white'}>
+              {toast.message}
+            </span>
           </div>
         )}
       </>
@@ -621,10 +625,12 @@ function App() {
         <div
           key={toast.id}
           role="status"
-          className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-ocean-950 px-5 py-3 text-sm font-medium text-white shadow-2xl ring-1 ring-white/10 print:hidden"
+          className="animate-fade-in-up fixed bottom-6 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2.5 rounded-2xl bg-ocean-950 px-5 py-3 text-sm font-medium shadow-2xl ring-1 ring-white/10 print:hidden"
         >
-          <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-          <span>{toast.message}</span>
+          <CheckCircle2 className={`h-4 w-4 shrink-0 ${toast.message.toLowerCase().includes('logout') ? 'text-blue-400' : 'text-emerald-400'}`} />
+          <span className={toast.message.toLowerCase().includes('logout') ? 'text-blue-400 font-semibold' : 'text-white'}>
+            {toast.message}
+          </span>
         </div>
       )}
     </div>

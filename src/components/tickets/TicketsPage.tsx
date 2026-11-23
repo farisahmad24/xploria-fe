@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { History, Layers, QrCode, Receipt, Wrench } from 'lucide-react';
-import SlantedTicket from '@/components/common/SlantedTicket';
 import BookingForm from '@/components/tickets/BookingForm';
 import CloseOrderConfirmModal from '@/components/tickets/CloseOrderConfirmModal';
 import CloseOrderHistoryView from '@/components/tickets/CloseOrderHistoryView';
@@ -127,81 +125,6 @@ export default function TicketsPage({
           <span className={`h-2 w-2 rounded-full ${isSessionOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
           <span>Petugas: {cashierName}</span>
         </div>
-      </div>
-
-      {/* ── TAB BAR NAVIGASI TIKETING ── */}
-      <div className="flex items-center gap-1.5 overflow-x-auto rounded-2xl border border-slate-200/80 bg-white p-1.5 shadow-sm text-xs font-bold text-slate-600">
-        {!isKasir && (
-          <>
-            <button
-              type="button"
-              onClick={() => setTab('kelola-tiket')}
-              className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 transition shrink-0 ${
-                tab === 'kelola-tiket' ? 'bg-[#286EF2] text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'
-              }`}
-            >
-              <Wrench className="h-3.5 w-3.5" />
-              <span>Kelola Jenis Tiket</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setTab('kategori')}
-              className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 transition shrink-0 ${
-                tab === 'kategori' ? 'bg-[#286EF2] text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'
-              }`}
-            >
-              <Layers className="h-3.5 w-3.5" />
-              <span>Kategori</span>
-            </button>
-          </>
-        )}
-        <button
-          type="button"
-          onClick={() => setTab('pesan')}
-          className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 transition shrink-0 ${
-            tab === 'pesan' ? 'bg-[#286EF2] text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'
-          }`}
-        >
-          <SlantedTicket className="h-3.5 w-3.5" />
-          <span>Loket Penjualan</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setTab('riwayat')}
-          className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 transition shrink-0 ${
-            tab === 'riwayat' ? 'bg-[#286EF2] text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'
-          }`}
-        >
-          <History className="h-3.5 w-3.5" />
-          <span>Riwayat Penjualan</span>
-          <span
-            className={`rounded-full px-2 py-0.5 text-[10px] font-black ${
-              tab === 'riwayat' ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#286EF2]'
-            }`}
-          >
-            {bookings.length}
-          </span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setTab('validasi')}
-          className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 transition shrink-0 ${
-            tab === 'validasi' ? 'bg-[#286EF2] text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'
-          }`}
-        >
-          <QrCode className="h-3.5 w-3.5" />
-          <span>Validasi Gerbang</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setTab('rekap-close-order')}
-          className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 transition shrink-0 ${
-            tab === 'rekap-close-order' ? 'bg-[#286EF2] text-white shadow-sm' : 'hover:bg-slate-50 text-slate-700'
-          }`}
-        >
-          <Receipt className="h-3.5 w-3.5" />
-          <span>Rekap &amp; Close Order</span>
-        </button>
       </div>
 
       {/* ── 2. TAB PANELS ── */}

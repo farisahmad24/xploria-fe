@@ -93,9 +93,9 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 <img
                   src="/logo.png"
                   alt="Ploria Logo"
-                  className="h-7 w-auto object-contain select-none drop-shadow-xs"
+                  className="h-8 w-auto object-contain select-none drop-shadow-xs"
                 />
-                <span className="text-base font-extrabold text-slate-900 tracking-tight">
+                <span className="text-xl font-black text-slate-900 tracking-tight font-sans">
                   Ploria
                 </span>
               </div>

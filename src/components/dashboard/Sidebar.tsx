@@ -181,7 +181,7 @@ export default function Sidebar({
             alt="Ploria Logo"
             className="h-10 w-auto object-contain drop-shadow-sm select-none"
           />
-          <h1 className="mt-2 text-base font-bold text-white tracking-wide">
+          <h1 className="mt-2 text-base font-bold text-white tracking-wide font-sans">
             Ploria Agency
           </h1>
           <button

@@ -289,7 +289,7 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({ auditLogs }) => {
         {/* Card 4: DIBEKUKAN */}
         <div
           onClick={() => setActionFilter('SUSPEND')}
-          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24] text-white ${
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#475569] via-[#64748B] to-[#94A3B8] text-white ${
             actionFilter === 'SUSPEND'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'
@@ -308,7 +308,7 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({ auditLogs }) => {
         {/* Card 5: PENDAFTARAN */}
         <div
           onClick={() => setActionFilter('REGISTER')}
-          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#4F46E5] via-[#6366F1] to-[#A855F7] text-white ${
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24] text-white ${
             actionFilter === 'REGISTER'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'

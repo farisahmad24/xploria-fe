@@ -10,6 +10,31 @@ const iconById: Record<StatItem['id'], LucideIcon | typeof SlantedTicket> = {
   revenue: Wallet,
 };
 
+const cardTheme: Record<
+  StatItem['id'],
+  {
+    gradient: string;
+    badgeText: string;
+  }
+> = {
+  tickets: {
+    gradient: 'bg-gradient-to-br from-[#0F3D91] to-[#286EF2]',
+    badgeText: 'text-[#1D5AD6]',
+  },
+  validated: {
+    gradient: 'bg-gradient-to-br from-[#064E3B] to-[#10B981]',
+    badgeText: 'text-[#059669]',
+  },
+  visitors: {
+    gradient: 'bg-gradient-to-br from-[#312E81] to-[#4F46E5]',
+    badgeText: 'text-[#4338CA]',
+  },
+  revenue: {
+    gradient: 'bg-gradient-to-br from-[#9A3412] to-[#F59E0B]',
+    badgeText: 'text-[#B45309]',
+  },
+};
+
 function buildSparkPath(points: number[], width: number, height: number) {
   const max = Math.max(...points);
   const min = Math.min(...points);
@@ -23,7 +48,6 @@ function buildSparkPath(points: number[], width: number, height: number) {
   );
 }
 
-
 function Sparkline({ points }: { points: number[] }) {
   const width = 80;
   const height = 28;
@@ -32,10 +56,9 @@ function Sparkline({ points }: { points: number[] }) {
       <path
         d={buildSparkPath(points, width, height)}
         fill="none"
-        stroke="currentColor"
+        stroke="#FFFFFF"
         strokeWidth={2}
         strokeLinecap="round"
-        className="text-ocean-500"
       />
     </svg>
   );
@@ -43,26 +66,28 @@ function Sparkline({ points }: { points: number[] }) {
 
 export default function StatCard({ item, delay }: { item: StatItem; delay: number }) {
   const Icon = iconById[item.id];
+  const theme = cardTheme[item.id];
+
   return (
     <article
-      className="animate-fade-in-up group rounded-2xl border border-ocean-100 bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-ocean-200 hover:shadow-xl"
+      className={`animate-fade-in-up group rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${theme.gradient}`}
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="flex items-start gap-4">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-ocean-50 text-ocean-600 transition-colors group-hover:bg-ocean-600 group-hover:text-white">
-          <Icon className="h-5 w-5" />
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white">
+          <Icon className="h-5 w-5 text-white" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-slate-500">{item.label}</p>
-          <p className="mt-1 truncate text-xl font-bold text-ocean-900 sm:text-2xl">{item.value}</p>
+          <p className="truncate text-sm font-medium text-white/90">{item.label}</p>
+          <p className="mt-1 truncate text-xl font-bold text-white sm:text-2xl">{item.value}</p>
         </div>
       </div>
       <div className="mt-4 flex items-center justify-between">
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-600">
+        <span className={`inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold ${theme.badgeText}`}>
           <TrendingUp className="h-3 w-3" />
           {item.change}
         </span>
-        <span className="text-ocean-400 transition-colors group-hover:text-ocean-600">
+        <span className="text-white opacity-90 transition-opacity group-hover:opacity-100">
           <Sparkline points={item.spark} />
         </span>
       </div>

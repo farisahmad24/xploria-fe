@@ -229,10 +229,10 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({ auditLogs }) => {
 
       {/* KPI Cards Ringkasan Audit */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        {/* Card 1: TOTAL ENTRI LOG */}
+        {/* Card 1: TOTAL ENTRI LOG (Dark Slate) */}
         <div
           onClick={() => setActionFilter('ALL')}
-          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#1E6BFF] via-[#286EF2] to-[#60A5FA] text-white ${
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#334155] via-[#475569] to-[#64748B] text-white ${
             actionFilter === 'ALL'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'
@@ -248,7 +248,7 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({ auditLogs }) => {
           <p className="text-xs text-white/90 mt-1">Seluruh jejak terekam</p>
         </div>
 
-        {/* Card 2: DISETUJUI */}
+        {/* Card 2: DISETUJUI (Hijau Emerald) */}
         <div
           onClick={() => setActionFilter('APPROVE')}
           className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#059669] via-[#10B981] to-[#34D399] text-white ${
@@ -267,7 +267,7 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({ auditLogs }) => {
           <p className="text-xs text-white/90 mt-1">Mitra resmi aktif</p>
         </div>
 
-        {/* Card 3: DITOLAK */}
+        {/* Card 3: DITOLAK (Merah / Rose) */}
         <div
           onClick={() => setActionFilter('REJECT')}
           className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#E11D48] via-[#F43F5E] to-[#FB7185] text-white ${
@@ -286,10 +286,10 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({ auditLogs }) => {
           <p className="text-xs text-white/90 mt-1">Memerlukan revisi</p>
         </div>
 
-        {/* Card 4: DIBEKUKAN */}
+        {/* Card 4: DIBEKUKAN (Abu-abu / Neutral Slate) */}
         <div
           onClick={() => setActionFilter('SUSPEND')}
-          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#475569] via-[#64748B] to-[#94A3B8] text-white ${
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#64748B] via-[#94A3B8] to-[#CBD5E1] text-white ${
             actionFilter === 'SUSPEND'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'
@@ -305,10 +305,10 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({ auditLogs }) => {
           <p className="text-xs text-white/90 mt-1">Akses ditangguhkan</p>
         </div>
 
-        {/* Card 5: PENDAFTARAN */}
+        {/* Card 5: PENDAFTARAN (Biru Ploria) */}
         <div
           onClick={() => setActionFilter('REGISTER')}
-          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24] text-white ${
+          className={`cursor-pointer p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#1E6BFF] via-[#286EF2] to-[#60A5FA] text-white ${
             actionFilter === 'REGISTER'
               ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
               : 'opacity-95 hover:opacity-100'

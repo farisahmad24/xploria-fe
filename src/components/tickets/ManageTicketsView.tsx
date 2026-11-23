@@ -49,11 +49,13 @@ export default function ManageTicketsView({
   const [name, setName] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [facilities, setFacilities] = useState<string>('');
+  const [excludedFacilities, setExcludedFacilities] = useState<string>('');
   const [terms, setTerms] = useState<string>('');
   const [discount, setDiscount] = useState<string>('0');
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [validityPeriod, setValidityPeriod] = useState<string>('1 Hari (Hari Kunjungan)');
   const [isRefundable, setIsRefundable] = useState<boolean>(true);
+  const [howToRedeem, setHowToRedeem] = useState<string>('');
 
   const openAddModal = () => {
     setEditingTicket(null);
@@ -61,11 +63,13 @@ export default function ManageTicketsView({
     setName('');
     setPrice('');
     setFacilities('');
+    setExcludedFacilities('');
     setTerms('');
     setDiscount('0');
     setIsVisible(true);
     setValidityPeriod('1 Hari (Hari Kunjungan)');
     setIsRefundable(true);
+    setHowToRedeem('Tunjukkan e-tiket / QR code pada petugas loket atau gate scanner masuk.');
     setModalOpen(true);
   };
 
@@ -75,11 +79,13 @@ export default function ManageTicketsView({
     setName(t.name);
     setPrice(t.price.toString());
     setFacilities(t.facilities);
+    setExcludedFacilities((t.excludedFacilities || []).join(', '));
     setTerms(t.terms);
     setDiscount(t.discount.toString());
     setIsVisible(t.isVisible);
     setValidityPeriod(t.validityPeriod || '1 Hari (Hari Kunjungan)');
     setIsRefundable(t.isRefundable ?? true);
+    setHowToRedeem(t.howToRedeem || 'Tunjukkan e-tiket / QR code pada petugas loket atau gate scanner masuk.');
     setModalOpen(true);
   };
 
@@ -109,6 +115,11 @@ export default function ManageTicketsView({
     e.preventDefault();
     const numPrice = parseInt(price, 10);
     const numDiscount = parseInt(discount || '0', 10);
+    const calculatedDiscountPrice = numDiscount > 0 ? Math.round(numPrice * (1 - numDiscount / 100)) : undefined;
+    const finalRefundInfo = isRefundable ? 'Bisa refund (maksimal H-1 kunjungan)' : 'Non-refundable (tidak dapat diuangkan)';
+    const splitExcluded = excludedFacilities
+      ? excludedFacilities.split(',').map((s) => s.trim()).filter(Boolean)
+      : [];
 
     if (!name.trim()) {
       onToast('Nama jenis tiket wajib diisi!');
@@ -131,9 +142,13 @@ export default function ManageTicketsView({
               categoryId,
               name: name.trim(),
               price: numPrice,
+              discountPrice: calculatedDiscountPrice,
               facilities: facilities.trim(),
+              excludedFacilities: splitExcluded,
               terms: terms.trim(),
               discount: numDiscount,
+              howToRedeem: howToRedeem.trim(),
+              refundInfo: finalRefundInfo,
               isVisible,
               validityPeriod: validityPeriod.trim() || '1 Hari (Hari Kunjungan)',
               isRefundable,
@@ -148,9 +163,13 @@ export default function ManageTicketsView({
         categoryId,
         name: name.trim(),
         price: numPrice,
+        discountPrice: calculatedDiscountPrice,
         facilities: facilities.trim(),
+        excludedFacilities: splitExcluded,
         terms: terms.trim(),
         discount: numDiscount,
+        howToRedeem: howToRedeem.trim(),
+        refundInfo: finalRefundInfo,
         isVisible,
         validityPeriod: validityPeriod.trim() || '1 Hari (Hari Kunjungan)',
         isRefundable,
@@ -323,14 +342,28 @@ export default function ManageTicketsView({
                           </div>
                         </td>
                         <td className="w-64 px-5 py-4">
-                          <p className="text-xs leading-relaxed text-slate-600 line-clamp-2" title={t.facilities}>
+                          <p className="text-xs leading-relaxed text-slate-700 line-clamp-2" title={t.facilities}>
+                            <span className="font-semibold text-slate-800">Termasuk: </span>
                             {t.facilities || '-'}
                           </p>
+                          {t.excludedFacilities && t.excludedFacilities.length > 0 && (
+                            <p className="mt-1 text-[11px] text-rose-600 line-clamp-1" title={t.excludedFacilities.join(', ')}>
+                              <span className="font-bold text-rose-700">Tidak Termasuk: </span>
+                              {t.excludedFacilities.join(', ')}
+                            </p>
+                          )}
                         </td>
                         <td className="w-64 px-5 py-4">
                           <p className="text-xs leading-relaxed text-slate-500 line-clamp-2" title={t.terms}>
+                            <span className="font-semibold text-slate-700">S&amp;K: </span>
                             {t.terms || '-'}
                           </p>
+                          {t.howToRedeem && (
+                            <p className="mt-1 text-[11px] text-[#286EF2] line-clamp-1" title={t.howToRedeem}>
+                              <span className="font-bold">Tukar: </span>
+                              {t.howToRedeem}
+                            </p>
+                          )}
                         </td>
                         <td className="w-24 px-3 py-4 text-center">
                           {/* Atur Visibilitas Tiket: Toggle Switch */}
@@ -635,17 +668,31 @@ export default function ManageTicketsView({
                 </div>
               </div>
 
-              {/* Row 3: Informasi Fasilitas yang Didapatkan */}
+              {/* Row 3: Informasi Fasilitas yang Didapatkan (Termasuk) */}
               <div>
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
-                  Informasi Fasilitas yang Didapatkan <span className="text-rose-500">*</span>
+                  Fasilitas Termasuk <span className="text-rose-500">*</span>
                 </label>
                 <textarea
-                  rows={3}
+                  rows={2}
                   required
                   value={facilities}
                   onChange={(e) => setFacilities(e.target.value)}
                   placeholder="Contoh: Akses penuh pantai, gazebo umum, welcome drink kelapa muda, toilet..."
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-ocean-50"
+                />
+              </div>
+
+              {/* Row 3b: Fasilitas TIDAK Termasuk */}
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                  Fasilitas TIDAK Termasuk <span className="text-slate-400 font-normal">(Opsional - pisahkan dengan koma)</span>
+                </label>
+                <input
+                  type="text"
+                  value={excludedFacilities}
+                  onChange={(e) => setExcludedFacilities(e.target.value)}
+                  placeholder="Contoh: Parkir VIP, Sewa Loker, Pelampung Khusus, Makan Siang"
                   className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-ocean-50"
                 />
               </div>
@@ -656,11 +703,26 @@ export default function ManageTicketsView({
                   Syarat dan Ketentuan <span className="text-rose-500">*</span>
                 </label>
                 <textarea
-                  rows={3}
+                  rows={2}
                   required
                   value={terms}
                   onChange={(e) => setTerms(e.target.value)}
                   placeholder="Contoh: Wajib scan QR code saat masuk, tiket hanya berlaku di hari H, non-refundable..."
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-ocean-50"
+                />
+              </div>
+
+              {/* Row 4b: Cara Tukar Tiket */}
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                  Cara Tukar Tiket <span className="text-rose-500">*</span>
+                </label>
+                <textarea
+                  rows={2}
+                  required
+                  value={howToRedeem}
+                  onChange={(e) => setHowToRedeem(e.target.value)}
+                  placeholder="Contoh: Tunjukkan e-tiket / barcode QR pada gate scanner turnstile atau petugas loket."
                   className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-ocean-50"
                 />
               </div>

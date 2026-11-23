@@ -7,17 +7,32 @@ export type TicketCategory = {
 
 export type TicketItem = {
   id: string;
+  // 1. Kategori Tiket
   categoryId: string;
+  // 2. Nama Jenis Tiket
   name: string;
+  // 3. Harga Default
   price: number;
+  // 4. Harga Diskon
+  discountPrice?: number;
+  // 5. Masa Berlaku Tiket
+  validityPeriod?: string;
+  // 6. Informasi Pengembalian Dana
+  refundInfo?: string;
+  isRefundable?: boolean;
+  // 7. Fasilitas (Yang termasuk dan tidak)
   facilities: string;
+  includedFacilities?: string[];
+  excludedFacilities?: string[];
+  // 8. Syarat dan Ketentuan
   terms: string;
-  discount: number; // Diskon (persentase, misal 10 untuk 10%)
-  potonganHarga?: number; // Potongan harga (nominal Rp langsung: Harga Tiket - Potongan Harga)
-  isVisible: boolean; // Atur Visibilitas Tiket: true (Tampil), false (Sembunyi)
+  // 9. Diskon (opsional)
+  discount: number; // Diskon (%)
+  potonganHarga?: number; // Potongan harga (nominal Rp)
+  // 10. Cara Tukar tiket
+  howToRedeem?: string;
+  isVisible: boolean; // Visibilitas Tiket (Tampil/Sembunyi)
   createdAt: string;
-  validityPeriod?: string; // Masa berlaku tiket (misal: "1 Hari (Hari Kunjungan)", "3 Hari", dll.)
-  isRefundable?: boolean; // Kebijakan refund: true (Bisa Refund), false (Non-refundable)
 };
 
 export type BookingItem = {
@@ -35,16 +50,27 @@ export type PaymentMethod = 'cash' | 'qris' | 'ewallet' | 'transfer';
 
 export type Booking = {
   id: string;
-  code: string;
+  // 11. No Invoice
+  invoiceNo?: string;
+  // 12. No Pesanan
+  orderNo?: string;
+  code: string; // Kode tiket / No Pesanan
   visitorName: string;
   phone: string;
+  // 16. Tanggal Kunjungan
   visitDate: string;
   durationDays?: number;
   visitEndDate?: string;
   items: BookingItem[];
   subtotal?: number;
   discountAmount?: number;
+  // 13. Total Harga
   total: number;
+  totalPrice?: number;
+  // 14. Barcode
+  barcode?: string;
+  // 15. Jumlah Tiket
+  ticketCount?: number;
   status: BookingStatus;
   bookingType: BookingType;
   paymentMethod: PaymentMethod;

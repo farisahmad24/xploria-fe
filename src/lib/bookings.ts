@@ -115,9 +115,18 @@ export function createBooking(
   const discountAmount = Math.min(draft.discountAmount || 0, subtotal);
   const total = Math.max(0, subtotal - discountAmount);
 
+  const ticketCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const invoiceNo = `INV-${datePart}-${sequence}`;
+  const barcode = `BC-${datePart}-${sequence}`;
+
   return {
     id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
     code,
+    orderNo: code,
+    invoiceNo,
+    barcode,
+    ticketCount,
+    totalPrice: total,
     visitorName: draft.visitorName.trim(),
     phone: draft.phone.replace(/[\s-]/g, ''),
     visitDate: draft.visitDate,

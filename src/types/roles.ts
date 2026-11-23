@@ -88,13 +88,35 @@ export type VisitorReview = {
 };
 
 export type DestinationInfo = {
+  // 1. Gambar (bisa lebih dari 1)
+  images: string[];
+  // 2. Nama Tempat
   name: string;
   tagline: string;
-  description: string;
+  // 3. Lokasi
   location: string;
+  // 4. Jam Operasional
+  openHours: string;
+  // 5. Deskripsi
+  description: string;
+  // 6. Himbauan / Informasi Penting (Jika Ada)
+  importantNotice: string;
+  // 7. Fasilitas
+  facilities: string[];
+  // 8. Kontak Pengelola
   contactPhone: string;
   contactEmail: string;
-  openHours: string;
-  facilities: string[];
+  managerContact?: string;
+  // 9. Pilihan tiket (harga terendah/penawaran terbaik)
+  lowestTicketPrice: number;
+  bestOffer: string;
+  // 10. Rating
+  rating: number;
+  totalReviews?: number;
+  // 11. Prediksi Kepadatan
+  crowdPrediction: string;
+  // 12. Rekomendasi
+  recommendation: string;
+  // Aturan tambahan
   rules: string[];
 };

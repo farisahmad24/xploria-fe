@@ -113,14 +113,10 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
                   />
                   <span className="flex-1 truncate leading-snug">{label}</span>
 
-                  {/* Badge pending count */}
-                  {badge !== undefined && (
+                  {/* Badge pending count — disembunyikan saat tab aktif / diklik */}
+                  {!isActive && badge !== undefined && (
                     <span
-                      className={`ml-auto shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-black leading-none ${
-                        isActive
-                          ? 'bg-[#286EF2] text-white'
-                          : 'bg-amber-400 text-slate-900 animate-pulse'
-                      }`}
+                      className="ml-auto shrink-0 rounded-full bg-amber-400 px-1.5 py-0.5 text-[10px] font-black leading-none text-slate-900 animate-pulse"
                     >
                       {badge}
                     </span>

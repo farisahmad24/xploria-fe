@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from 'react';
+import { useMemo, useRef, useState, type FormEvent } from 'react';
 import {
   CheckCircle2,
   Clock,
@@ -28,6 +28,7 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
   const [searchLog, setSearchLog] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'validated' | 'booked'>('all');
   const [typeFilter, setTypeFilter] = useState<'all' | 'hari_ini' | 'mendatang'>('all');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Validated & Pending tickets data
   const validatedBookings = useMemo(
@@ -77,8 +78,8 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
   const handleQuickValidate = (ticketCode: string) => {
     setCode(ticketCode);
     setFormError('');
-    const res = onValidate(ticketCode);
-    setResult(res);
+    setResult(null);
+    inputRef.current?.focus();
     window.scrollTo({ top: 120, behavior: 'smooth' });
   };
 
@@ -169,6 +170,7 @@ export default function ValidateTicket({ onValidate, bookings = [] }: ValidateTi
               <QrCode className="h-4 w-4" />
             </div>
             <input
+              ref={inputRef}
               value={code}
               onChange={(event) => {
                 setCode(event.target.value);

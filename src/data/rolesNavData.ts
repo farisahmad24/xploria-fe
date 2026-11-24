@@ -41,9 +41,9 @@ export const roleProfiles: Record<UserRole, RoleProfile> = {
   pengelola: {
     id: 'pengelola',
     title: 'Pengelola',
-    subtitle: 'PENGELOLA (SUPER ADMIN)',
+    subtitle: 'PENGELOLA WISATA',
     userName: 'Budi Santoso, S.Par',
-    userRoleName: 'Pengelola (Super Admin)',
+    userRoleName: 'PENGELOLA WISATA',
     avatarText: 'PS',
     badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30',
   },
@@ -82,10 +82,10 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
     roleTitle: 'SUPER ADMIN (PUSAT KONTROL)',
     groups: [],
   },
-  // ─── PENGELOLA (SUPER ADMIN) ───────────────────────────────────────────────
+  // ─── PENGELOLA WISATA ───────────────────────────────────────────────
   pengelola: {
     role: 'pengelola',
-    roleTitle: 'PENGELOLA (SUPER ADMIN)',
+    roleTitle: 'PENGELOLA WISATA',
     groups: [
       {
         id: 'mo-dash',

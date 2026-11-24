@@ -4,7 +4,6 @@ import {
   X,
   QrCode,
   AlertCircle,
-  Upload,
   CheckCircle2,
   Sparkles,
   RefreshCw,
@@ -28,7 +27,6 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
   const [isStarting, setIsStarting] = useState(true);
   const [scannedCode, setScannedCode] = useState<string | null>(null);
   const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const containerId = 'qr-reader-target';
 
@@ -142,19 +140,6 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
     };
   }, [isOpen]);
 
-  // Handler jika user mengunggah file gambar QR
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file || !html5QrCodeRef.current) return;
-
-    try {
-      const decodedText = await html5QrCodeRef.current.scanFile(file, true);
-      handleDetected(decodedText);
-    } catch {
-      setScannerError('Tidak dapat mendeteksi kode QR pada file gambar yang diunggah.');
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -201,14 +186,6 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
                 <AlertCircle className="h-10 w-10 text-rose-400" />
                 <p className="text-sm font-bold text-slate-200">Gagal Mengakses Kamera</p>
                 <p className="text-xs text-slate-400 max-w-xs">{scannerError}</p>
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="mt-2 inline-flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-xs font-bold text-white hover:bg-white/20 transition"
-                >
-                  <Upload className="h-4 w-4" />
-                  <span>Unggah Gambar QR</span>
-                </button>
               </div>
             )}
 
@@ -233,24 +210,8 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
             )}
           </div>
 
-          {/* Opsi Tambahan: Upload File & Simulasi */}
+          {/* Opsi Tambahan: Simulasi */}
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 w-full">
-            <input
-              type="file"
-              ref={fileInputRef}
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileUpload}
-            />
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 transition shadow-xs"
-            >
-              <Upload className="h-3.5 w-3.5 text-slate-500" />
-              <span>Unggah Gambar QR</span>
-            </button>
-
             {pendingSampleCodes.length > 0 && (
               <button
                 type="button"

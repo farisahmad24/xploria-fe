@@ -53,11 +53,6 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
       label: 'Audit Log Sistem',
       Icon: History,
     },
-    {
-      id: 'profil',
-      label: 'Profil Saya',
-      Icon: User,
-    },
   ];
 
   const handleSelect = (id: SuperAdminTab) => {

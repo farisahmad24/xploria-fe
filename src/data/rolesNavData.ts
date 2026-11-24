@@ -1,6 +1,5 @@
 import {
   BarChart2,
-  Bug,
   CalendarDays,
   Coins,
   FileSearch,
@@ -17,7 +16,6 @@ import {
   ScanLine,
   TrendingDown,
   TrendingUp,
-  User,
   Users,
   Wallet,
   Wrench,
@@ -139,18 +137,6 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
         icon: Users,
         items: [],
       },
-      {
-        id: BUG_NAV_ID.pengelola,
-        title: 'Laporkan Bug',
-        icon: Bug,
-        items: [],
-      },
-      {
-        id: PROFILE_NAV_ID.pengelola,
-        title: 'Profil Saya',
-        icon: User,
-        items: [],
-      },
     ],
   },
 
@@ -202,18 +188,6 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
         icon: MessageCircleMore,
         items: [],
       },
-      {
-        id: BUG_NAV_ID.admin,
-        title: 'Laporkan Bug',
-        icon: Bug,
-        items: [],
-      },
-      {
-        id: PROFILE_NAV_ID.admin,
-        title: 'Profil Saya',
-        icon: User,
-        items: [],
-      },
     ],
   },
 
@@ -241,18 +215,6 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
           { id: 'kasir-tiket-validate', label: 'Validasi Tiket', icon: QrCode },
           { id: 'kasir-dash-rekap', label: 'Laporan Keuangan & Rekapitulasi', icon: FileSearch },
         ],
-      },
-      {
-        id: BUG_NAV_ID.kasir,
-        title: 'Laporkan Bug',
-        icon: Bug,
-        items: [],
-      },
-      {
-        id: PROFILE_NAV_ID.kasir,
-        title: 'Profil Saya',
-        icon: User,
-        items: [],
       },
     ],
   },

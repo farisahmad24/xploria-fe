@@ -64,3 +64,5 @@ export interface AuditLogEntry {
   reason?: string;
   notes?: string;
 }
+
+export type SuperAdminTab = 'validasi-mitra' | 'audit-log' | 'laporan-bug' | 'profil';

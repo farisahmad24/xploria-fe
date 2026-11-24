@@ -5,14 +5,21 @@ import {
   LogOut,
   Menu,
   Search,
+  User,
   X,
 } from 'lucide-react';
 import { SuperAdminSidebar } from './SuperAdminSidebar';
+import ProfileAvatar from '@/components/common/ProfileAvatar';
+import type { SessionProfile } from '@/types/profile';
+import type { SuperAdminTab } from '@/types/superAdmin';
 
 interface SuperAdminLayoutProps {
-  activeTab: 'validasi-mitra' | 'audit-log';
-  onSelectTab: (tab: 'validasi-mitra' | 'audit-log') => void;
+  activeTab: SuperAdminTab;
+  onSelectTab: (tab: SuperAdminTab) => void;
   pendingCount: number;
+  openBugCount: number;
+  profile: SessionProfile;
+  onOpenProfile: () => void;
   onLogout: () => void;
   children: React.ReactNode;
 }
@@ -21,19 +28,15 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({
   activeTab,
   onSelectTab,
   pendingCount,
+  openBugCount,
+  profile,
+  onOpenProfile,
   onLogout,
   children,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [query, setQuery] = useState('');
-
-  const profile = {
-    userName: 'Raka Daniswara, S.Kom',
-    userRoleName: 'Super Admin Xploria',
-    title: 'Super Admin',
-    avatarText: 'RD',
-  };
 
   return (
     <div className="flex min-h-screen bg-slate-50">
@@ -42,6 +45,7 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({
         activeTab={activeTab}
         onSelectTab={onSelectTab}
         pendingCount={pendingCount}
+        openBugCount={openBugCount}
         onLogout={onLogout}
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
@@ -112,9 +116,7 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({
                   onClick={() => setProfileOpen(!profileOpen)}
                   className="flex items-center gap-2.5 rounded-full p-1 transition hover:bg-ocean-50 sm:pl-2 sm:pr-3"
                 >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-ocean-600 to-ocean-800 text-xs font-extrabold text-white ring-2 ring-ocean-100">
-                    {profile.avatarText}
-                  </div>
+                  <ProfileAvatar initials={profile.avatarText} imageUrl={profile.avatarDataUrl} />
                   <div className="hidden text-left leading-tight sm:block">
                     <p className="text-xs font-bold text-ocean-950">{profile.userName}</p>
                     <p className="text-[11px] font-medium text-ocean-600">{profile.title}</p>
@@ -129,6 +131,14 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({
                       <p className="text-[11px] text-slate-500">{profile.userRoleName}</p>
                     </div>
                     <div className="pt-1.5">
+                      <button
+                        type="button"
+                        onClick={() => { setProfileOpen(false); onOpenProfile(); }}
+                        className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                      >
+                        <User className="h-4 w-4 text-slate-500" />
+                        Profil Saya
+                      </button>
                       <button
                         type="button"
                         onClick={() => { setProfileOpen(false); onLogout(); }}

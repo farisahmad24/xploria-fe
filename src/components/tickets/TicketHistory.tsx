@@ -117,7 +117,7 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
 
         {/* Table View dengan Fixed Width Column */}
         <div className="overflow-x-auto flex-1">
-          <table className="w-full min-w-[1080px] table-fixed text-left text-xs text-slate-600">
+          <table className="w-full table-auto text-left text-xs text-slate-600">
             <thead className="bg-slate-50/80 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100">
               <tr>
                 <th className="w-48 px-5 py-4">No Invoice &amp; Pesanan</th>

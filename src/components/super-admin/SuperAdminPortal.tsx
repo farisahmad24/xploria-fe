@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { initialMitraAccounts, initialAuditLogs } from '../../data/seedSuperAdmin';
-import { MitraAccount, AuditLogEntry } from '../../types/superAdmin';
+import { MitraAccount, AuditLogEntry, SuperAdminTab } from '../../types/superAdmin';
 import { SuperAdminLayout } from './SuperAdminLayout';
 import { MitraValidationView } from './MitraValidationView';
 import { AuditLogView } from './AuditLogView';
 import { MitraInspectionDrawer } from './MitraInspectionDrawer';
 import { NewMitraModal } from './NewMitraModal';
+import BugReportsAdminView from '@/components/bug-report/BugReportsAdminView';
+import ProfilePage from '@/components/profile/ProfilePage';
+import { useBugReports } from '@/lib/bugReports';
+import { useSessionProfile } from '@/lib/profile';
 
 interface SuperAdminPortalProps {
   onLogout: () => void;
 }
 
 export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) => {
-  const [activeTab, setActiveTab] = useState<'validasi-mitra' | 'audit-log'>('validasi-mitra');
+  const [activeTab, setActiveTab] = useState<SuperAdminTab>('validasi-mitra');
   const [mitraList, setMitraList] = useState<MitraAccount[]>(initialMitraAccounts);
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(initialAuditLogs);
   const [selectedMitra, setSelectedMitra] = useState<MitraAccount | null>(null);
@@ -28,11 +32,16 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
   // Jumlah mitra berstatus PENDING
   const pendingCount = mitraList.filter((m) => m.status === 'PENDING').length;
 
-  // Current logged in Super Admin identity
+  // Laporan bug yang belum selesai (Menunggu + Diproses)
+  const bugReports = useBugReports();
+  const openBugCount = bugReports.filter((r) => r.status !== 'done').length;
+
+  // Current logged in Super Admin identity (dari profil tersimpan)
+  const sessionProfile = useSessionProfile('superadmin');
   const currentAdmin = {
     id: 'SA-001',
-    name: 'Raka Daniswara, S.Kom',
-    email: 'raka.superadmin@ploria.id',
+    name: sessionProfile.userName,
+    email: sessionProfile.email,
   };
 
   // Helper untuk menambah entri audit log baru
@@ -241,6 +250,9 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       activeTab={activeTab}
       onSelectTab={setActiveTab}
       pendingCount={pendingCount}
+      openBugCount={openBugCount}
+      profile={sessionProfile}
+      onOpenProfile={() => setActiveTab('profil')}
       onLogout={onLogout}
     >
       {/* Tampilan 1: Validasi Mitra Wisata */}
@@ -254,6 +266,12 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
 
       {/* Tampilan 2: Audit Log Sistem */}
       {activeTab === 'audit-log' && <AuditLogView auditLogs={auditLogs} />}
+
+      {/* Tampilan 3: Laporan Bug dari Admin, Kasir, dan Pengelola */}
+      {activeTab === 'laporan-bug' && <BugReportsAdminView onToast={showToast} />}
+
+      {/* Tampilan 4: Profil Saya */}
+      {activeTab === 'profil' && <ProfilePage role="superadmin" onToast={showToast} />}
 
       {/* Drawer Inspeksi & Aksi Verifikasi */}
       <MitraInspectionDrawer

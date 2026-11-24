@@ -5,7 +5,8 @@ import {
   User,
   X,
 } from 'lucide-react';
-import { roleProfiles, rolesNavigation } from '@/data/rolesNavData';
+import { rolesNavigation } from '@/data/rolesNavData';
+import { useSessionProfile } from '@/lib/profile';
 import type { NavGroup, NavSubItem, UserRole } from '@/types/roles';
 
 type SidebarProps = {
@@ -26,7 +27,7 @@ export default function Sidebar({
   onClose,
 }: SidebarProps) {
   const navConfig = rolesNavigation[currentRole];
-  const profile = roleProfiles[currentRole];
+  const profile = useSessionProfile(currentRole);
 
   // ── Accordion state: track which group is currently expanded ─────────────
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(() => {

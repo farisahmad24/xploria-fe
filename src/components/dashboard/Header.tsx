@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Bell,
+  Bug,
   CalendarCheck,
   ChevronDown,
   FileText,
@@ -8,11 +9,14 @@ import {
   LogOut,
   Menu,
   Search,
+  User,
   Users,
   X,
 } from 'lucide-react';
 import SlantedTicket from '@/components/common/SlantedTicket';
-import { roleProfiles, rolesNavigation } from '@/data/rolesNavData';
+import ProfileAvatar from '@/components/common/ProfileAvatar';
+import { rolesNavigation } from '@/data/rolesNavData';
+import { useSessionProfile } from '@/lib/profile';
 import type { UserRole } from '@/types/roles';
 import type { mendatang } from '@/types/ticket';
 
@@ -21,6 +25,8 @@ type HeaderProps = {
   query: string;
   onQueryChange: (value: string) => void;
   onOpenMenu: () => void;
+  onOpenProfile: () => void;
+  onOpenBugReport: () => void;
   onLogout: () => void;
   bookings?: mendatang[];
   onNavSelect?: (id: string) => void;
@@ -89,6 +95,8 @@ export default function Header({
   query,
   onQueryChange,
   onOpenMenu,
+  onOpenProfile,
+  onOpenBugReport,
   onLogout,
   bookings = [],
   onNavSelect,
@@ -101,7 +109,7 @@ export default function Header({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const profile = roleProfiles[currentRole];
+  const profile = useSessionProfile(currentRole);
 
   // ── Build search results ──────────────────────────────────────────
   const results = useMemo<SearchResult[]>(() => {
@@ -392,9 +400,7 @@ export default function Header({
               onClick={() => setProfileOpen(!profileOpen)}
               className="flex items-center gap-2.5 rounded-full p-1 transition hover:bg-ocean-50 sm:pl-2 sm:pr-3"
             >
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-ocean-600 to-ocean-800 text-xs font-extrabold text-white ring-2 ring-ocean-100">
-                {profile.avatarText}
-              </div>
+              <ProfileAvatar initials={profile.avatarText} imageUrl={profile.avatarDataUrl} />
               <div className="hidden text-left leading-tight sm:block">
                 <p className="text-xs font-bold text-ocean-950">{profile.userName}</p>
                 <p className="text-[11px] font-medium text-ocean-600">{profile.title}</p>
@@ -408,7 +414,24 @@ export default function Header({
                   <p className="text-xs font-bold text-slate-900">{profile.userName}</p>
                   <p className="text-[11px] text-slate-500">{profile.userRoleName}</p>
                 </div>
-                <div className="pt-1.5">
+                <div className="space-y-0.5 pt-1.5">
+                  <button
+                    type="button"
+                    onClick={() => { setProfileOpen(false); onOpenProfile(); }}
+                    className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                  >
+                    <User className="h-4 w-4 text-slate-500" />
+                    Profil Saya
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setProfileOpen(false); onOpenBugReport(); }}
+                    className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                  >
+                    <Bug className="h-4 w-4 text-slate-500" />
+                    Laporkan Bug
+                  </button>
+                  <div className="my-1 border-t border-slate-100" />
                   <button
                     type="button"
                     onClick={() => { setProfileOpen(false); onLogout(); }}

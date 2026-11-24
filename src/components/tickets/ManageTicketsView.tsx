@@ -254,7 +254,7 @@ export default function ManageTicketsView({
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1100px] table-fixed text-left text-sm text-slate-600">
+            <table className="w-full table-auto text-left text-sm text-slate-600">
               <thead className="bg-ocean-50/70 text-xs font-semibold uppercase tracking-wider text-ocean-800 border-b border-ocean-100/60">
                 <tr>
                   <th className="w-12 px-3 py-4 text-center">No</th>

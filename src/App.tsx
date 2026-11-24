@@ -16,12 +16,15 @@ import StaffManagementView from '@/components/staff/StaffManagementView';
 import BookingCalendarView from '@/components/calendar/BookingCalendarView';
 import LoginPage from '@/components/auth/LoginPage';
 import SuperAdminPortal from '@/components/super-admin/SuperAdminPortal';
+import ProfilePage from '@/components/profile/ProfilePage';
+import BugReportPage from '@/components/bug-report/BugReportPage';
+import { useSessionProfile } from '@/lib/profile';
 
 import { statItems, type StatItem } from '@/data/dashboardData';
 import { seedBookings } from '@/data/seedBookings';
 import { ticketCategories } from '@/data/ticketCategories';
 import { initialTicketItems } from '@/data/ticketItems';
-import { roleProfiles } from '@/data/rolesNavData';
+import { BUG_NAV_ID, PROFILE_NAV_ID, roleProfiles } from '@/data/rolesNavData';
 import {
   initialDestinationInfo,
   initialOperationalExpenses,
@@ -82,6 +85,9 @@ function App() {
   const [destinationInfo, setDestinationInfo] = useState(initialDestinationInfo);
   const [reviews, setReviews] = useState(initialReviews);
 
+  // Profil sesi (default + perubahan dari modal "Profil Saya")
+  const sessionProfile = useSessionProfile(currentRole);
+
   useEffect(() => {
     if (!toast) return;
     const timer = window.setTimeout(() => setToast(null), TOAST_DURATION_MS);
@@ -114,6 +120,16 @@ function App() {
     setActiveNav(id);
   };
 
+  // Buka halaman "Profil Saya" / "Laporkan Bug" sesuai role yang sedang login
+  const openProfile = () => {
+    setMenuOpen(false);
+    if (currentRole && currentRole !== 'superadmin') handleNavSelect(PROFILE_NAV_ID[currentRole]);
+  };
+  const openBugReport = () => {
+    setMenuOpen(false);
+    if (currentRole && currentRole !== 'superadmin') handleNavSelect(BUG_NAV_ID[currentRole]);
+  };
+
   // Stats calculation
   const stats = useMemo<StatItem[]>(
     () =>
@@ -136,7 +152,7 @@ function App() {
       categories,
       bookings,
       new Date(),
-      currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'
+      sessionProfile?.userName ?? 'Kasir Loket'
     );
     setBookings((current) => [mendatang, ...current]);
     showToast(`Tiket #${mendatang.code} berhasil dipesan!`);
@@ -224,6 +240,16 @@ function App() {
 
   // Determine which view to render based on activeNav
   const renderMainContent = () => {
+    // 0. PROFIL SAYA (halaman dalam dashboard, bukan popup)
+    if (activeNav === PROFILE_NAV_ID[currentRole]) {
+      return <ProfilePage role={currentRole} onToast={showToast} />;
+    }
+
+    // 0b. LAPORKAN BUG (halaman dalam dashboard, bukan popup)
+    if (activeNav === BUG_NAV_ID[currentRole]) {
+      return <BugReportPage role={currentRole} onToast={showToast} />;
+    }
+
     // 1. DASHBOARD VIEWS
     if (
       activeNav === 'mo-dash' ||
@@ -323,7 +349,7 @@ function App() {
           onToast={showToast}
           initialTab="kelola-tiket"
           currentRole={currentRole}
-          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
+          cashierName={sessionProfile?.userName ?? 'Kasir Loket'}
         />
       );
     }
@@ -342,7 +368,7 @@ function App() {
           onToast={showToast}
           initialTab="kategori"
           currentRole={currentRole}
-          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
+          cashierName={sessionProfile?.userName ?? 'Kasir Loket'}
         />
       );
     }
@@ -367,7 +393,7 @@ function App() {
           onToast={showToast}
           initialTab="pesan"
           currentRole={currentRole}
-          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
+          cashierName={sessionProfile?.userName ?? 'Kasir Loket'}
         />
       );
     }
@@ -390,7 +416,7 @@ function App() {
           onToast={showToast}
           initialTab="validasi"
           currentRole={currentRole}
-          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
+          cashierName={sessionProfile?.userName ?? 'Kasir Loket'}
         />
       );
     }
@@ -414,7 +440,7 @@ function App() {
           onToast={showToast}
           initialTab="rekap-close-order"
           currentRole={currentRole}
-          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
+          cashierName={sessionProfile?.userName ?? 'Kasir Loket'}
         />
       );
     }
@@ -437,7 +463,7 @@ function App() {
           onToast={showToast}
           initialTab="riwayat"
           currentRole={currentRole}
-          cashierName={currentRole ? roleProfiles[currentRole].userName : 'Kasir Loket'}
+          cashierName={sessionProfile?.userName ?? 'Kasir Loket'}
         />
       );
     }
@@ -566,8 +592,8 @@ function App() {
           reviews={reviews}
           onReplyReview={handleReplyReview}
           currentUser={{
-            name: currentRole ? roleProfiles[currentRole].userName : 'Staf Pengelola',
-            role: currentRole ? roleProfiles[currentRole].userRoleName : 'Pengelola',
+            name: sessionProfile?.userName ?? 'Staf Pengelola',
+            role: sessionProfile?.userRoleName ?? 'Pengelola',
           }}
           onToast={showToast}
           filterOnlyUnreplied={isReplyOnly}
@@ -611,6 +637,8 @@ function App() {
           query={query}
           onQueryChange={setQuery}
           onOpenMenu={() => setMenuOpen(true)}
+          onOpenProfile={openProfile}
+          onOpenBugReport={openBugReport}
           onLogout={handleLogout}
           bookings={bookings}
           onNavSelect={handleNavSelect}
@@ -620,6 +648,7 @@ function App() {
           {renderMainContent()}
         </main>
       </div>
+
 
       {/* Toast Notification */}
       {toast && (

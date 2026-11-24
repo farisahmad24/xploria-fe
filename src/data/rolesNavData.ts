@@ -1,5 +1,6 @@
 import {
   BarChart2,
+  Bug,
   CalendarDays,
   Coins,
   FileSearch,
@@ -16,12 +17,27 @@ import {
   ScanLine,
   TrendingDown,
   TrendingUp,
+  User,
   Users,
   Wallet,
   Wrench,
 } from 'lucide-react';
 import SlantedTicket from '@/components/common/SlantedTicket';
 import type { RoleNavConfig, RoleProfile, UserRole } from '@/types/roles';
+
+/** ID menu "Profil Saya" per role (Super Admin memakai tab sendiri di SuperAdminPortal). */
+export const PROFILE_NAV_ID: Record<Exclude<UserRole, 'superadmin'>, string> = {
+  pengelola: 'mo-profil',
+  admin: 'admin-profil',
+  kasir: 'kasir-profil',
+};
+
+/** ID menu "Laporkan Bug" per role pelapor. */
+export const BUG_NAV_ID: Record<Exclude<UserRole, 'superadmin'>, string> = {
+  pengelola: 'mo-bug',
+  admin: 'admin-bug',
+  kasir: 'kasir-bug',
+};
 
 export const roleProfiles: Record<UserRole, RoleProfile> = {
   pengelola: {
@@ -123,6 +139,18 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
         icon: Users,
         items: [],
       },
+      {
+        id: BUG_NAV_ID.pengelola,
+        title: 'Laporkan Bug',
+        icon: Bug,
+        items: [],
+      },
+      {
+        id: PROFILE_NAV_ID.pengelola,
+        title: 'Profil Saya',
+        icon: User,
+        items: [],
+      },
     ],
   },
 
@@ -174,6 +202,18 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
         icon: MessageCircleMore,
         items: [],
       },
+      {
+        id: BUG_NAV_ID.admin,
+        title: 'Laporkan Bug',
+        icon: Bug,
+        items: [],
+      },
+      {
+        id: PROFILE_NAV_ID.admin,
+        title: 'Profil Saya',
+        icon: User,
+        items: [],
+      },
     ],
   },
 
@@ -201,6 +241,18 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
           { id: 'kasir-tiket-validate', label: 'Validasi Tiket', icon: QrCode },
           { id: 'kasir-dash-rekap', label: 'Laporan Keuangan & Rekapitulasi', icon: FileSearch },
         ],
+      },
+      {
+        id: BUG_NAV_ID.kasir,
+        title: 'Laporkan Bug',
+        icon: Bug,
+        items: [],
+      },
+      {
+        id: PROFILE_NAV_ID.kasir,
+        title: 'Profil Saya',
+        icon: User,
+        items: [],
       },
     ],
   },

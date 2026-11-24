@@ -87,7 +87,7 @@ export default function StaffManagementView({
         <button
           type="button"
           onClick={() => setModalOpen(true)}
-          className="inline-flex items-center gap-2 rounded-xl bg-ocean-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-ocean-600/25 transition hover:bg-ocean-700"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#286EF2] px-5 py-2.5 text-xs font-bold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700"
         >
           <UserPlus className="h-4 w-4" />
           Tambah Akun Staf
@@ -95,13 +95,21 @@ export default function StaffManagementView({
       </div>
 
       {/* Staff Table */}
-      <div className="overflow-hidden rounded-3xl border border-ocean-100 bg-white shadow-card">
-        <div className="border-b border-ocean-50 p-6">
-          <h3 className="text-lg font-bold text-slate-900">Daftar Personel & Hak Akses</h3>
-          <p className="text-sm text-slate-500">Total {staffList.length} akun staf terdaftar pada sistem.</p>
-        </div>
+      <div className="flex min-h-[560px] flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-card">
+        <div>
+          <div className="flex flex-col gap-3 border-b border-slate-100 p-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-[#286EF2] ring-1 ring-blue-100">
+                <Shield className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-slate-900">Daftar Personel &amp; Hak Akses</h2>
+                <p className="text-xs text-slate-400">Total {staffList.length} akun staf terdaftar pada sistem.</p>
+              </div>
+            </div>
+          </div>
 
-        <div className="overflow-x-auto">
+          <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-slate-600">
             <thead className="bg-ocean-50/70 text-xs font-semibold uppercase tracking-wider text-ocean-800">
               <tr>
@@ -180,6 +188,27 @@ export default function StaffManagementView({
           </table>
         </div>
       </div>
+
+      {/* Footer Bar (Frame Stability) */}
+      <div className="flex flex-col gap-2 border-t border-slate-100 bg-slate-50/60 px-6 py-4 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2">
+          <span className="font-medium">
+            Total Staf: <strong className="text-slate-800">{staffList.length}</strong> akun
+          </span>
+          <span className="text-slate-300">•</span>
+          <span>
+            Aktif: <strong className="text-emerald-600">{staffList.filter((s) => s.status === 'aktif').length} Staf</strong>
+          </span>
+          <span className="text-slate-300">•</span>
+          <span>
+            Nonaktif: <strong className="text-slate-500">{staffList.filter((s) => s.status === 'nonaktif').length} Staf</strong>
+          </span>
+        </div>
+        <span className="text-[11px] text-slate-400">
+          Sistem Manajemen Personel &amp; Hak Akses Operasional
+        </span>
+      </div>
+    </div>
 
       {/* Add Staff Modal */}
       {modalOpen && (

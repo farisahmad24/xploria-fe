@@ -1,23 +1,26 @@
 import React from 'react';
 import {
+  Bug,
   FileCheck2,
   History,
   LogOut,
   User,
   X,
 } from 'lucide-react';
+import type { SuperAdminTab } from '../../types/superAdmin';
 
 interface SuperAdminSidebarProps {
-  activeTab: 'validasi-mitra' | 'audit-log';
-  onSelectTab: (tab: 'validasi-mitra' | 'audit-log') => void;
+  activeTab: SuperAdminTab;
+  onSelectTab: (tab: SuperAdminTab) => void;
   pendingCount: number;
+  openBugCount: number;
   onLogout: () => void;
   open: boolean;
   onClose: () => void;
 }
 
 type NavItem = {
-  id: 'validasi-mitra' | 'audit-log';
+  id: SuperAdminTab;
   label: string;
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
   badge?: number;
@@ -27,6 +30,7 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
   activeTab,
   onSelectTab,
   pendingCount,
+  openBugCount,
   onLogout,
   open,
   onClose,
@@ -39,13 +43,24 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
       badge: pendingCount > 0 ? pendingCount : undefined,
     },
     {
+      id: 'laporan-bug',
+      label: 'Laporan Bug',
+      Icon: Bug,
+      badge: openBugCount > 0 ? openBugCount : undefined,
+    },
+    {
       id: 'audit-log',
       label: 'Audit Log Sistem',
       Icon: History,
     },
+    {
+      id: 'profil',
+      label: 'Profil Saya',
+      Icon: User,
+    },
   ];
 
-  const handleSelect = (id: 'validasi-mitra' | 'audit-log') => {
+  const handleSelect = (id: SuperAdminTab) => {
     onSelectTab(id);
     onClose();
   };

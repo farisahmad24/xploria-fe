@@ -200,7 +200,7 @@ export default function BookingForm({
     const hasDiscount = (confirmed.discountAmount || 0) > 0;
 
     return (
-      <section className="animate-fade-in-up mx-auto max-w-xl rounded-3xl border border-ocean-100 bg-white p-8 text-center shadow-card">
+      <section className="animate-fade-in-up w-full rounded-3xl border border-ocean-100 bg-white p-8 text-center shadow-card">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50">
           <CheckCircle2 className="h-9 w-9 text-emerald-500" />
         </div>

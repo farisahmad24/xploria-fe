@@ -45,7 +45,7 @@ export default function QuickMenu({ currentRole, onSelect }: QuickMenuProps) {
       ];
     }
 
-    // Default: pengelola ()
+    // Default: Manajer ()
     return [
       { id: 'q-mo-sales', label: 'Penjualan Tiket', icon: SlantedTicket, target: 'mo-tiket-sales' },
       { id: 'q-mo-cat', label: 'Kategori Tiket', icon: Tag, target: 'mo-tiket-categories' },

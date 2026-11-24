@@ -93,7 +93,7 @@ export default function ReportsView({
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between print:hidden">
         <div>
-        
+
           <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
             {currentTab === 'visitors-cat' && 'Kunjungan Berdasarkan Kategori Pengunjung'}
             {currentTab === 'finance' && 'Laporan Keuangan & Pendapatan'}
@@ -319,7 +319,7 @@ export default function ReportsView({
             <div className="border-b border-ocean-100 p-6">
               <h3 className="text-lg font-bold text-slate-900">Data Pembagian Hasil Pendapatan Wisata</h3>
               <p className="text-sm text-slate-500">
-                Alokasi persentase bagi hasil pendapatan kotor antara Pengelola Desa, Manajemen, dan Kas Konservasi.
+                Alokasi persentase bagi hasil pendapatan kotor antara Manajer Desa, Manajemen, dan Kas Konservasi.
               </p>
             </div>
 
@@ -509,7 +509,7 @@ export default function ReportsView({
             {/* Official Letterhead */}
             <div className="border-b-2 border-slate-900 pb-5 text-center">
               <h2 className="text-xl font-black uppercase tracking-wider text-slate-900 sm:text-2xl">
-                Badan Pengelola Destinasi Wisata Ploria
+                Badan Manajer Destinasi Wisata Ploria
               </h2>
               <p className="text-xs font-semibold text-slate-600 sm:text-sm">
                 Jl. Bahari Nusantara No. 88, Karang Indah • Telp (021) 7890-4321 • Email: info@Ploria.id
@@ -604,7 +604,7 @@ export default function ReportsView({
             <div className="mt-12 flex justify-between px-6 text-center text-xs text-slate-700">
               <div>
                 <p>Mengetahui,</p>
-                <p className="font-semibold text-slate-900">Admin Pengelola Wisata</p>
+                <p className="font-semibold text-slate-900">Admin MANAJER</p>
                 <div className="h-20" />
                 <p className="font-bold underline text-slate-900">M. Hasan Al-Farisi</p>
                 <p className="text-[11px] text-slate-500">NIP: 19850412 201001 1 002</p>

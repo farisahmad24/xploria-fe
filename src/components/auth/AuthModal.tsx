@@ -115,8 +115,8 @@ export default function AuthModal({
                 </h3>
                 <p className="text-xs text-slate-500">
                   {type === 'login'
-                    ? 'Masuk ke sistem pengelola wisata Ploria'
-                    : 'Daftarkan akun staf/pengelola baru'}
+                    ? 'Masuk ke sistem MANAJER Ploria'
+                    : 'Daftarkan akun staf/Manajer baru'}
                 </p>
               </div>
             </div>
@@ -136,7 +136,7 @@ export default function AuthModal({
                       : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
                       }`}
                   >
-                    {r === 'pengelola' ? 'Pengelola' : r === 'admin' ? 'Admin' : 'Kasir'}
+                    {r === 'Manajer' ? 'Manajer' : r === 'admin' ? 'Admin' : 'Kasir'}
                   </button>
                 ))}
               </div>
@@ -171,7 +171,7 @@ export default function AuthModal({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={
-                    selectedRole === 'pengelola'
+                    selectedRole === 'Manajer'
                       ? 'budi.santoso@Ploria.id'
                       : selectedRole === 'admin'
                         ? 'hasan.alfarisi@Ploria.id'

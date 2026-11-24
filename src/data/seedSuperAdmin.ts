@@ -17,7 +17,7 @@ export const initialMitraAccounts: MitraAccount[] = [
     pic: {
       fullName: 'Hendrawan Pratama, S.E.',
       nik: '1902031208880002',
-      position: 'Ketua Pengelola Pokdarwis Tanjung Tinggi',
+      position: 'Ketua Manajer Pokdarwis Tanjung Tinggi',
       email: 'hendrawan.tanjungtinggi@gmail.com',
       whatsapp: '081278990012',
     },
@@ -94,7 +94,7 @@ export const initialMitraAccounts: MitraAccount[] = [
       nibUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop',
       bankName: 'Bank Jatim',
       bankAccountNumber: '034-102-998812',
-      bankAccountHolder: 'Pengelola Wisata Sarangan Lawu',
+      bankAccountHolder: 'MANAJER Sarangan Lawu',
       bankBookUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=800&auto=format&fit=crop',
       documentType: 'Izin Usaha Pariwisata (TDUP)',
       issueDate: '28 Mei 2023',
@@ -283,7 +283,7 @@ export const initialAuditLogs: AuditLogEntry[] = [
     newStatus: 'SUSPENDED',
     action: 'Penangguhan Akun Mitra (Suspend)',
     reason: 'Audit investigasi laporan selisih rekonsiliasi dan kendala teknis gerbang QR.',
-    notes: 'Akses login pengelola dan penjualan tiket ditangguhkan sementara sampai berita acara rampung.',
+    notes: 'Akses login Manajer dan penjualan tiket ditangguhkan sementara sampai berita acara rampung.',
   },
   {
     id: 'LOG-2026-001',
@@ -296,6 +296,6 @@ export const initialAuditLogs: AuditLogEntry[] = [
     newStatus: 'ACTIVE',
     action: 'Verifikasi & Aktivasi Mitra Baru',
     reason: 'Seluruh checklist legalitas KTP PIC, NIB Berbasis Risiko, dan Rekening Bank BCA terverifikasi valid 100%.',
-    notes: 'Akun Pengelola Resmi diaktifkan dan kredensial login dikirimkan ke budi.santoso@ploria.id.',
+    notes: 'Akun Manajer Resmi diaktifkan dan kredensial login dikirimkan ke budi.santoso@ploria.id.',
   },
 ];

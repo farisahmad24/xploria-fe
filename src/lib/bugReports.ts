@@ -31,13 +31,13 @@ export const BUG_STATUS_META: Record<BugStatus, { label: string; badge: string }
 };
 
 export const REPORTER_ROLE_LABEL: Record<ReporterRole, string> = {
-  pengelola: 'Pengelola',
+  Manajer: 'Manajer',
   admin: 'Admin',
   kasir: 'Kasir',
 };
 
 export const REPORTER_ROLE_BADGE: Record<ReporterRole, string> = {
-  pengelola: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  Manajer: 'bg-emerald-50 text-emerald-700 border-emerald-200',
   admin: 'bg-sky-50 text-sky-700 border-sky-200',
   kasir: 'bg-amber-50 text-amber-700 border-amber-200',
 };
@@ -89,7 +89,7 @@ const SAMPLE_REPORTS: BugReport[] = [
       'Setelah halaman di-refresh, grafik kategori pengunjung kosong padahal data penjualan sudah ada.',
     screenshotDataUrl: null,
     status: 'done',
-    reporter: { role: 'pengelola', name: 'Budi Santoso, S.Par', username: 'budi.santoso' },
+    reporter: { role: 'Manajer', name: 'Budi Santoso, S.Par', username: 'budi.santoso' },
     createdAt: '2026-11-24T08:05:00+07:00',
     updatedAt: '2026-11-24T10:30:00+07:00',
     response: {
@@ -157,11 +157,11 @@ export function updateBugReport(
   const next = getBugReports().map((r) =>
     r.id === id
       ? {
-          ...r,
-          status: update.status,
-          updatedAt: nowIso,
-          response: note ? { note, responderName: update.responderName, updatedAt: nowIso } : null,
-        }
+        ...r,
+        status: update.status,
+        updatedAt: nowIso,
+        response: note ? { note, responderName: update.responderName, updatedAt: nowIso } : null,
+      }
       : r
   );
   return writeStored(BUG_REPORTS_KEY, next);

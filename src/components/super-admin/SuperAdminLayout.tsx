@@ -35,6 +35,7 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({
   children,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [query, setQuery] = useState('');
 
@@ -49,6 +50,7 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({
         onLogout={onLogout}
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
+        collapsed={sidebarCollapsed}
       />
 
       {/* Right Panel: Header + Content — sama persis dengan App.tsx */}
@@ -56,13 +58,24 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({
 
         {/* Header — identik styling dengan Header.tsx */}
         <header className="sticky top-0 z-30 border-b border-ocean-100/80 bg-white/90 backdrop-blur-md">
-          <div className="flex items-center gap-3 px-4 py-3.5 sm:px-6 lg:px-8">
+          <div className="flex h-[72px] items-center gap-3 px-4 sm:px-6 lg:px-8">
             {/* Mobile menu toggle */}
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
               className="rounded-xl p-2 text-ocean-800 transition hover:bg-ocean-50 lg:hidden"
               aria-label="Buka menu"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+
+            {/* Toggle sidebar — desktop saja */}
+            <button
+              type="button"
+              onClick={() => setSidebarCollapsed((c) => !c)}
+              className="hidden rounded-xl p-2 text-ocean-800 transition hover:bg-ocean-50 lg:flex"
+              aria-label={sidebarCollapsed ? 'Buka sidebar' : 'Tutup sidebar'}
+              title={sidebarCollapsed ? 'Buka sidebar' : 'Tutup sidebar'}
             >
               <Menu className="h-6 w-6" />
             </button>

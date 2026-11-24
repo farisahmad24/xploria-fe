@@ -293,11 +293,11 @@ export default function DestinationProfileView({
               />
             </div>
 
-            {/* 8. Kontak Pengelola */}
+            {/* 8. Kontak Manajer */}
             <div className="space-y-3 pt-2">
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-[#286EF2]" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">8. Kontak Pengelola</h3>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">8. Kontak Manajer</h3>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>

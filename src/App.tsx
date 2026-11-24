@@ -55,7 +55,7 @@ function App() {
   // State Login Dummy: check localStorage or start as null (LoginPage)
   const [currentRole, setCurrentRole] = useState<UserRole | null>(() => {
     const saved = localStorage.getItem(ROLE_STORAGE_KEY);
-    if (saved === 'pengelola' || saved === 'admin' || saved === 'kasir' || saved === 'superadmin') {
+    if (saved === 'Manajer' || saved === 'admin' || saved === 'kasir' || saved === 'superadmin') {
       return saved as UserRole;
     }
     return null;
@@ -63,7 +63,7 @@ function App() {
 
   const [activeNav, setActiveNav] = useState<string>(() => {
     const saved = localStorage.getItem(ROLE_STORAGE_KEY);
-    if (saved === 'pengelola') return 'mo-dash';
+    if (saved === 'Manajer') return 'mo-dash';
     if (saved === 'admin') return 'admin-dash';
     if (saved === 'kasir') return 'kasir-dash';
     if (saved === 'superadmin') return 'validasi-mitra';
@@ -71,6 +71,7 @@ function App() {
   });
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [query, setQuery] = useState('');
   const [toast, setToast] = useState<Toast | null>(null);
 
@@ -100,7 +101,7 @@ function App() {
   const handleLogin = (role: UserRole) => {
     setCurrentRole(role);
     localStorage.setItem(ROLE_STORAGE_KEY, role);
-    if (role === 'pengelola') setActiveNav('mo-dash');
+    if (role === 'Manajer') setActiveNav('mo-dash');
     else if (role === 'admin') setActiveNav('admin-dash');
     else if (role === 'kasir') setActiveNav('kasir-dash');
     else if (role === 'superadmin') setActiveNav('validasi-mitra');
@@ -330,7 +331,7 @@ function App() {
     }
 
     // 2. MANAJEMEN TIKET DAN TRANSAKSI
-    // A. Mengelola Tiket (Daftar & Form Buat Jenis Tiket) - Hak Akses Pengelola / Admin
+    // A. Mengelola Tiket (Daftar & Form Buat Jenis Tiket) - Hak Akses Manajer / Admin
     if (
       activeNav === 'mo-tiket' ||
       activeNav === 'admin-tiket' ||
@@ -592,8 +593,8 @@ function App() {
           reviews={reviews}
           onReplyReview={handleReplyReview}
           currentUser={{
-            name: sessionProfile?.userName ?? 'Staf Pengelola',
-            role: sessionProfile?.userRoleName ?? 'Pengelola',
+            name: sessionProfile?.userName ?? 'Staf Manajer',
+            role: sessionProfile?.userRoleName ?? 'Manajer',
           }}
           onToast={showToast}
           filterOnlyUnreplied={isReplyOnly}
@@ -629,6 +630,7 @@ function App() {
         onLogout={handleLogout}
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
+        collapsed={sidebarCollapsed}
       />
 
       <div className="flex min-w-0 flex-1 flex-col bg-white print:block print:w-full print:p-0">
@@ -642,6 +644,8 @@ function App() {
           onLogout={handleLogout}
           bookings={bookings}
           onNavSelect={handleNavSelect}
+          sidebarCollapsed={sidebarCollapsed}
+          onToggleSidebar={() => setSidebarCollapsed((c) => !c)}
         />
 
         <main className="flex flex-col gap-6 p-4 sm:p-6 lg:p-8 print:block print:p-0 print:m-0 print:gap-0">

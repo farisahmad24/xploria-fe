@@ -51,13 +51,13 @@ const TEMPLATES = [
     ticketPriceRange: 'Rp 20.000 - Rp 75.000',
     picName: 'Rina Kusumaningrum, M.Par',
     picNik: '3322041209840003',
-    picPosition: 'Manajer Pengelola Kawasan Cagar Budaya',
+    picPosition: 'Manajer Manajer Kawasan Cagar Budaya',
     picEmail: 'rina.gedongsongo@gmail.com',
     picWa: '085640199234',
     nibNumber: '9120008876123',
     bankName: 'Bank Jateng',
     bankNumber: '102-390-119284',
-    bankHolder: 'Pengelola Candi Gedong Songo Semarang',
+    bankHolder: 'Manajer Candi Gedong Songo Semarang',
     docType: 'Izin Usaha Pariwisata (TDUP)' as const,
   },
   {
@@ -71,7 +71,7 @@ const TEMPLATES = [
     ticketPriceRange: 'Rp 15.000 - Rp 25.000',
     picName: 'Umar Farouq',
     picNik: '3507021405890001',
-    picPosition: 'Kepala Pengelola BUMDes Pujon Kidul',
+    picPosition: 'Kepala Manajer BUMDes Pujon Kidul',
     picEmail: 'umar.pujonkidul@gmail.com',
     picWa: '081333456789',
     nibNumber: '0220998811234',
@@ -198,11 +198,10 @@ export function NewMitraModal({ isOpen, onClose, onAddMitra, onSubmit }: NewMitr
                   key={idx}
                   type="button"
                   onClick={() => handleApplyTemplate(idx)}
-                  className={`p-3 rounded-2xl text-left border transition-all ${
-                    selectedTemplate === idx
+                  className={`p-3 rounded-2xl text-left border transition-all ${selectedTemplate === idx
                       ? 'border-[#286EF2] bg-blue-50/70 ring-2 ring-blue-100'
                       : 'border-slate-200 bg-white hover:border-slate-300'
-                  }`}
+                    }`}
                 >
                   <p className="font-bold text-slate-800 truncate">{tmpl.destinationName}</p>
                   <p className="text-[10px] text-slate-400 mt-0.5">{tmpl.city}</p>

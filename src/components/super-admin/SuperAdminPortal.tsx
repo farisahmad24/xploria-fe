@@ -82,12 +82,12 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       prev.map((m) =>
         m.id === mitraId
           ? {
-              ...m,
-              status: 'ACTIVE',
-              verifiedAt: nowIso,
-              verifiedBy: currentAdmin.name,
-              rejectionReason: undefined,
-            }
+            ...m,
+            status: 'ACTIVE',
+            verifiedAt: nowIso,
+            verifiedBy: currentAdmin.name,
+            rejectionReason: undefined,
+          }
           : m
       )
     );
@@ -105,12 +105,12 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
     setSelectedMitra((prev) =>
       prev && prev.id === mitraId
         ? {
-            ...prev,
-            status: 'ACTIVE',
-            verifiedAt: nowIso,
-            verifiedBy: currentAdmin.name,
-            rejectionReason: undefined,
-          }
+          ...prev,
+          status: 'ACTIVE',
+          verifiedAt: nowIso,
+          verifiedBy: currentAdmin.name,
+          rejectionReason: undefined,
+        }
         : null
     );
 
@@ -128,10 +128,10 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       prev.map((m) =>
         m.id === mitraId
           ? {
-              ...m,
-              status: 'REJECTED',
-              rejectionReason: `${reason}${notes ? ` - Catatan: ${notes}` : ''}`,
-            }
+            ...m,
+            status: 'REJECTED',
+            rejectionReason: `${reason}${notes ? ` - Catatan: ${notes}` : ''}`,
+          }
           : m
       )
     );
@@ -160,10 +160,10 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       prev.map((m) =>
         m.id === mitraId
           ? {
-              ...m,
-              status: 'SUSPENDED',
-              rejectionReason: `Dibekukan: ${reason}`,
-            }
+            ...m,
+            status: 'SUSPENDED',
+            rejectionReason: `Dibekukan: ${reason}`,
+          }
           : m
       )
     );
@@ -174,16 +174,16 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       prevStatus,
       'SUSPENDED',
       `Pembekuan Akun Operasional: ${reason}`,
-      'Akses loket dan dashboard pengelola wisata sementara ditangguhkan atas wewenang Super Admin.'
+      'Akses loket dan dashboard MANAJER sementara ditangguhkan atas wewenang Super Admin.'
     );
 
     setSelectedMitra((prev) =>
       prev && prev.id === mitraId
         ? {
-            ...prev,
-            status: 'SUSPENDED',
-            rejectionReason: `Dibekukan: ${reason}`,
-          }
+          ...prev,
+          status: 'SUSPENDED',
+          rejectionReason: `Dibekukan: ${reason}`,
+        }
         : null
     );
 
@@ -201,10 +201,10 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       prev.map((m) =>
         m.id === mitraId
           ? {
-              ...m,
-              status: 'ACTIVE',
-              rejectionReason: undefined,
-            }
+            ...m,
+            status: 'ACTIVE',
+            rejectionReason: undefined,
+          }
           : m
       )
     );
@@ -215,16 +215,16 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       prevStatus,
       'ACTIVE',
       'Pemulihan Status Akun Mitra Aktif',
-      'Pembekuan dicabut setelah pengelola menyelesaikan verifikasi lanjutan.'
+      'Pembekuan dicabut setelah Manajer menyelesaikan verifikasi lanjutan.'
     );
 
     setSelectedMitra((prev) =>
       prev && prev.id === mitraId
         ? {
-            ...prev,
-            status: 'ACTIVE',
-            rejectionReason: undefined,
-          }
+          ...prev,
+          status: 'ACTIVE',
+          rejectionReason: undefined,
+        }
         : null
     );
 
@@ -241,7 +241,7 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       undefined,
       'PENDING',
       'Pendaftaran Calon Mitra Wisata Baru',
-      `Pengelola ${newMitra.pic.fullName} mendaftarkan ${newMitra.destinationName} ke dalam antrean verifikasi legalitas.`
+      `Manajer ${newMitra.pic.fullName} mendaftarkan ${newMitra.destinationName} ke dalam antrean verifikasi legalitas.`
     );
   };
 
@@ -267,7 +267,7 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       {/* Tampilan 2: Audit Log Sistem */}
       {activeTab === 'audit-log' && <AuditLogView auditLogs={auditLogs} />}
 
-      {/* Tampilan 3: Laporan Bug dari Admin, Kasir, dan Pengelola */}
+      {/* Tampilan 3: Laporan Bug dari Admin, Kasir, dan Manajer */}
       {activeTab === 'laporan-bug' && <BugReportsAdminView onToast={showToast} />}
 
       {/* Tampilan 4: Profil Saya */}

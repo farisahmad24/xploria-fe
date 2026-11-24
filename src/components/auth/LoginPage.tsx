@@ -23,7 +23,7 @@ type LoginPageProps = {
 
 export default function LoginPage({ onLogin }: LoginPageProps) {
   const [mode, setMode] = useState<AuthMode>('login');
-  const [selectedRole, setSelectedRole] = useState<UserRole>('pengelola');
+  const [selectedRole, setSelectedRole] = useState<UserRole>('Manajer');
   const [email, setEmail] = useState('budi.santoso@ploria.id');
   const [password, setPassword] = useState('password123');
   const [firstName, setFirstName] = useState('Budi');
@@ -34,7 +34,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
-    if (role === 'pengelola') {
+    if (role === 'Manajer') {
       setEmail('budi.santoso@ploria.id');
       setFirstName('Budi');
       setLastName('Santoso');
@@ -63,8 +63,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
     e.preventDefault();
     if (mode === 'register') {
       setToastMessage(
-        `Registrasi akun ${firstName} ${lastName} berhasil! Masuk ke sistem sebagai ${selectedRole === 'pengelola'
-          ? 'Pengelola Wisata'
+        `Registrasi akun ${firstName} ${lastName} berhasil! Masuk ke sistem sebagai ${selectedRole === 'Manajer'
+          ? 'MANAJER'
           : selectedRole === 'admin'
             ? 'ADMIN '
             : selectedRole === 'kasir'
@@ -221,8 +221,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                     Role Akun (Hak Akses)
                   </label>
                   <span className="text-[10px] font-semibold text-[#286EF2]">
-                    {selectedRole === 'pengelola'
-                      ? 'Pengelola Wisata'
+                    {selectedRole === 'Manajer'
+                      ? 'MANAJER'
                       : selectedRole === 'admin'
                         ? 'Admin Wisata'
                         : selectedRole === 'kasir'
@@ -233,13 +233,13 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 <div className="mt-1 grid grid-cols-4 gap-1.5">
                   <button
                     type="button"
-                    onClick={() => handleRoleSelect('pengelola')}
-                    className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'pengelola'
+                    onClick={() => handleRoleSelect('Manajer')}
+                    className={`rounded-xl py-1.5 text-[10px] sm:text-[11px] font-bold transition-all text-center ${selectedRole === 'Manajer'
                       ? 'bg-[#286EF2] text-white shadow-sm'
                       : 'bg-white/80 text-slate-600 hover:bg-white'
                       }`}
                   >
-                    Pengelola
+                    Manajer
                   </button>
                   <button
                     type="button"
@@ -398,10 +398,10 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             </p>
 
             <div className="mt-4 space-y-2.5">
-              {/* Pengelola */}
+              {/* Manajer */}
               <button
                 type="button"
-                onClick={() => handleDirectLogin('pengelola')}
+                onClick={() => handleDirectLogin('Manajer')}
                 className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 p-3 text-left transition hover:border-[#286EF2] hover:bg-blue-50/60"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
@@ -412,7 +412,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                   <p className="text-[10px] text-slate-400 truncate">budi.santoso@ploria.id</p>
                 </div>
                 <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[9px] font-bold text-emerald-700">
-                  Pengelola
+                  Manajer
                 </span>
               </button>
 

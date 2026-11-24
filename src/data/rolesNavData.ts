@@ -25,25 +25,25 @@ import type { RoleNavConfig, RoleProfile, UserRole } from '@/types/roles';
 
 /** ID menu "Profil Saya" per role (Super Admin memakai tab sendiri di SuperAdminPortal). */
 export const PROFILE_NAV_ID: Record<Exclude<UserRole, 'superadmin'>, string> = {
-  pengelola: 'mo-profil',
+  Manajer: 'mo-profil',
   admin: 'admin-profil',
   kasir: 'kasir-profil',
 };
 
 /** ID menu "Laporkan Bug" per role pelapor. */
 export const BUG_NAV_ID: Record<Exclude<UserRole, 'superadmin'>, string> = {
-  pengelola: 'mo-bug',
+  Manajer: 'mo-bug',
   admin: 'admin-bug',
   kasir: 'kasir-bug',
 };
 
 export const roleProfiles: Record<UserRole, RoleProfile> = {
-  pengelola: {
-    id: 'pengelola',
-    title: 'Pengelola',
-    subtitle: 'PENGELOLA WISATA',
+  Manajer: {
+    id: 'Manajer',
+    title: 'Manajer',
+    subtitle: 'MANAJER',
     userName: 'Budi Santoso, S.Par',
-    userRoleName: 'PENGELOLA WISATA',
+    userRoleName: 'MANAJER',
     avatarText: 'PS',
     badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30',
   },
@@ -82,14 +82,14 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
     roleTitle: 'SUPER ADMIN (PUSAT KONTROL)',
     groups: [],
   },
-  // ─── PENGELOLA WISATA ───────────────────────────────────────────────
-  pengelola: {
-    role: 'pengelola',
-    roleTitle: 'PENGELOLA WISATA',
+  // ─── MANAJER ───────────────────────────────────────────────
+  Manajer: {
+    role: 'Manajer',
+    roleTitle: 'MANAJER',
     groups: [
       {
         id: 'mo-dash',
-        title: 'Dasboard Pengelola',
+        title: 'Dasboard Manajer',
         icon: LayoutGrid,
         items: [],
       },

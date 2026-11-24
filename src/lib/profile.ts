@@ -14,7 +14,7 @@ const PROFILE_KEY_PREFIX = 'ePloria_profile_';
 const NO_ROLE_KEY = 'ePloria_profile_none';
 
 const DEFAULT_ACCOUNT: Record<UserRole, { username: string; email: string }> = {
-  pengelola: { username: 'budi.santoso', email: 'budi.santoso@ploria.id' },
+  Manajer: { username: 'budi.santoso', email: 'budi.santoso@ploria.id' },
   admin: { username: 'hasan.alfarisi', email: 'hasan.alfarisi@ploria.id' },
   kasir: { username: 'siti.rahmawati', email: 'siti.rahmawati@ploria.id' },
   superadmin: { username: 'raka.daniswara', email: 'raka.superadmin@ploria.id' },

@@ -136,15 +136,14 @@ export function MitraInspectionDrawer({
               <div className="flex items-center gap-2">
                 <h2 className="text-base font-black tracking-tight">{mitra.destinationName}</h2>
                 <span
-                  className={`rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider ${
-                    mitra.status === 'PENDING'
+                  className={`rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider ${mitra.status === 'PENDING'
                       ? 'bg-amber-400 text-amber-950'
                       : mitra.status === 'ACTIVE'
-                      ? 'bg-emerald-400 text-emerald-950'
-                      : mitra.status === 'REJECTED'
-                      ? 'bg-rose-400 text-rose-950'
-                      : 'bg-slate-300 text-slate-900'
-                  }`}
+                        ? 'bg-emerald-400 text-emerald-950'
+                        : mitra.status === 'REJECTED'
+                          ? 'bg-rose-400 text-rose-950'
+                          : 'bg-slate-300 text-slate-900'
+                    }`}
                 >
                   {mitra.status}
                 </span>
@@ -285,11 +284,10 @@ export function MitraInspectionDrawer({
               <button
                 type="button"
                 onClick={() => setActiveDocTab('ktp')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                  activeDocTab === 'ktp'
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${activeDocTab === 'ktp'
                     ? 'bg-[#286EF2] text-white shadow-sm'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
+                  }`}
               >
                 <span>1. KTP PIC</span>
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
@@ -297,11 +295,10 @@ export function MitraInspectionDrawer({
               <button
                 type="button"
                 onClick={() => setActiveDocTab('nib')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                  activeDocTab === 'nib'
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${activeDocTab === 'nib'
                     ? 'bg-[#286EF2] text-white shadow-sm'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
+                  }`}
               >
                 <span>2. Izin NIB / SK</span>
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
@@ -309,11 +306,10 @@ export function MitraInspectionDrawer({
               <button
                 type="button"
                 onClick={() => setActiveDocTab('bank')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                  activeDocTab === 'bank'
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${activeDocTab === 'bank'
                     ? 'bg-[#286EF2] text-white shadow-sm'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
+                  }`}
               >
                 <span>3. Rekening Pencairan</span>
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
@@ -327,8 +323,8 @@ export function MitraInspectionDrawer({
                   activeDocTab === 'ktp'
                     ? mitra.documents.ktpUrl
                     : activeDocTab === 'nib'
-                    ? mitra.documents.nibUrl
-                    : mitra.documents.bankBookUrl
+                      ? mitra.documents.nibUrl
+                      : mitra.documents.bankBookUrl
                 }
                 alt="Document Preview"
                 className="w-full h-56 object-cover object-center opacity-90 transition group-hover:opacity-100"
@@ -340,15 +336,15 @@ export function MitraInspectionDrawer({
                       {activeDocTab === 'ktp'
                         ? 'Kartu Tanda Penduduk'
                         : activeDocTab === 'nib'
-                        ? mitra.documents.documentType
-                        : 'Rekening Bank Resmi'}
+                          ? mitra.documents.documentType
+                          : 'Rekening Bank Resmi'}
                     </span>
                     <span className="font-bold text-sm">
                       {activeDocTab === 'ktp'
                         ? `NIK: ${mitra.documents.ktpNumber}`
                         : activeDocTab === 'nib'
-                        ? `No. Izin: ${mitra.documents.nibNumber}`
-                        : `${mitra.documents.bankName} - ${mitra.documents.bankAccountNumber}`}
+                          ? `No. Izin: ${mitra.documents.nibNumber}`
+                          : `${mitra.documents.bankName} - ${mitra.documents.bankAccountNumber}`}
                     </span>
                     <p className="text-xs text-slate-300">
                       Pemilik: {activeDocTab === 'bank' ? mitra.documents.bankAccountHolder : mitra.pic.fullName}
@@ -427,7 +423,7 @@ export function MitraInspectionDrawer({
                   className="mt-0.5 h-4 w-4 rounded border-slate-300 text-[#286EF2] focus:ring-[#286EF2]"
                 />
                 <div className="text-xs">
-                  <span className="font-bold text-slate-800 block">3. Rekening Bank Sesuai PIC atau Badan Pengelola</span>
+                  <span className="font-bold text-slate-800 block">3. Rekening Bank Sesuai PIC atau Badan Manajer</span>
                   <span className="text-[11px] text-slate-500 block">
                     Pemilik rekening ({mitra.documents.bankAccountHolder}) di {mitra.documents.bankName} terhubung langsung dengan calon mitra.
                   </span>
@@ -453,11 +449,10 @@ export function MitraInspectionDrawer({
                 type="button"
                 onClick={handleApproveClick}
                 disabled={!isAllChecked}
-                className={`flex-1 w-full rounded-xl py-3 px-6 text-xs font-bold text-white transition-all shadow-md flex items-center justify-center gap-2 ${
-                  isAllChecked
+                className={`flex-1 w-full rounded-xl py-3 px-6 text-xs font-bold text-white transition-all shadow-md flex items-center justify-center gap-2 ${isAllChecked
                     ? 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/20'
                     : 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none'
-                }`}
+                  }`}
               >
                 <Check className="h-4 w-4" />
                 <span>

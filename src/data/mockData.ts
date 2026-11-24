@@ -22,7 +22,7 @@ export const initialStaffMembers: StaffMember[] = [
     name: 'M. Hasan Al-Farisi',
     email: 'hasan.alfarisi@Ploria.id',
     phone: '0813-9876-5432',
-    role: 'Admin Pengelola',
+    role: 'Admin Manajer',
     status: 'aktif',
     joinedDate: '01 Mar 2024',
   },
@@ -93,7 +93,7 @@ export const initialVisitorCategoryStats: VisitorCategoryStat[] = [
 export const initialRevenueShare: RevenueShareItem[] = [
   {
     id: 'rs-1',
-    entity: 'Pengelola Desa Wisata (BUMDes)',
+    entity: 'Manajer Desa Wisata (BUMDes)',
     sharePercentage: 40,
     amount: 44400000,
     status: 'Disetujui',
@@ -191,7 +191,7 @@ export const initialDestinationInfo: DestinationInfo = {
     'Area Parkir Luas & Keamanan 24 Jam',
     'Pos Medis & Lifeguard Siaga',
   ],
-  // 8. Kontak Pengelola
+  // 8. Kontak Manajer
   contactPhone: '+62 812-3456-7890 / (021) 7890-4321',
   contactEmail: 'info@ploria.id',
   managerContact: 'Budi Santoso, S.Par (Manajer Operasional Wisata - 0812-9876-5432)',
@@ -241,7 +241,7 @@ export const initialReviews: VisitorReview[] = [
       'Pemandangan sunset dari dermaga luar biasa indahnya. Saran saya mohon ditambah penunjuk arah ke toilet di area barat pantai.',
     reply: {
       author: 'M. Hasan Al-Farisi',
-      role: 'Admin Pengelola',
+      role: 'Admin Manajer',
       message:
         'Terima kasih atas saran berharga Mbak Citra. Tim kami sedang memasang papan petunjuk arah tambahan di zona barat minggu ini.',
       date: '09 Nov 2026',
@@ -275,7 +275,7 @@ export const initialReviews: VisitorReview[] = [
       'Pemandangan alam pantai luar biasa indah. Namun saat jam sibuk akhir pekan antrean di toilet umum dan mushola cukup panjang. Perlu penambahan fasilitas sanitasi.',
     reply: {
       author: 'M. Hasan Al-Farisi',
-      role: 'Admin Pengelola',
+      role: 'Admin Manajer',
       message:
         'Terima kasih banyak atas evaluasinya Pak Bambang. Kami sedang menjadwalkan pembangunan fasilitas bilas dan toilet tambahan di sisi timur pantai.',
       date: '07 Nov 2026',

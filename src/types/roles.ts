@@ -1,7 +1,7 @@
 import type React from 'react';
 import type { LucideIcon } from 'lucide-react';
 
-export type UserRole = 'pengelola' | 'admin' | 'kasir' | 'superadmin';
+export type UserRole = 'Manajer' | 'admin' | 'kasir' | 'superadmin';
 
 export type RoleProfile = {
   id: UserRole;
@@ -103,7 +103,7 @@ export type DestinationInfo = {
   importantNotice: string;
   // 7. Fasilitas
   facilities: string[];
-  // 8. Kontak Pengelola
+  // 8. Kontak Manajer
   contactPhone: string;
   contactEmail: string;
   managerContact?: string;

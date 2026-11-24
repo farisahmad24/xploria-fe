@@ -52,12 +52,12 @@ export default function ReviewsView({
       {/* ── 1. HEADER JUDUL & FILTER ── */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-        
+
           <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
             Ulasan Pengunjung &amp; Tanggapan
           </h1>
           <p className="text-sm text-slate-500">
-            Pantau testimoni pengunjung dan berikan tanggapan resmi pengelola wisata.
+            Pantau testimoni pengunjung dan berikan tanggapan resmi MANAJER.
           </p>
         </div>
 
@@ -67,11 +67,10 @@ export default function ReviewsView({
             <button
               type="button"
               onClick={() => setSelectedRating('all')}
-              className={`rounded-xl px-3 py-1.5 text-xs font-bold transition ${
-                selectedRating === 'all'
+              className={`rounded-xl px-3 py-1.5 text-xs font-bold transition ${selectedRating === 'all'
                   ? 'bg-[#286EF2] text-white shadow-sm'
                   : 'text-slate-600 hover:bg-slate-100'
-              }`}
+                }`}
             >
               Semua Bintang
             </button>
@@ -80,11 +79,10 @@ export default function ReviewsView({
                 key={star}
                 type="button"
                 onClick={() => setSelectedRating(star)}
-                className={`flex items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-bold transition ${
-                  selectedRating === star
+                className={`flex items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-bold transition ${selectedRating === star
                     ? 'bg-[#286EF2] text-white shadow-sm'
                     : 'text-slate-600 hover:bg-slate-100'
-                }`}
+                  }`}
               >
                 <span>{star}</span>
                 <Star className={`h-3 w-3 ${selectedRating === star ? 'fill-white text-white' : 'fill-amber-400 text-amber-400'}`} />
@@ -95,11 +93,10 @@ export default function ReviewsView({
           <button
             type="button"
             onClick={() => setOnlyUnreplied(!onlyUnreplied)}
-            className={`rounded-2xl border px-3.5 py-2 text-xs font-bold shadow-sm transition ${
-              onlyUnreplied
+            className={`rounded-2xl border px-3.5 py-2 text-xs font-bold shadow-sm transition ${onlyUnreplied
                 ? 'border-amber-400 bg-amber-500 text-white shadow-amber-500/20'
                 : 'border-slate-200/80 bg-white text-slate-600 hover:bg-slate-50'
-            }`}
+              }`}
           >
             {onlyUnreplied ? 'Hanya Belum Dibalas ✓' : 'Belum Dibalas'}
           </button>
@@ -165,9 +162,8 @@ export default function ReviewsView({
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star
                           key={i}
-                          className={`h-4 w-4 ${
-                            i < rev.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-200'
-                          }`}
+                          className={`h-4 w-4 ${i < rev.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-200'
+                            }`}
                         />
                       ))}
                       <span className="ml-1 text-xs font-bold text-slate-700">{rev.rating}.0</span>

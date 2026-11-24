@@ -37,7 +37,7 @@ export function MitraValidationView({
   onOpenNewMitraModal,
   onOpenSimulationModal,
 }: MitraValidationViewProps) {
-  const handleOpenModal = onOpenSimulationModal || onOpenNewMitraModal || (() => {});
+  const handleOpenModal = onOpenSimulationModal || onOpenNewMitraModal || (() => { });
   const [selectedStatusFilter, setSelectedStatusFilter] = useState<MitraStatus | 'ALL'>('ALL');
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -91,7 +91,7 @@ export function MitraValidationView({
             Validasi Akun Mitra Wisata
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Pusat verifikasi legalitas objek wisata, identitas penanggung jawab (PIC), dan rekening pencairan resmi sebelum akses pengelola wisata diaktifkan.
+            Pusat verifikasi legalitas objek wisata, identitas penanggung jawab (PIC), dan rekening pencairan resmi sebelum akses MANAJER diaktifkan.
           </p>
         </div>
 
@@ -113,11 +113,10 @@ export function MitraValidationView({
         {/* Total Mitra */}
         <div
           onClick={() => setSelectedStatusFilter('ALL')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#1E6BFF] via-[#286EF2] to-[#60A5FA] ${
-            selectedStatusFilter === 'ALL'
-              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
-              : 'opacity-95 hover:opacity-100'
-          }`}
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#1E6BFF] via-[#286EF2] to-[#60A5FA] ${selectedStatusFilter === 'ALL'
+            ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+            : 'opacity-95 hover:opacity-100'
+            }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-white">
@@ -138,11 +137,10 @@ export function MitraValidationView({
         {/* Menunggu Verifikasi (Pending) */}
         <div
           onClick={() => setSelectedStatusFilter('PENDING')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24] ${
-            selectedStatusFilter === 'PENDING'
-              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
-              : 'opacity-95 hover:opacity-100'
-          }`}
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24] ${selectedStatusFilter === 'PENDING'
+            ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+            : 'opacity-95 hover:opacity-100'
+            }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-white">
@@ -166,11 +164,10 @@ export function MitraValidationView({
         {/* Mitra Aktif (Active) */}
         <div
           onClick={() => setSelectedStatusFilter('ACTIVE')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#059669] via-[#10B981] to-[#34D399] ${
-            selectedStatusFilter === 'ACTIVE'
-              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
-              : 'opacity-95 hover:opacity-100'
-          }`}
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#059669] via-[#10B981] to-[#34D399] ${selectedStatusFilter === 'ACTIVE'
+            ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+            : 'opacity-95 hover:opacity-100'
+            }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-white">
@@ -191,11 +188,10 @@ export function MitraValidationView({
         {/* Ditolak / Revisi (Rejected) */}
         <div
           onClick={() => setSelectedStatusFilter('REJECTED')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#E11D48] via-[#F43F5E] to-[#FB7185] ${
-            selectedStatusFilter === 'REJECTED'
-              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
-              : 'opacity-95 hover:opacity-100'
-          }`}
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#E11D48] via-[#F43F5E] to-[#FB7185] ${selectedStatusFilter === 'REJECTED'
+            ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+            : 'opacity-95 hover:opacity-100'
+            }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-white">
@@ -216,11 +212,10 @@ export function MitraValidationView({
         {/* Dibekukan (Suspended) */}
         <div
           onClick={() => setSelectedStatusFilter('SUSPENDED')}
-          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] col-span-2 sm:col-span-1 bg-gradient-to-br from-[#475569] via-[#64748B] to-[#94A3B8] ${
-            selectedStatusFilter === 'SUSPENDED'
-              ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
-              : 'opacity-95 hover:opacity-100'
-          }`}
+          className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] col-span-2 sm:col-span-1 bg-gradient-to-br from-[#475569] via-[#64748B] to-[#94A3B8] ${selectedStatusFilter === 'SUSPENDED'
+            ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+            : 'opacity-95 hover:opacity-100'
+            }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-white">
@@ -257,21 +252,19 @@ export function MitraValidationView({
                   key={tab.id}
                   type="button"
                   onClick={() => setSelectedStatusFilter(tab.id as any)}
-                  className={`flex items-center gap-2 rounded-2xl px-3.5 py-2 text-xs font-bold transition-all ${
-                    isSelected
-                      ? 'bg-[#286EF2] text-white shadow-sm'
-                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-                  }`}
+                  className={`flex items-center gap-2 rounded-2xl px-3.5 py-2 text-xs font-bold transition-all ${isSelected
+                    ? 'bg-[#286EF2] text-white shadow-sm'
+                    : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                    }`}
                 >
                   <span>{tab.label}</span>
                   <span
-                    className={`rounded-full px-1.5 py-0.5 text-[10px] font-black ${
-                      isSelected
-                        ? 'bg-white/20 text-white'
-                        : tab.highlight && tab.count > 0
+                    className={`rounded-full px-1.5 py-0.5 text-[10px] font-black ${isSelected
+                      ? 'bg-white/20 text-white'
+                      : tab.highlight && tab.count > 0
                         ? 'bg-amber-100 text-amber-800 font-extrabold'
                         : 'bg-slate-200 text-slate-600'
-                    }`}
+                      }`}
                   >
                     {tab.count}
                   </span>
@@ -306,7 +299,7 @@ export function MitraValidationView({
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari berdasarkan nama destinasi wisata, nama PIC pengelola, kabupaten, atau nomor pendaftaran..."
+            placeholder="Cari berdasarkan nama destinasi wisata, nama PIC Manajer, kabupaten, atau nomor pendaftaran..."
             className="w-full rounded-2xl border border-slate-200 bg-slate-50/70 py-2.5 pl-11 pr-4 text-xs sm:text-sm text-slate-800 placeholder-slate-400 transition focus:border-[#286EF2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-100/60"
           />
           {searchQuery && (
@@ -422,26 +415,24 @@ export function MitraValidationView({
                       {/* Status */}
                       <td className="py-4 px-5 text-center whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-wider ${
-                            item.status === 'PENDING'
-                              ? 'bg-amber-100 text-amber-800 border border-amber-300'
-                              : item.status === 'ACTIVE'
+                          className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-wider ${item.status === 'PENDING'
+                            ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                            : item.status === 'ACTIVE'
                               ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                               : item.status === 'REJECTED'
-                              ? 'bg-rose-100 text-rose-800 border border-rose-300'
-                              : 'bg-slate-200 text-slate-700 border border-slate-300'
-                          }`}
+                                ? 'bg-rose-100 text-rose-800 border border-rose-300'
+                                : 'bg-slate-200 text-slate-700 border border-slate-300'
+                            }`}
                         >
                           <span
-                            className={`h-1.5 w-1.5 rounded-full ${
-                              item.status === 'PENDING'
-                                ? 'bg-amber-500 animate-pulse'
-                                : item.status === 'ACTIVE'
+                            className={`h-1.5 w-1.5 rounded-full ${item.status === 'PENDING'
+                              ? 'bg-amber-500 animate-pulse'
+                              : item.status === 'ACTIVE'
                                 ? 'bg-emerald-500'
                                 : item.status === 'REJECTED'
-                                ? 'bg-rose-500'
-                                : 'bg-slate-500'
-                            }`}
+                                  ? 'bg-rose-500'
+                                  : 'bg-slate-500'
+                              }`}
                           />
                           <span>{item.status}</span>
                         </span>

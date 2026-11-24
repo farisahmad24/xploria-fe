@@ -155,7 +155,7 @@ export default function BugReportsAdminView({ onToast }: BugReportsAdminViewProp
             Laporan Bug
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Tinjau laporan bug dari Admin, Kasir, dan Pengelola Wisata, lalu perbarui status penanganannya.
+            Tinjau laporan bug dari Admin, Kasir, dan MANAJER, lalu perbarui status penanganannya.
           </p>
         </div>
       </div>
@@ -168,11 +168,10 @@ export default function BugReportsAdminView({ onToast }: BugReportsAdminViewProp
             <div
               key={card.label}
               onClick={() => setStatusFilter(card.id)}
-              className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br ${card.gradient} ${
-                isSelected
-                  ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
-                  : 'opacity-95 hover:opacity-100'
-              }`}
+              className={`cursor-pointer rounded-2xl p-4 sm:p-5 transition-all text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br ${card.gradient} ${isSelected
+                ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-100 shadow-md scale-[1.02]'
+                : 'opacity-95 hover:opacity-100'
+                }`}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-white">
@@ -224,11 +223,10 @@ export default function BugReportsAdminView({ onToast }: BugReportsAdminViewProp
                     key={tab.id}
                     type="button"
                     onClick={() => setStatusFilter(tab.id as StatusFilter)}
-                    className={`rounded-xl px-3 py-1.5 text-xs font-bold transition-all ${
-                      isSelected
-                        ? 'bg-[#286EF2] text-white shadow-sm'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
+                    className={`rounded-xl px-3 py-1.5 text-xs font-bold transition-all ${isSelected
+                      ? 'bg-[#286EF2] text-white shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900'
+                      }`}
                   >
                     {tab.label}
                   </button>
@@ -260,7 +258,7 @@ export default function BugReportsAdminView({ onToast }: BugReportsAdminViewProp
                 <option value="all">Semua Role Pelapor</option>
                 <option value="admin">Admin</option>
                 <option value="kasir">Kasir</option>
-                <option value="pengelola">Pengelola</option>
+                <option value="Manajer">Manajer</option>
               </select>
 
               <select

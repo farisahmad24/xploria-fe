@@ -16,6 +16,8 @@ type SidebarProps = {
   onLogout: () => void;
   open: boolean;
   onClose: () => void;
+  /** Mode ringkas (desktop): sidebar menyusut menjadi rel ikon. Dikelola parent. */
+  collapsed?: boolean;
 };
 
 export default function Sidebar({
@@ -25,9 +27,12 @@ export default function Sidebar({
   onLogout,
   open,
   onClose,
+  collapsed = false,
 }: SidebarProps) {
   const navConfig = rolesNavigation[currentRole];
   const profile = useSessionProfile(currentRole);
+
+  const hideWhenCollapsed = collapsed ? 'lg:hidden' : '';
 
   // ── Accordion state: track which group is currently expanded ─────────────
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(() => {
@@ -164,18 +169,18 @@ export default function Sidebar({
 
       {/* Sidebar Panel */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:translate-x-0 lg:shadow-none print:hidden ${
-          open ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-[transform,width] duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 lg:shadow-none print:hidden ${
+          collapsed ? 'lg:w-20' : 'lg:w-72'
+        } ${open ? 'translate-x-0' : '-translate-x-full'}`}
       >
         {/* Header: Centered Logo + "Ploria Agency" */}
-        <div className="relative flex flex-col items-center justify-center pt-7 pb-2 px-5">
+        <div className="relative flex h-[72px] shrink-0 flex-row items-center justify-center gap-2.5 px-5">
           <img
             src="/logo-white.png"
             alt="Ploria Logo"
             className="h-10 w-auto object-contain drop-shadow-sm select-none"
           />
-          <h1 className="mt-2 text-base font-bold text-white tracking-wide font-sans">
+          <h1 className={`text-base font-bold text-white tracking-wide font-sans whitespace-nowrap ${hideWhenCollapsed}`}>
             Ploria Agency
           </h1>
           <button
@@ -189,7 +194,7 @@ export default function Sidebar({
         </div>
 
         {/* Navigation Items */}
-        <nav className="no-scrollbar flex-1 overflow-y-auto pl-4 pr-0 pt-6 pb-6 space-y-1.5">
+        <nav className={`no-scrollbar flex-1 overflow-y-auto pl-4 pr-0 pt-6 pb-6 space-y-1.5 ${collapsed ? 'lg:pl-3' : ''}`}>
           {navConfig.groups.map((group) => {
             const GroupIcon = group.icon;
             const hasSubItems = group.items.length > 0;
@@ -204,7 +209,10 @@ export default function Sidebar({
                   onClick={() => handleGroupClick(group)}
                   aria-expanded={hasSubItems ? isExpanded : undefined}
                   aria-current={isActive ? 'page' : undefined}
+                  title={collapsed ? group.title : undefined}
                   className={`flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm transition-all duration-200 ${
+                    collapsed ? 'lg:justify-center lg:gap-0 lg:px-0 lg:mr-0' : ''
+                  } ${
                     isActive
                       ? 'sidebar-curved-tab-active'
                       : 'mr-4 rounded-full font-semibold text-white hover:bg-white/10'
@@ -215,20 +223,24 @@ export default function Sidebar({
                       isActive ? 'text-[#286EF2]' : 'text-white'
                     }`}
                   />
-                  <span className="flex-1 truncate leading-snug">{group.title}</span>
+                  <span className={`flex-1 truncate leading-snug ${hideWhenCollapsed}`}>{group.title}</span>
 
                   {hasSubItems && (
                     <ChevronDown
-                      className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
+                      className={`h-4 w-4 shrink-0 transition-transform duration-200 ${hideWhenCollapsed} ${
                         isActive ? 'text-[#286EF2]' : 'text-white'
                       } ${isExpanded ? 'rotate-180' : ''}`}
                     />
                   )}
                 </button>
 
-                {/* ── Dropdown Sub-Items ── */}
+                {/* ── Dropdown Sub-Items (saat ringkas: tampil sebagai deretan ikon) ── */}
                 {hasSubItems && isExpanded && (
-                  <div className="relative my-1.5 ml-6 mr-4 pl-3.5 border-l-2 border-white/30 space-y-1 animate-fadeIn">
+                  <div
+                    className={`relative my-1.5 pl-3.5 border-l-2 border-white/30 space-y-1 animate-fadeIn ${
+                      collapsed ? 'lg:ml-0 lg:mr-0 lg:pl-0 lg:border-l-0 lg:space-y-1.5' : 'ml-6 mr-4'
+                    }`}
+                  >
                     {group.items.map((item) => {
                       const SubIcon = item.icon;
                       const isSubActive =
@@ -249,7 +261,10 @@ export default function Sidebar({
                           key={item.id}
                           type="button"
                           onClick={() => handleSubItemClick(item)}
+                          title={collapsed ? item.label : undefined}
                           className={`flex w-full items-center gap-3 rounded-2xl px-3.5 py-2.5 text-left text-xs transition-all duration-150 ${
+                            collapsed ? 'lg:justify-center lg:gap-0 lg:px-0' : ''
+                          } ${
                             isSubActive
                               ? 'bg-white/20 border border-white/25 text-white font-bold shadow-sm backdrop-blur-sm'
                               : 'font-medium text-white/85 hover:bg-white/10 hover:text-white'
@@ -268,7 +283,7 @@ export default function Sidebar({
                               }`}
                             />
                           )}
-                          <span className="truncate leading-snug">{item.label}</span>
+                          <span className={`truncate leading-snug ${hideWhenCollapsed}`}>{item.label}</span>
                         </button>
                       );
                     })}
@@ -282,13 +297,13 @@ export default function Sidebar({
         {/* Footer Area: Status Wisata, Role Pengguna, Logout */}
         <div className="mt-auto px-4 pb-5 pt-3 space-y-2.5 border-t border-white/15">
           {/* Status Wisata Aktif */}
-          <div className="flex items-center gap-2 px-1">
+          <div className={`flex items-center gap-2 px-1 ${collapsed ? 'lg:justify-center' : ''}`}>
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-            <span className="text-xs font-semibold text-white">Xploria Wisata Aktif</span>
+            <span className={`text-xs font-semibold text-white ${hideWhenCollapsed}`}>Xploria Wisata Aktif</span>
           </div>
 
           {/* Role Card */}
-          <div className="rounded-2xl border border-white/20 bg-white/10 p-3 shadow-inner">
+          <div className={`rounded-2xl border border-white/20 bg-white/10 p-3 shadow-inner ${hideWhenCollapsed}`}>
             <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-blue-100">
               <User className="h-3.5 w-3.5 text-white shrink-0" />
               <span>ROLE PENGGUNA AKTIF</span>
@@ -302,10 +317,13 @@ export default function Sidebar({
           <button
             type="button"
             onClick={onLogout}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#FF4D5E] px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-red-900/20 transition hover:bg-[#ff3347]"
+            title={collapsed ? 'Logout Sesi' : undefined}
+            className={`flex w-full items-center justify-center gap-2 rounded-xl bg-[#FF4D5E] px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-red-900/20 transition hover:bg-[#ff3347] ${
+              collapsed ? 'lg:px-0' : ''
+            }`}
           >
             <LogOut className="h-4 w-4 shrink-0" />
-            <span>Logout Sesi</span>
+            <span className={hideWhenCollapsed}>Logout Sesi</span>
           </button>
         </div>
       </aside>

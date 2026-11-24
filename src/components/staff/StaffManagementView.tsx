@@ -77,7 +77,7 @@ export default function StaffManagementView({
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-         
+
           <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">Kelola Akun Staf Wisata</h1>
           <p className="text-sm text-slate-500">
             Manajemen akun petugas loket kasir, administrator, dan hak akses operasional.
@@ -110,105 +110,105 @@ export default function StaffManagementView({
           </div>
 
           <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600">
-            <thead className="bg-ocean-50/70 text-xs font-semibold uppercase tracking-wider text-ocean-800">
-              <tr>
-                <th className="px-6 py-4">Nama Staf</th>
-                <th className="px-6 py-4">Role / Posisi</th>
-                <th className="px-6 py-4">Kontak</th>
-                <th className="px-6 py-4">Tanggal Bergabung</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {staffList.map((staf) => (
-                <tr key={staf.id} className="hover:bg-ocean-50/30">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-ocean-100 font-bold text-ocean-700">
-                        {staf.name.slice(0, 2).toUpperCase()}
-                      </div>
-                      <div>
-                        <p className="font-bold text-slate-900">{staf.name}</p>
-                        <p className="text-xs text-slate-400">{staf.id}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-800">
-                      <Shield className="h-3 w-3 text-ocean-600" />
-                      {staf.role}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-xs">
-                    <p className="flex items-center gap-1.5 text-slate-700">
-                      <Mail className="h-3.5 w-3.5 text-slate-400" />
-                      {staf.email}
-                    </p>
-                    <p className="mt-1 flex items-center gap-1.5 text-slate-500">
-                      <Phone className="h-3.5 w-3.5 text-slate-400" />
-                      {staf.phone}
-                    </p>
-                  </td>
-                  <td className="px-6 py-4 text-xs text-slate-500">{staf.joinedDate}</td>
-                  <td className="px-6 py-4">
-                    <button
-                      type="button"
-                      onClick={() => handleToggleStatus(staf.id)}
-                      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition ${staf.status === 'aktif'
-                        ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                        : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
-                        }`}
-                    >
-                      {staf.status === 'aktif' ? (
-                        <>
-                          <UserCheck className="h-3 w-3" /> Aktif
-                        </>
-                      ) : (
-                        <>
-                          <UserX className="h-3 w-3" /> Nonaktif
-                        </>
-                      )}
-                    </button>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteStaff(staf.id)}
-                      className="rounded-lg p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
-                      title="Hapus Akun Staf"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </td>
+            <table className="w-full text-left text-sm text-slate-600">
+              <thead className="bg-ocean-50/70 text-xs font-semibold uppercase tracking-wider text-ocean-800">
+                <tr>
+                  <th className="px-6 py-4">Nama Staf</th>
+                  <th className="px-6 py-4">Role / Posisi</th>
+                  <th className="px-6 py-4">Kontak</th>
+                  <th className="px-6 py-4">Tanggal Bergabung</th>
+                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4 text-right">Aksi</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {staffList.map((staf) => (
+                  <tr key={staf.id} className="hover:bg-ocean-50/30">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-ocean-100 font-bold text-ocean-700">
+                          {staf.name.slice(0, 2).toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-900">{staf.name}</p>
+                          <p className="text-xs text-slate-400">{staf.id}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-800">
+                        <Shield className="h-3 w-3 text-ocean-600" />
+                        {staf.role}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-xs">
+                      <p className="flex items-center gap-1.5 text-slate-700">
+                        <Mail className="h-3.5 w-3.5 text-slate-400" />
+                        {staf.email}
+                      </p>
+                      <p className="mt-1 flex items-center gap-1.5 text-slate-500">
+                        <Phone className="h-3.5 w-3.5 text-slate-400" />
+                        {staf.phone}
+                      </p>
+                    </td>
+                    <td className="px-6 py-4 text-xs text-slate-500">{staf.joinedDate}</td>
+                    <td className="px-6 py-4">
+                      <button
+                        type="button"
+                        onClick={() => handleToggleStatus(staf.id)}
+                        className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition ${staf.status === 'aktif'
+                          ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                          : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
+                          }`}
+                      >
+                        {staf.status === 'aktif' ? (
+                          <>
+                            <UserCheck className="h-3 w-3" /> Aktif
+                          </>
+                        ) : (
+                          <>
+                            <UserX className="h-3 w-3" /> Nonaktif
+                          </>
+                        )}
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteStaff(staf.id)}
+                        className="rounded-lg p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
+                        title="Hapus Akun Staf"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-      {/* Footer Bar (Frame Stability) */}
-      <div className="flex flex-col gap-2 border-t border-slate-100 bg-slate-50/60 px-6 py-4 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2">
-          <span className="font-medium">
-            Total Staf: <strong className="text-slate-800">{staffList.length}</strong> akun
-          </span>
-          <span className="text-slate-300">•</span>
-          <span>
-            Aktif: <strong className="text-emerald-600">{staffList.filter((s) => s.status === 'aktif').length} Staf</strong>
-          </span>
-          <span className="text-slate-300">•</span>
-          <span>
-            Nonaktif: <strong className="text-slate-500">{staffList.filter((s) => s.status === 'nonaktif').length} Staf</strong>
+        {/* Footer Bar (Frame Stability) */}
+        <div className="flex flex-col gap-2 border-t border-slate-100 bg-slate-50/60 px-6 py-4 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2">
+            <span className="font-medium">
+              Total Staf: <strong className="text-slate-800">{staffList.length}</strong> akun
+            </span>
+            <span className="text-slate-300">•</span>
+            <span>
+              Aktif: <strong className="text-emerald-600">{staffList.filter((s) => s.status === 'aktif').length} Staf</strong>
+            </span>
+            <span className="text-slate-300">•</span>
+            <span>
+              Nonaktif: <strong className="text-slate-500">{staffList.filter((s) => s.status === 'nonaktif').length} Staf</strong>
+            </span>
+          </div>
+          <span className="text-[11px] text-slate-400">
+            Sistem Manajemen Personel &amp; Hak Akses Operasional
           </span>
         </div>
-        <span className="text-[11px] text-slate-400">
-          Sistem Manajemen Personel &amp; Hak Akses Operasional
-        </span>
       </div>
-    </div>
 
       {/* Add Staff Modal */}
       {modalOpen && (
@@ -257,7 +257,7 @@ export default function StaffManagementView({
                 >
                   <option value="Petugas Kasir Tiket">Petugas Kasir Tiket</option>
                   <option value="Petugas Validasi Lapangan">Petugas Validasi Lapangan</option>
-                  <option value="Admin Pengelola">Admin Pengelola</option>
+                  <option value="Admin Manajer">Admin Manajer</option>
                   <option value="Pengawas Operasional">Pengawas Operasional</option>
                 </select>
               </div>

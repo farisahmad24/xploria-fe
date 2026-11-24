@@ -66,7 +66,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
         `Registrasi akun ${firstName} ${lastName} berhasil! Masuk ke sistem sebagai ${selectedRole === 'pengelola'
           ? 'Pengelola Wisata'
           : selectedRole === 'admin'
-            ? 'Admin (Aktor Pengelola)'
+            ? 'ADMIN '
             : selectedRole === 'kasir'
               ? 'Kasir / Loket Tiket'
               : 'Super Admin Pusat'
@@ -100,28 +100,6 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 </span>
               </div>
 
-              <div className="flex items-center gap-5 text-xs font-semibold">
-                <button
-                  type="button"
-                  onClick={() => setMode('login')}
-                  className={`transition-colors ${mode === 'login'
-                    ? 'text-[#286EF2] font-bold'
-                    : 'text-slate-400 hover:text-slate-700'
-                    }`}
-                >
-                  Masuk
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-                  className={`transition-colors ${mode === 'register'
-                    ? 'text-[#286EF2] font-bold'
-                    : 'text-slate-400 hover:text-slate-700'
-                    }`}
-                >
-                  {mode === 'login' ? 'Daftar' : 'Daftar'}
-                </button>
-              </div>
             </div>
 
             {/* Header Titles */}
@@ -246,7 +224,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                     {selectedRole === 'pengelola'
                       ? 'Pengelola Wisata'
                       : selectedRole === 'admin'
-                        ? 'Aktor Pengelola'
+                        ? 'Admin Wisata'
                         : selectedRole === 'kasir'
                           ? 'Kasir Loket'
                           : 'Super Admin HQ'}

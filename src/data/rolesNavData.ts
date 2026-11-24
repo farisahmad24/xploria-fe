@@ -50,9 +50,9 @@ export const roleProfiles: Record<UserRole, RoleProfile> = {
   admin: {
     id: 'admin',
     title: 'Admin',
-    subtitle: 'ADMIN (AKTOR PENGELOLA)',
+    subtitle: 'ADMIN ',
     userName: 'M. Hasan Al-Farisi',
-    userRoleName: 'Admin (Aktor Pengelola)',
+    userRoleName: 'ADMIN ',
     avatarText: 'AP',
     badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/30',
   },
@@ -140,10 +140,10 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
     ],
   },
 
-  // ─── ADMIN (AKTOR PENGELOLA) ───────────────────────────────────────────────
+  // ─── ADMIN  ───────────────────────────────────────────────
   admin: {
     role: 'admin',
-    roleTitle: 'ADMIN (AKTOR PENGELOLA)',
+    roleTitle: 'ADMIN ',
     groups: [
       {
         id: 'admin-dash',

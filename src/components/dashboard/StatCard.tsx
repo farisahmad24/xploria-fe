@@ -14,24 +14,29 @@ const cardTheme: Record<
   StatItem['id'],
   {
     gradient: string;
-    badgeText: string;
+    iconBg: string;
+    accent: string;
   }
 > = {
   tickets: {
-    gradient: 'bg-gradient-to-br from-[#1E6BFF] via-[#286EF2] to-[#60A5FA]',
-    badgeText: 'text-[#1E6BFF]',
+    gradient: 'bg-gradient-to-br from-[#8FD3FA] via-[#A9DFFB] to-[#C6EEFF]',
+    iconBg: '#1B7FC4',
+    accent: '#1B6FA8',
   },
   validated: {
-    gradient: 'bg-gradient-to-br from-[#059669] via-[#10B981] to-[#34D399]',
-    badgeText: 'text-[#059669]',
+    gradient: 'bg-gradient-to-br from-[#7EE3A4] via-[#B4EFA0] to-[#D8F79E]',
+    iconBg: '#12956A',
+    accent: '#11805A',
   },
   visitors: {
-    gradient: 'bg-gradient-to-br from-[#4F46E5] via-[#6366F1] to-[#A855F7]',
-    badgeText: 'text-[#4F46E5]',
+    gradient: 'bg-gradient-to-br from-[#FFA66E] via-[#FFC283] to-[#FFE49C]',
+    iconBg: '#E0701E',
+    accent: '#B45309',
   },
   revenue: {
-    gradient: 'bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24]',
-    badgeText: 'text-[#D97706]',
+    gradient: 'bg-gradient-to-br from-[#C49CF2] via-[#DDA6EE] to-[#F6C6EC]',
+    iconBg: '#7C4DC2',
+    accent: '#6B3FB0',
   },
 };
 
@@ -48,7 +53,7 @@ function buildSparkPath(points: number[], width: number, height: number) {
   );
 }
 
-function Sparkline({ points }: { points: number[] }) {
+function Sparkline({ points, color }: { points: number[]; color: string }) {
   const width = 80;
   const height = 28;
   return (
@@ -56,7 +61,7 @@ function Sparkline({ points }: { points: number[] }) {
       <path
         d={buildSparkPath(points, width, height)}
         fill="none"
-        stroke="#FFFFFF"
+        stroke={color}
         strokeWidth={2}
         strokeLinecap="round"
       />
@@ -74,21 +79,27 @@ export default function StatCard({ item, delay }: { item: StatItem; delay: numbe
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="flex items-start gap-4">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white">
+        <div
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white shadow-sm"
+          style={{ backgroundColor: theme.iconBg }}
+        >
           <Icon className="h-5 w-5 text-white" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-white/90">{item.label}</p>
-          <p className="mt-1 truncate text-xl font-bold text-white sm:text-2xl">{item.value}</p>
+          <p className="truncate text-xs font-medium text-slate-700">{item.label}</p>
+          <p className="mt-1 truncate text-xl font-bold text-slate-900 sm:text-2xl">{item.value}</p>
         </div>
       </div>
       <div className="mt-4 flex items-center justify-between">
-        <span className={`inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold ${theme.badgeText}`}>
+        <span
+          className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2.5 py-0.5 text-xs font-semibold"
+          style={{ color: theme.accent }}
+        >
           <TrendingUp className="h-3 w-3" />
           {item.change}
         </span>
-        <span className="text-white opacity-90 transition-opacity group-hover:opacity-100">
-          <Sparkline points={item.spark} />
+        <span className="opacity-90 transition-opacity group-hover:opacity-100">
+          <Sparkline points={item.spark} color="#FFFFFF" />
         </span>
       </div>
     </article>

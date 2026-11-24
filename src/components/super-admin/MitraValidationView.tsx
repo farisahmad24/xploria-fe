@@ -82,11 +82,7 @@ export function MitraValidationView({
       {/* ── Page Header & Action Bar ── */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-[#286EF2] uppercase tracking-wider mb-1">
-            <span>Portal Super Admin</span>
-            <span>•</span>
-            <span>Manajemen Kemitraan Wisata</span>
-          </div>
+         
           <h1 className="text-2xl font-black text-slate-900 tracking-tight sm:text-3xl">
             Validasi Akun Mitra Wisata
           </h1>

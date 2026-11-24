@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
-import { Bug, Clock, ImagePlus, Send, Trash2 } from 'lucide-react';
+import { Clock, ImagePlus, MessageSquareWarning, Send, Trash2 } from 'lucide-react';
 import {
   BUG_CATEGORIES,
   BUG_PRIORITY_META,
@@ -184,7 +184,7 @@ export default function BugReportPage({ role, onToast }: BugReportPageProps) {
           <div className="flex flex-col gap-3 border-b border-slate-100 p-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-[#286EF2] ring-1 ring-blue-100">
-                <Bug className="h-5 w-5" />
+                <MessageSquareWarning className="h-5 w-5" />
               </div>
               <div>
                 <h2 className="text-base font-bold text-slate-900">{tabMeta.title}</h2>
@@ -334,7 +334,7 @@ export default function BugReportPage({ role, onToast }: BugReportPageProps) {
               {myReports.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-center text-slate-400">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-400 mb-3">
-                    <Bug className="h-6 w-6" />
+                    <MessageSquareWarning className="h-6 w-6" />
                   </div>
                   <h3 className="text-sm font-bold text-slate-700">Belum ada laporan yang Anda kirim</h3>
                   <p className="mt-1 text-xs text-slate-400 max-w-sm">

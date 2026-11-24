@@ -134,56 +134,56 @@ export default function ReportsView({
 
       {/* Summary Stat Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 print:hidden">
-        {/* Card 1: Total Pengunjung (Biru Ploria) */}
-        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#1E6BFF] via-[#286EF2] to-[#60A5FA] text-white">
+        {/* Card 1: Total Pengunjung (Oranye, selaras dengan dashboard) */}
+        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#FFA66E] via-[#FFC283] to-[#FFE49C] text-slate-900">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-white/90">Total Pengunjung</p>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Total Pengunjung</p>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E0701E] text-white shadow-sm">
               <Users className="h-4 w-4" />
             </div>
           </div>
-          <p className="mt-1 text-2xl font-black text-white">{formatNumber(totalVisitors)} Orang</p>
-          <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-white/90">
+          <p className="mt-1 text-2xl font-black text-slate-900">{formatNumber(totalVisitors)} Orang</p>
+          <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-slate-700">
             <TrendingUp className="h-3.5 w-3.5" /> +14.2% dari bulan lalu
           </p>
         </div>
 
-        {/* Card 2: Pendapatan Tiket (Oranye / Amber) */}
-        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#FBBF24] text-white">
+        {/* Card 2: Pendapatan Tiket (Ungu, selaras dengan dashboard) */}
+        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#C49CF2] via-[#DDA6EE] to-[#F6C6EC] text-slate-900">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-white/90">Pendapatan Tiket</p>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Pendapatan Tiket</p>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#7C4DC2] text-white shadow-sm">
               <Wallet className="h-4 w-4" />
             </div>
           </div>
-          <p className="mt-1 text-2xl font-black text-white">{formatRupiah(totalRevenue)}</p>
-          <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-white/90">
+          <p className="mt-1 text-2xl font-black text-slate-900">{formatRupiah(totalRevenue)}</p>
+          <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-slate-700">
             <TrendingUp className="h-3.5 w-3.5" /> +18.5% dari target
           </p>
         </div>
 
-        {/* Card 3: Biaya Operasional (Rose / Merah) */}
-        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#E11D48] via-[#F43F5E] to-[#FB7185] text-white">
+        {/* Card 3: Biaya Operasional (Pink pastel, selaras dengan palet dashboard) */}
+        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#FFA3B8] via-[#FFC0CE] to-[#FFE0E8] text-slate-900">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-white/90">Biaya Operasional</p>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Biaya Operasional</p>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E11D48] text-white shadow-sm">
               <Receipt className="h-4 w-4" />
             </div>
           </div>
-          <p className="mt-1 text-2xl font-black text-white">{formatRupiah(totalExpenses)}</p>
-          <p className="mt-1 text-xs font-medium text-white/90">4 Pos Biaya Terdaftar</p>
+          <p className="mt-1 text-2xl font-black text-slate-900">{formatRupiah(totalExpenses)}</p>
+          <p className="mt-1 text-xs font-medium text-slate-700">4 Pos Biaya Terdaftar</p>
         </div>
 
-        {/* Card 4: Laba Bersih (Hijau Emerald) */}
-        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#059669] via-[#10B981] to-[#34D399] text-white">
+        {/* Card 4: Laba Bersih (Hijau pastel, selaras dengan dashboard) */}
+        <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#7EE3A4] via-[#B4EFA0] to-[#D8F79E] text-slate-900">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-white/90">Laba Bersih</p>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Laba Bersih</p>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#12956A] text-white shadow-sm">
               <Coins className="h-4 w-4" />
             </div>
           </div>
-          <p className="mt-1 text-2xl font-black text-white">{formatRupiah(netIncome)}</p>
-          <p className="mt-1 text-xs font-medium text-white/90">Margin laba ~{Math.round((netIncome / (totalRevenue || 1)) * 100)}%</p>
+          <p className="mt-1 text-2xl font-black text-slate-900">{formatRupiah(netIncome)}</p>
+          <p className="mt-1 text-xs font-medium text-slate-700">Margin laba ~{Math.round((netIncome / (totalRevenue || 1)) * 100)}%</p>
         </div>
       </div>
 

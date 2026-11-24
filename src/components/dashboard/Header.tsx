@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Bell,
-  Bug,
   CalendarCheck,
   ChevronDown,
   FileText,
   LayoutDashboard,
   LogOut,
   Menu,
+  MessageSquareWarning,
   Search,
   User,
   Users,
@@ -443,7 +443,7 @@ export default function Header({
                     onClick={() => { setProfileOpen(false); onOpenBugReport(); }}
                     className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                   >
-                    <Bug className="h-4 w-4 text-slate-500" />
+                    <MessageSquareWarning className="h-4 w-4 text-slate-500" />
                     Laporkan Kendala
                   </button>
                   <div className="my-1 border-t border-slate-100" />

@@ -109,6 +109,38 @@
     display: block !important;
   }
 
+  /* Cetak Laporan Close Order: hanya dialog rekap yang dicetak, seluruh area dialog tampil penuh tanpa scroll */
+  body * {
+    visibility: hidden !important;
+  }
+
+  .recap-print-root,
+  .recap-print-root * {
+    visibility: visible !important;
+  }
+
+  .recap-print-root {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .recap-print-dialog {
+    position: static !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .recap-print-dialog section,
+  .recap-print-dialog tr {
+    break-inside: avoid;
+  }
+
   @page {
     size: A4 portrait;
     margin: 12mm 15mm;

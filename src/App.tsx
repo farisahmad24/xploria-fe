@@ -622,7 +622,7 @@ function App() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50 print:bg-white print:block">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#E8F3FF] via-[#FBF3EB] to-[#FFE8D4] print:bg-white print:block">
       <Sidebar
         currentRole={currentRole}
         activeId={activeNav}
@@ -633,7 +633,7 @@ function App() {
         collapsed={sidebarCollapsed}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col bg-white print:block print:w-full print:p-0">
+      <div className="flex min-w-0 flex-1 flex-col print:block print:w-full print:p-0">
         <Header
           currentRole={currentRole}
           query={query}

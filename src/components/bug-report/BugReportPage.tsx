@@ -164,7 +164,7 @@ export default function BugReportPage({ role, onToast }: BugReportPageProps) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
-            Laporkan Bug
+            Laporkan Kendala
           </h1>
           <p className="text-sm text-slate-500">
             Bantu kami memperbaiki sistem Ploria dengan melaporkan kendala yang Anda temui.

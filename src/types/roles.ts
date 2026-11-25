@@ -43,6 +43,7 @@ export type StaffMember = {
   role: string;
   status: 'aktif' | 'nonaktif';
   joinedDate: string;
+  password?: string;
 };
 
 export type VisitorCategoryStat = {

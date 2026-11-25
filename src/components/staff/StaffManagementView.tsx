@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import {
+  Eye,
+  EyeOff,
   Mail,
+  Pencil,
   Phone,
   Shield,
   Trash2,
@@ -23,9 +26,12 @@ export default function StaffManagementView({
   onToast,
 }: StaffManagementViewProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('Petugas Kasir Tiket');
 
   const handleToggleStatus = (id: string) => {
@@ -50,14 +56,59 @@ export default function StaffManagementView({
     onToast('Akun staf berhasil dihapus');
   };
 
-  const handleAddStaff = (e: React.FormEvent) => {
+  const resetForm = () => {
+    setEditingId(null);
+    setName('');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+    setShowPassword(false);
+    setRole('Petugas Kasir Tiket');
+  };
+
+  const openAddModal = () => {
+    resetForm();
+    setModalOpen(true);
+  };
+
+  const openEditModal = (staf: StaffMember) => {
+    setEditingId(staf.id);
+    setName(staf.name);
+    setEmail(staf.email);
+    setPhone(staf.phone);
+    setRole(staf.role);
+    setPassword('');
+    setShowPassword(false);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    resetForm();
+  };
+
+  const handleSubmitStaff = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (editingId) {
+      const updated = staffList.map((s) =>
+        s.id === editingId
+          ? { ...s, name, email, phone, role, ...(password ? { password } : {}) }
+          : s,
+      );
+      onUpdateStaff(updated);
+      closeModal();
+      onToast(`Data akun staf untuk ${name} berhasil diperbarui!`);
+      return;
+    }
+
     const newStaff: StaffMember = {
       id: `st-${Date.now()}`,
       name,
       email,
       phone,
       role,
+      password,
       status: 'aktif',
       joinedDate: new Date().toLocaleDateString('id-ID', {
         day: '2-digit',
@@ -66,10 +117,7 @@ export default function StaffManagementView({
       }),
     };
     onUpdateStaff([...staffList, newStaff]);
-    setModalOpen(false);
-    setName('');
-    setEmail('');
-    setPhone('');
+    closeModal();
     onToast(`Akun staf untuk ${name} berhasil dibuat!`);
   };
 
@@ -86,7 +134,7 @@ export default function StaffManagementView({
 
         <button
           type="button"
-          onClick={() => setModalOpen(true)}
+          onClick={openAddModal}
           className="inline-flex items-center gap-2 rounded-xl bg-[#286EF2] px-5 py-2.5 text-xs font-bold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700"
         >
           <UserPlus className="h-4 w-4" />
@@ -175,6 +223,14 @@ export default function StaffManagementView({
                     <td className="px-6 py-4 text-right">
                       <button
                         type="button"
+                        onClick={() => openEditModal(staf)}
+                        className="rounded-lg p-2 text-slate-400 hover:bg-blue-50 hover:text-[#286EF2]"
+                        title="Edit Akun Staf"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
                         onClick={() => handleDeleteStaff(staf.id)}
                         className="rounded-lg p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
                         title="Hapus Akun Staf"
@@ -215,23 +271,27 @@ export default function StaffManagementView({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
             className="fixed inset-0 bg-ocean-950/60 backdrop-blur-sm"
-            onClick={() => setModalOpen(false)}
+            onClick={closeModal}
           />
           <div className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-8">
             <button
               type="button"
-              onClick={() => setModalOpen(false)}
+              onClick={closeModal}
               className="absolute right-5 top-5 rounded-full p-2 text-slate-400 hover:bg-slate-100"
             >
               <X className="h-5 w-5" />
             </button>
 
-            <h3 className="text-xl font-bold text-ocean-900">Tambah Akun Staf Baru</h3>
+            <h3 className="text-xl font-bold text-ocean-900">
+              {editingId ? 'Edit Akun Staf' : 'Tambah Akun Staf Baru'}
+            </h3>
             <p className="mt-1 text-xs text-slate-500">
-              Buat akun akses pengguna untuk petugas operasional wisata.
+              {editingId
+                ? 'Perbarui data akun akses pengguna untuk petugas operasional wisata.'
+                : 'Buat akun akses pengguna untuk petugas operasional wisata.'}
             </p>
 
-            <form onSubmit={handleAddStaff} className="mt-5 flex flex-col gap-4">
+            <form onSubmit={handleSubmitStaff} className="mt-5 flex flex-col gap-4">
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   Nama Lengkap
@@ -290,10 +350,37 @@ export default function StaffManagementView({
                 />
               </div>
 
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  {editingId ? 'Password Baru' : 'Password'}
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required={!editingId}
+                    minLength={8}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder={editingId ? 'Kosongkan jika tidak diubah' : 'Minimal 8 karakter'}
+                    autoComplete="new-password"
+                    className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 pr-11 text-sm text-slate-800 focus:border-ocean-500 focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1 text-slate-400 hover:text-slate-600"
+                    title={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
+                    aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
               <div className="mt-2 flex gap-3">
                 <button
                   type="button"
-                  onClick={() => setModalOpen(false)}
+                  onClick={closeModal}
                   className="flex-1 rounded-xl border border-slate-200 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
                 >
                   Batal
@@ -302,7 +389,7 @@ export default function StaffManagementView({
                   type="submit"
                   className="flex-1 rounded-xl bg-ocean-600 py-2.5 text-sm font-bold text-white shadow-lg shadow-ocean-600/25 hover:bg-ocean-700"
                 >
-                  Daftarkan Staf
+                  {editingId ? 'Simpan Perubahan' : 'Daftarkan Staf'}
                 </button>
               </div>
             </form>

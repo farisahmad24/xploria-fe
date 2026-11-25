@@ -1,4 +1,12 @@
-import { hasStored, readStored, useStoredValue, writeStored } from '@/lib/localStore';
+// src/lib/bugReports.ts – wrapper around the API module with graceful fallback.
+import { useState, useEffect } from 'react';
+import { hasStored, readStored, writeStored } from '@/lib/localStore';
+import {
+  fetchBugReports,
+  getBugReport as apiGetBugReport,
+  createBugReport as apiCreateBugReport,
+  updateBugReport as apiUpdateBugReport,
+} from '@/lib/api/bugReports';
 import type {
   BugCategory,
   BugPriority,
@@ -44,59 +52,19 @@ export const REPORTER_ROLE_BADGE: Record<ReporterRole, string> = {
 
 export const MAX_SCREENSHOT_BYTES = 2 * 1024 * 1024;
 
-const EMPTY: BugReport[] = [];
-
-// Data contoh agar halaman Super Admin tidak kosong saat pertama dibuka.
 const SAMPLE_REPORTS: BugReport[] = [
   {
-    id: 'BUG-20261122-101',
-    title: 'Tombol simpan tiket tidak merespons saat kuantitas diubah',
+    id: 'BUG-20261124-101',
+    title: 'Tombol cetak tidak merespons',
     category: 'Perhitungan / Transaksi',
     priority: 'high',
-    description:
-      'Saat mengubah jumlah tiket dewasa menjadi 5 lalu menekan Simpan, layar tidak berubah dan total harga tetap menampilkan nilai lama.',
+    description: 'Setelah transaksi berhasil, struk tidak tercetak otomatis.',
     screenshotDataUrl: null,
     status: 'pending',
     reporter: { role: 'kasir', name: 'Siti Rahmawati', username: 'siti.rahmawati' },
-    createdAt: '2026-11-22T09:14:00+07:00',
-    updatedAt: '2026-11-22T09:14:00+07:00',
+    createdAt: '2026-11-24T09:14:00+07:00',
+    updatedAt: '2026-11-24T09:14:00+07:00',
     response: null,
-  },
-  {
-    id: 'BUG-20261123-047',
-    title: 'Tabel riwayat penjualan terpotong di layar kecil',
-    category: 'Tampilan / UI',
-    priority: 'low',
-    description:
-      'Pada layar smartphone, kolom aksi di tabel riwayat penjualan tidak terlihat dan harus digeser manual.',
-    screenshotDataUrl: null,
-    status: 'in_progress',
-    reporter: { role: 'admin', name: 'M. Hasan Al-Farisi', username: 'hasan.alfarisi' },
-    createdAt: '2026-11-23T13:40:00+07:00',
-    updatedAt: '2026-11-23T15:02:00+07:00',
-    response: {
-      note: 'Sedang ditinjau tim pengembang. Perbaikan responsif dijadwalkan minggu ini.',
-      responderName: 'Raka Daniswara, S.Kom',
-      updatedAt: '2026-11-23T15:02:00+07:00',
-    },
-  },
-  {
-    id: 'BUG-20261124-012',
-    title: 'Grafik kategori pengunjung menampilkan angka 0 setelah refresh',
-    category: 'Error Sistem / Crash',
-    priority: 'medium',
-    description:
-      'Setelah halaman di-refresh, grafik kategori pengunjung kosong padahal data penjualan sudah ada.',
-    screenshotDataUrl: null,
-    status: 'done',
-    reporter: { role: 'Manajer', name: 'Budi Santoso, S.Par', username: 'budi.santoso' },
-    createdAt: '2026-11-24T08:05:00+07:00',
-    updatedAt: '2026-11-24T10:30:00+07:00',
-    response: {
-      note: 'Sudah diperbaiki pada pembaruan terbaru. Mohon konfirmasi kembali.',
-      responderName: 'Raka Daniswara, S.Kom',
-      updatedAt: '2026-11-24T10:30:00+07:00',
-    },
   },
 ];
 
@@ -104,32 +72,61 @@ if (!hasStored(BUG_REPORTS_KEY)) {
   writeStored(BUG_REPORTS_KEY, SAMPLE_REPORTS);
 }
 
-export function getBugReports(): BugReport[] {
-  return readStored<BugReport[]>(BUG_REPORTS_KEY, EMPTY);
-}
-
-export function useBugReports(): BugReport[] {
-  return useStoredValue<BugReport[]>(BUG_REPORTS_KEY, EMPTY);
-}
-
-function createBugId(existing: BugReport[], now: Date): string {
-  const datePart = now.toISOString().slice(0, 10).replace(/-/g, '');
-  const taken = new Set(existing.map((r) => r.id));
-  for (let attempt = 0; attempt < 50; attempt++) {
-    const seq = String(Math.floor(Math.random() * 900) + 100);
-    const id = `BUG-${datePart}-${seq}`;
-    if (!taken.has(id)) return id;
+/** Retrieve all bug reports (async API with local fallback) */
+export async function getBugReports(): Promise<BugReport[]> {
+  try {
+    const resp = await fetchBugReports();
+    if (resp && Array.isArray(resp.data)) {
+      writeStored(BUG_REPORTS_KEY, resp.data);
+      return resp.data;
+    }
+  } catch (err) {
+    console.warn('getBugReports API error, reading from storage', err);
   }
-  return `BUG-${Date.now()}`;
+  return readStored<BugReport[]>(BUG_REPORTS_KEY, SAMPLE_REPORTS);
 }
 
-/** Menyimpan laporan baru. Melempar error jika penyimpanan gagal (mis. kuota penuh). */
-export function createBugReport(input: NewBugReportInput): BugReport {
-  const existing = getBugReports();
-  const now = new Date();
-  const nowIso = now.toISOString();
-  const report: BugReport = {
-    id: createBugId(existing, now),
+/** React hook returning an array of BugReports, synced with API */
+export function useBugReports(): BugReport[] {
+  const [reports, setReports] = useState<BugReport[]>(() =>
+    readStored<BugReport[]>(BUG_REPORTS_KEY, SAMPLE_REPORTS)
+  );
+
+  useEffect(() => {
+    let mounted = true;
+    fetchBugReports()
+      .then((resp) => {
+        if (mounted && resp && Array.isArray(resp.data)) {
+          setReports(resp.data);
+          writeStored(BUG_REPORTS_KEY, resp.data);
+        }
+      })
+      .catch((e) => console.warn('useBugReports fetch error:', e));
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  return reports;
+}
+
+/** Create a new bug report via backend */
+export async function createBugReport(input: NewBugReportInput): Promise<BugReport> {
+  const existing = readStored<BugReport[]>(BUG_REPORTS_KEY, SAMPLE_REPORTS);
+  try {
+    const resp = await apiCreateBugReport(input);
+    if (resp && resp.data) {
+      const next = [resp.data, ...existing];
+      writeStored(BUG_REPORTS_KEY, next);
+      return resp.data;
+    }
+  } catch (err) {
+    console.warn('createBugReport API failed, saving to local fallback', err);
+  }
+
+  const nowIso = new Date().toISOString();
+  const fallbackReport: BugReport = {
+    id: `BUG-${Date.now()}`,
     title: input.title.trim(),
     category: input.category,
     priority: input.priority,
@@ -141,28 +138,33 @@ export function createBugReport(input: NewBugReportInput): BugReport {
     updatedAt: nowIso,
     response: null,
   };
-  if (!writeStored(BUG_REPORTS_KEY, [report, ...existing])) {
-    throw new Error('Penyimpanan browser penuh. Coba lampiran yang lebih kecil atau hapus data lama.');
-  }
-  return report;
+  writeStored(BUG_REPORTS_KEY, [fallbackReport, ...existing]);
+  return fallbackReport;
 }
 
-/** Memperbarui status dan tanggapan. Catatan kosong berarti tanggapan dihapus. */
-export function updateBugReport(
+/** Update an existing bug report via backend */
+export async function updateBugReport(
   id: string,
   update: { status: BugStatus; note: string; responderName: string }
-): boolean {
+): Promise<boolean> {
+  try {
+    await apiUpdateBugReport(id, update);
+  } catch (err) {
+    console.warn('updateBugReport API failed, updating local fallback', err);
+  }
+
+  const existing = readStored<BugReport[]>(BUG_REPORTS_KEY, SAMPLE_REPORTS);
   const nowIso = new Date().toISOString();
-  const note = update.note.trim();
-  const next = getBugReports().map((r) =>
+  const next = existing.map((r) =>
     r.id === id
       ? {
-        ...r,
-        status: update.status,
-        updatedAt: nowIso,
-        response: note ? { note, responderName: update.responderName, updatedAt: nowIso } : null,
-      }
+          ...r,
+          status: update.status,
+          updatedAt: nowIso,
+          response: update.note ? { note: update.note, responderName: update.responderName, updatedAt: nowIso } : null,
+        }
       : r
   );
-  return writeStored(BUG_REPORTS_KEY, next);
+  writeStored(BUG_REPORTS_KEY, next);
+  return true;
 }

@@ -5,6 +5,7 @@ import {
   Compass,
   FileCheck,
   Image as ImageIcon,
+  ImageOff,
   Mail,
   MapPin,
   Phone,
@@ -16,6 +17,7 @@ import {
   ThumbsUp,
   Trash2,
   TrendingUp,
+  Upload,
   User,
   Users,
 } from 'lucide-react';
@@ -52,11 +54,59 @@ export default function DestinationProfileView({
   const [newImage, setNewImage] = useState('');
   const [newFacility, setNewFacility] = useState('');
   const [newRule, setNewRule] = useState('');
+  const [brokenImages, setBrokenImages] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+
+  const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB per file
 
   const handleAddImage = () => {
-    if (!newImage.trim()) return;
-    setData((prev) => ({ ...prev, images: [...(prev.images || []), newImage.trim()] }));
+    const url = newImage.trim();
+    if (!url) return;
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') throw new Error('protocol');
+    } catch {
+      onToast('URL gambar tidak valid. Gunakan tautan yang diawali https://');
+      return;
+    }
+    setData((prev) => ({ ...prev, images: [...(prev.images || []), url] }));
     setNewImage('');
+  };
+
+  const readFileAsDataUrl = (file: File) =>
+    new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    });
+
+  const handleUploadImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = ''; // allow picking the same file again later
+    if (files.length === 0) return;
+
+    const imageFiles = files.filter((f) => f.type.startsWith('image/'));
+    if (imageFiles.length !== files.length) {
+      onToast('Beberapa file dilewati karena bukan format gambar.');
+    }
+    const tooLarge = imageFiles.filter((f) => f.size > MAX_IMAGE_SIZE);
+    if (tooLarge.length > 0) {
+      onToast(`${tooLarge.length} gambar dilewati karena ukurannya lebih dari 5 MB.`);
+    }
+    const validFiles = imageFiles.filter((f) => f.size <= MAX_IMAGE_SIZE);
+    if (validFiles.length === 0) return;
+
+    setUploading(true);
+    try {
+      const dataUrls = await Promise.all(validFiles.map(readFileAsDataUrl));
+      setData((prev) => ({ ...prev, images: [...(prev.images || []), ...dataUrls] }));
+      onToast(`${dataUrls.length} gambar berhasil ditambahkan.`);
+    } catch {
+      onToast('Gagal membaca file gambar. Coba lagi.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleRemoveImage = (index: number) => {
@@ -136,16 +186,24 @@ export default function DestinationProfileView({
 
         {/* Gallery Thumbnails Grid */}
         <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {(data.images || []).map((imgUrl, idx) => (
+          {(data.images || []).map((imgUrl, idx) => {
+            const isBroken = brokenImages.includes(imgUrl);
+            return (
             <div key={idx} className="group relative aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-xs">
-              <img
-                src={imgUrl}
-                alt={`Wisata foto ${idx + 1}`}
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80';
-                }}
-              />
+              {isBroken ? (
+                <div className="flex h-full w-full flex-col items-center justify-center gap-1 px-3 text-center text-slate-400">
+                  <ImageOff className="h-6 w-6" />
+                  <span className="text-[11px] font-semibold">Gambar gagal dimuat</span>
+                  <span className="line-clamp-1 text-[10px] text-slate-400">{imgUrl}</span>
+                </div>
+              ) : (
+                <img
+                  src={imgUrl}
+                  alt={`Wisata foto ${idx + 1}`}
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  onError={() => setBrokenImages((prev) => (prev.includes(imgUrl) ? prev : [...prev, imgUrl]))}
+                />
+              )}
               <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                 <span className="text-[10px] font-bold text-white bg-black/50 px-2 py-0.5 rounded-md">
                   Foto #{idx + 1}
@@ -160,26 +218,49 @@ export default function DestinationProfileView({
                 </button>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Input Tambah Gambar Baru */}
-        <div className="mt-4 flex flex-col sm:flex-row gap-2">
-          <input
-            type="url"
-            value={newImage}
-            onChange={(e) => setNewImage(e.target.value)}
-            placeholder="Tempel tautan URL gambar baru (https://...)"
-            className="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-blue-100"
-          />
-          <button
-            type="button"
-            onClick={handleAddImage}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-xs font-bold text-white hover:bg-slate-800 transition shrink-0"
+        {/* Input Tambah Gambar Baru: dari URL atau upload dari perangkat */}
+        <div className="mt-4 flex flex-col gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="url"
+              value={newImage}
+              onChange={(e) => setNewImage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddImage();
+                }
+              }}
+              placeholder="Tempel tautan URL gambar baru (https://...)"
+              className="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-blue-100"
+            />
+            <button
+              type="button"
+              onClick={handleAddImage}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-xs font-bold text-white hover:bg-slate-800 transition shrink-0"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Tambah dari Link</span>
+            </button>
+          </div>
+
+          <label
+            className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-[#286EF2] bg-blue-50/50 px-5 py-2.5 text-xs font-bold text-[#286EF2] transition hover:bg-blue-50 ${uploading ? 'pointer-events-none opacity-60' : ''}`}
           >
-            <Plus className="h-4 w-4" />
-            <span>Tambah Gambar</span>
-          </button>
+            <Upload className="h-4 w-4" />
+            <span>{uploading ? 'Memproses gambar...' : 'Upload Foto dari Perangkat (JPG, PNG, WEBP, maks. 5 MB)'}</span>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleUploadImages}
+              className="sr-only"
+            />
+          </label>
         </div>
       </div>
 

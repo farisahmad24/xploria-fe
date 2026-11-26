@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  ArrowLeft,
   Eye,
   EyeOff,
   Mail,
@@ -25,6 +26,7 @@ export default function StaffManagementView({
   onUpdateStaff,
   onToast,
 }: StaffManagementViewProps) {
+  const [view, setView] = useState<'list' | 'add'>('list');
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState('');
@@ -66,9 +68,9 @@ export default function StaffManagementView({
     setRole('Petugas Kasir Tiket');
   };
 
-  const openAddModal = () => {
+  const openAddPage = () => {
     resetForm();
-    setModalOpen(true);
+    setView('add');
   };
 
   const openEditModal = (staf: StaffMember) => {
@@ -117,10 +119,160 @@ export default function StaffManagementView({
       }),
     };
     onUpdateStaff([...staffList, newStaff]);
-    closeModal();
+    if (view === 'add') {
+      setView('list');
+      resetForm();
+    } else {
+      closeModal();
+    }
     onToast(`Akun staf untuk ${name} berhasil dibuat!`);
   };
 
+  // ── Halaman Tambah Akun Staf ─────────────────────────────────────────────
+  if (view === 'add') {
+    return (
+      <div className="flex flex-col gap-6">
+        {/* Header halaman tambah */}
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => { setView('list'); resetForm(); }}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 hover:text-slate-900"
+            aria-label="Kembali ke daftar staf"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <div>
+            <h1 className="text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">Tambah Akun Staf Baru</h1>
+            <p className="text-sm text-slate-500">Buat akun akses pengguna untuk petugas operasional wisata.</p>
+          </div>
+        </div>
+
+        {/* Form card */}
+        <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-card">
+          <div className="border-b border-slate-100 p-6">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-[#286EF2] ring-1 ring-blue-100">
+                <UserPlus className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-slate-900">Data Akun Baru</h2>
+                <p className="text-xs text-slate-400">Lengkapi semua field untuk mendaftarkan staf baru.</p>
+              </div>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmitStaff} className="p-6 sm:p-8">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Nama Lengkap
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Contoh: Rian Pratama"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-[#286EF2]/20"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Role / Posisi
+                </label>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-[#286EF2]/20"
+                >
+                  <option value="Petugas Kasir Tiket">Petugas Kasir Tiket</option>
+                  <option value="Petugas Validasi Lapangan">Petugas Validasi Lapangan</option>
+                  <option value="Admin Manajer">Admin Manajer</option>
+                  <option value="Pengawas Operasional">Pengawas Operasional</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Nomor Telepon
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="0812-3456-7890"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-[#286EF2]/20"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="rian.pratama@ploria.id"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-[#286EF2]/20"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Password
+                </label>
+                <div className="relative mt-1.5">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    minLength={8}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Minimal 8 karakter"
+                    autoComplete="new-password"
+                    className="w-full rounded-xl border border-slate-200 px-4 py-3 pr-12 text-sm text-slate-800 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-[#286EF2]/20"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-400 hover:text-slate-600"
+                    aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                <p className="mt-1 text-[11px] text-slate-400">Password minimal 8 karakter.</p>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => { setView('list'); resetForm(); }}
+                className="rounded-xl border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#286EF2] px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-500/25 hover:bg-blue-700"
+              >
+                <UserPlus className="h-4 w-4" />
+                Daftarkan Staf
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Halaman Daftar Staf ───────────────────────────────────────────────────
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -134,7 +286,7 @@ export default function StaffManagementView({
 
         <button
           type="button"
-          onClick={openAddModal}
+          onClick={openAddPage}
           className="inline-flex items-center gap-2 rounded-xl bg-[#286EF2] px-5 py-2.5 text-xs font-bold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700"
         >
           <UserPlus className="h-4 w-4" />
@@ -266,8 +418,8 @@ export default function StaffManagementView({
         </div>
       </div>
 
-      {/* Add Staff Modal */}
-      {modalOpen && (
+      {/* Edit Staff Modal */}
+      {modalOpen && editingId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
             className="fixed inset-0 bg-ocean-950/60 backdrop-blur-sm"
@@ -282,13 +434,9 @@ export default function StaffManagementView({
               <X className="h-5 w-5" />
             </button>
 
-            <h3 className="text-xl font-bold text-ocean-900">
-              {editingId ? 'Edit Akun Staf' : 'Tambah Akun Staf Baru'}
-            </h3>
+            <h3 className="text-xl font-bold text-ocean-900">Edit Akun Staf</h3>
             <p className="mt-1 text-xs text-slate-500">
-              {editingId
-                ? 'Perbarui data akun akses pengguna untuk petugas operasional wisata.'
-                : 'Buat akun akses pengguna untuk petugas operasional wisata.'}
+              Perbarui data akun akses pengguna untuk petugas operasional wisata.
             </p>
 
             <form onSubmit={handleSubmitStaff} className="mt-5 flex flex-col gap-4">
@@ -352,16 +500,15 @@ export default function StaffManagementView({
 
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  {editingId ? 'Password Baru' : 'Password'}
+                  Password Baru
                 </label>
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
-                    required={!editingId}
                     minLength={8}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder={editingId ? 'Kosongkan jika tidak diubah' : 'Minimal 8 karakter'}
+                    placeholder="Kosongkan jika tidak diubah"
                     autoComplete="new-password"
                     className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 pr-11 text-sm text-slate-800 focus:border-ocean-500 focus:outline-none"
                   />
@@ -369,7 +516,6 @@ export default function StaffManagementView({
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1 text-slate-400 hover:text-slate-600"
-                    title={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
                     aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -389,7 +535,7 @@ export default function StaffManagementView({
                   type="submit"
                   className="flex-1 rounded-xl bg-ocean-600 py-2.5 text-sm font-bold text-white shadow-lg shadow-ocean-600/25 hover:bg-ocean-700"
                 >
-                  {editingId ? 'Simpan Perubahan' : 'Daftarkan Staf'}
+                  Simpan Perubahan
                 </button>
               </div>
             </form>

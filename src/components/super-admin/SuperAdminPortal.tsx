@@ -174,7 +174,7 @@ export const SuperAdminPortal: React.FC<SuperAdminPortalProps> = ({ onLogout }) 
       prevStatus,
       'SUSPENDED',
       `Pembekuan Akun Operasional: ${reason}`,
-      'Akses loket dan dashboard MANAJER sementara ditangguhkan atas wewenang Super Admin.'
+      'Akses loket dan Dashboard sementara ditangguhkan atas wewenang Super Admin.'
     );
 
     setSelectedMitra((prev) =>

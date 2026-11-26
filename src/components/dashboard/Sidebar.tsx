@@ -101,7 +101,6 @@ export default function Sidebar({
       return (
         activeId === 'kasir-dash' ||
         activeId === 'kasir-dash-overview' ||
-        activeId === 'kasir-dash-calendar' ||
         activeId === 'kasir-calendar' ||
         activeId === 'kasir' ||
         activeId === 'dashboard'
@@ -169,24 +168,29 @@ export default function Sidebar({
 
       {/* Sidebar Panel */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-[#286EF2] text-white shadow-2xl transition-[transform,width] duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 lg:shadow-none print:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-white text-slate-800 shadow-2xl transition-[transform,width] duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 lg:shadow-none print:hidden ${
           collapsed ? 'lg:w-20' : 'lg:w-72'
         } ${open ? 'translate-x-0' : '-translate-x-full'}`}
       >
         {/* Header: Centered Logo + "Ploria Agency" */}
         <div className="relative flex h-[72px] shrink-0 flex-row items-center justify-center gap-2.5 px-5">
           <img
-            src="/logo-white.png"
+            src="/logo.png"
             alt="Ploria Logo"
             className="h-10 w-auto object-contain drop-shadow-sm select-none"
           />
-          <h1 className={`text-base font-bold text-white tracking-wide font-sans whitespace-nowrap ${hideWhenCollapsed}`}>
-            Ploria Agency
-          </h1>
+          <div className={`flex flex-col leading-tight ${hideWhenCollapsed}`}>
+            <h1 className="text-base font-bold text-slate-900 tracking-wide font-sans whitespace-nowrap leading-snug">
+              Ploria
+            </h1>
+            <p className="text-[11px] text-slate-500 font-medium whitespace-nowrap leading-snug">
+              Pemesanan Tiket Wisata
+            </p>
+          </div>
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-4 top-5 rounded-lg p-1.5 text-white/80 transition hover:bg-white/15 hover:text-white lg:hidden"
+            className="absolute right-4 top-5 rounded-lg p-1.5 text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 lg:hidden"
             aria-label="Tutup menu"
           >
             <X className="h-5 w-5" />
@@ -215,12 +219,12 @@ export default function Sidebar({
                   } ${
                     isActive
                       ? 'sidebar-curved-tab-active'
-                      : 'mr-4 rounded-full font-semibold text-white hover:bg-white/10'
+                      : 'mr-4 rounded-full font-semibold text-slate-700 hover:bg-[#E6F2FD]'
                   }`}
                 >
                   <GroupIcon
                     className={`h-4 w-4 shrink-0 transition-colors ${
-                      isActive ? 'text-[#286EF2]' : 'text-white'
+                      isActive ? 'text-[#286EF2]' : 'text-slate-500'
                     }`}
                   />
                   <span className={`flex-1 truncate leading-snug ${hideWhenCollapsed}`}>{group.title}</span>
@@ -228,7 +232,7 @@ export default function Sidebar({
                   {hasSubItems && (
                     <ChevronDown
                       className={`h-4 w-4 shrink-0 transition-transform duration-200 ${hideWhenCollapsed} ${
-                        isActive ? 'text-[#286EF2]' : 'text-white'
+                        isActive ? 'text-[#286EF2]' : 'text-slate-400'
                       } ${isExpanded ? 'rotate-180' : ''}`}
                     />
                   )}
@@ -237,7 +241,7 @@ export default function Sidebar({
                 {/* ── Dropdown Sub-Items (saat ringkas: tampil sebagai deretan ikon) ── */}
                 {hasSubItems && isExpanded && (
                   <div
-                    className={`relative my-1.5 pl-3.5 border-l-2 border-white/30 space-y-1 animate-fadeIn ${
+                    className={`relative my-1.5 pl-3.5 border-l-2 border-slate-200 space-y-1 animate-fadeIn ${
                       collapsed ? 'lg:ml-0 lg:mr-0 lg:pl-0 lg:border-l-0 lg:space-y-1.5' : 'ml-6 mr-4'
                     }`}
                   >
@@ -266,20 +270,20 @@ export default function Sidebar({
                             collapsed ? 'lg:justify-center lg:gap-0 lg:px-0' : ''
                           } ${
                             isSubActive
-                              ? 'bg-white/20 border border-white/25 text-white font-bold shadow-sm backdrop-blur-sm'
-                              : 'font-medium text-white/85 hover:bg-white/10 hover:text-white'
+                              ? 'bg-[#E6F2FD] border border-[#286EF2]/20 text-[#286EF2] font-bold shadow-sm'
+                              : 'font-medium text-slate-600 hover:bg-[#E6F2FD] hover:text-slate-900'
                           }`}
                         >
                           {SubIcon ? (
                             <SubIcon
                               className={`h-4 w-4 shrink-0 ${
-                                isSubActive ? 'text-white' : 'text-blue-100'
+                                isSubActive ? 'text-[#286EF2]' : 'text-slate-400'
                               }`}
                             />
                           ) : (
                             <span
                               className={`h-1.5 w-1.5 rounded-full shrink-0 ${
-                                isSubActive ? 'bg-white' : 'bg-white/60'
+                                isSubActive ? 'bg-[#286EF2]' : 'bg-slate-300'
                               }`}
                             />
                           )}
@@ -295,20 +299,20 @@ export default function Sidebar({
         </nav>
 
         {/* Footer Area: Status Wisata, Role Pengguna, Logout */}
-        <div className="mt-auto px-4 pb-5 pt-3 space-y-2.5 border-t border-white/15">
+        <div className="mt-auto px-4 pb-5 pt-3 space-y-2.5 border-t border-slate-200">
           {/* Status Wisata Aktif */}
           <div className={`flex items-center gap-2 px-1 ${collapsed ? 'lg:justify-center' : ''}`}>
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-            <span className={`text-xs font-semibold text-white ${hideWhenCollapsed}`}>Xploria Wisata Aktif</span>
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+            <span className={`text-xs font-semibold text-slate-700 ${hideWhenCollapsed}`}>Xploria Wisata Aktif</span>
           </div>
 
           {/* Role Card */}
-          <div className={`rounded-2xl border border-white/20 bg-white/10 p-3 shadow-inner ${hideWhenCollapsed}`}>
-            <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-blue-100">
-              <User className="h-3.5 w-3.5 text-white shrink-0" />
+          <div className={`rounded-2xl border border-slate-200 bg-slate-50 p-3 shadow-inner ${hideWhenCollapsed}`}>
+            <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              <User className="h-3.5 w-3.5 text-slate-500 shrink-0" />
               <span>ROLE PENGGUNA AKTIF</span>
             </div>
-            <p className="mt-1 truncate text-xs font-extrabold text-white">
+            <p className="mt-1 truncate text-xs font-extrabold text-slate-900">
               {profile.userRoleName.toUpperCase()}
             </p>
           </div>

@@ -40,7 +40,7 @@ export default function ActivityChart() {
 
   const linePath = buildSmoothPath(points);
   const areaPath = `${linePath} L ${PLOT.right} ${PLOT.bottom} L ${PLOT.left} ${PLOT.bottom} Z`;
-  const showAllDots = values.length <= 10;
+  const dotStep = values.length > 10 ? Math.ceil(values.length / 10) : 1;
   const activePoint = hoverIndex !== null ? points[hoverIndex] : null;
 
   const handlePointer = (clientX: number, bounds: DOMRect) => {
@@ -141,7 +141,7 @@ export default function ActivityChart() {
 
           {/* X Axis Labels */}
           {labels.map((label, i) => {
-            const step = Math.ceil(labels.length / 10);
+            const step = Math.max(1, Math.ceil(labels.length / 15));
             if (i % step !== 0 && i !== labels.length - 1) return null;
             const x = points[i].x;
             return (
@@ -152,8 +152,9 @@ export default function ActivityChart() {
           })}
 
           {/* Data Points / Sample Dots */}
-          {showAllDots &&
-            points.map((point, i) => (
+          {points.map((point, i) => {
+            if (i % dotStep !== 0 && i !== points.length - 1) return null;
+            return (
               <circle
                 key={`dot-${i}`}
                 cx={point.x}
@@ -163,7 +164,8 @@ export default function ActivityChart() {
                 stroke="#286EF2"
                 strokeWidth={2.5}
               />
-            ))}
+            );
+          })}
 
           {/* Active Hover Point */}
           {activePoint && hoverIndex !== null && (

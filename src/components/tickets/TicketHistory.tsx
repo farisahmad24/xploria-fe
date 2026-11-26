@@ -41,19 +41,25 @@ export default function TicketHistory({ bookings }: TicketHistoryProps) {
   const [selectedBooking, setSelectedBooking] = useState<mendatang | null>(null);
 
   const visible = useMemo(() => {
-    return bookings.filter((b) => {
-      const matchStatus = statusFilter === 'all' || b.status === statusFilter;
-      const matchType = typeFilter === 'all' || b.bookingType === typeFilter;
-      const invoice = b.invoiceNo || '';
-      const barcode = b.barcode || '';
-      const matchSearch =
-        b.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        invoice.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        barcode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        b.visitorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        b.phone.includes(searchTerm);
-      return matchStatus && matchType && matchSearch;
-    });
+    return bookings
+      .filter((b) => {
+        const matchStatus = statusFilter === 'all' || b.status === statusFilter;
+        const matchType = typeFilter === 'all' || b.bookingType === typeFilter;
+        const invoice = b.invoiceNo || '';
+        const barcode = b.barcode || '';
+        const matchSearch =
+          b.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          invoice.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          barcode.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          b.visitorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          b.phone.includes(searchTerm);
+        return matchStatus && matchType && matchSearch;
+      })
+      .sort((a, b) => {
+        const dateDiff = b.visitDate.localeCompare(a.visitDate);
+        if (dateDiff !== 0) return dateDiff;
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      });
   }, [bookings, statusFilter, typeFilter, searchTerm]);
 
   return (

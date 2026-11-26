@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
+  ArrowLeft,
   Coins,
   Plus,
   Printer,
@@ -7,7 +8,6 @@ import {
   TrendingUp,
   Users,
   Wallet,
-  X,
 } from 'lucide-react';
 import { formatNumber, formatRupiah } from '@/lib/bookings';
 import type { OperationalExpense, RevenueShareItem, VisitorCategoryStat } from '@/types/roles';
@@ -47,8 +47,8 @@ export default function ReportsView({
       setCurrentTab(activeTab);
     }
   }, [activeTab]);
-  const [expenseModalOpen, setExpenseModalOpen] = useState(false);
-  const [newExpenseCat, setNewExpenseCat] = useState('Pemeliharaan');
+  const [addExpenseView, setAddExpenseView] = useState(false);
+  const [newExpenseCat, setNewExpenseCat] = useState('Pemeliharaan Fasilitas');
   const [newExpenseDesc, setNewExpenseDesc] = useState('');
   const [newExpenseAmount, setNewExpenseAmount] = useState('');
 
@@ -77,9 +77,10 @@ export default function ReportsView({
       approvedBy: 'M. Hasan',
     };
     onUpdateExpenses([newExp, ...expenses]);
-    setExpenseModalOpen(false);
+    setAddExpenseView(false);
     setNewExpenseDesc('');
     setNewExpenseAmount('');
+    setNewExpenseCat('Pemeliharaan Fasilitas');
     onToast('Pengeluaran operasional berhasil dicatat');
   };
 
@@ -87,6 +88,110 @@ export default function ReportsView({
     window.print();
     onToast('Mencetak dokumen laporan keuangan...');
   };
+
+  // ── Halaman Catat Pengeluaran Baru ───────────────────────────────────────
+  if (addExpenseView) {
+    return (
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => { setAddExpenseView(false); setNewExpenseDesc(''); setNewExpenseAmount(''); setNewExpenseCat('Pemeliharaan Fasilitas'); }}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 hover:text-slate-900"
+            aria-label="Kembali"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <div>
+            <h1 className="text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">Catat Pengeluaran Baru</h1>
+            <p className="text-sm text-slate-500">Catat biaya operasional pemeliharaan dan utilitas destinasi.</p>
+          </div>
+        </div>
+
+        <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-card">
+          <div className="border-b border-slate-100 p-6">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 ring-1 ring-rose-100">
+                <Receipt className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-slate-900">Detail Pengeluaran</h2>
+                <p className="text-xs text-slate-400">Lengkapi semua field untuk mencatat pengeluaran baru.</p>
+              </div>
+            </div>
+          </div>
+
+          <form onSubmit={handleAddExpense} className="p-6 sm:p-8">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Kategori Pengeluaran
+                </label>
+                <select
+                  value={newExpenseCat}
+                  onChange={(e) => setNewExpenseCat(e.target.value)}
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-[#286EF2]/20"
+                >
+                  <option value="Pemeliharaan Fasilitas">Pemeliharaan Fasilitas</option>
+                  <option value="Gaji &amp; Honor Staf">Gaji &amp; Honor Staf</option>
+                  <option value="Listrik &amp; Utilitas">Listrik &amp; Utilitas</option>
+                  <option value="Kebersihan &amp; Lingkungan">Kebersihan &amp; Lingkungan</option>
+                  <option value="Promosi &amp; Publikasi">Promosi &amp; Publikasi</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Nominal Biaya (Rp)
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="0"
+                  step="1000"
+                  value={newExpenseAmount}
+                  onChange={(e) => setNewExpenseAmount(e.target.value)}
+                  placeholder="1500000"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-[#286EF2]/20"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Rincian Deskripsi
+                </label>
+                <textarea
+                  rows={4}
+                  required
+                  value={newExpenseDesc}
+                  onChange={(e) => setNewExpenseDesc(e.target.value)}
+                  placeholder="Perbaikan lampu sorot dermaga dan cat gazebo..."
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 focus:border-[#286EF2] focus:outline-none focus:ring-2 focus:ring-[#286EF2]/20"
+                />
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => { setAddExpenseView(false); setNewExpenseDesc(''); setNewExpenseAmount(''); setNewExpenseCat('Pemeliharaan Fasilitas'); }}
+                className="rounded-xl border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-ocean-600 px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-ocean-600/25 hover:bg-ocean-700"
+              >
+                <Plus className="h-4 w-4" />
+                Simpan Pengeluaran
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -111,7 +216,7 @@ export default function ReportsView({
           {currentTab === 'expenses' && (
             <button
               type="button"
-              onClick={() => setExpenseModalOpen(true)}
+              onClick={() => setAddExpenseView(true)}
               className="inline-flex items-center gap-2 rounded-xl bg-ocean-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-ocean-600/20 hover:bg-ocean-700"
             >
               <Plus className="h-4 w-4" />
@@ -504,7 +609,7 @@ export default function ReportsView({
 
       {/* VIEW: Print Preview (Cetak Laporan Keuangan) */}
       {currentTab === 'print' && (
-        <div className="flex flex-col gap-6 print:m-0 print:p-0 print:block">
+        <div className="report-print-root flex flex-col gap-6 print:m-0 print:p-0 print:block">
           <div className="rounded-3xl border-2 border-slate-300 bg-white p-8 shadow-2xl print:m-0 print:w-full print:max-w-none print:rounded-none print:border-none print:p-0 print:shadow-none">
             {/* Official Letterhead */}
             <div className="border-b-2 border-slate-900 pb-5 text-center">
@@ -622,94 +727,6 @@ export default function ReportsView({
         </div>
       )}
 
-      {/* Modal Add Expense */}
-      {expenseModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="fixed inset-0 bg-ocean-950/60 backdrop-blur-sm"
-            onClick={() => setExpenseModalOpen(false)}
-          />
-          <div className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-8">
-            <button
-              type="button"
-              onClick={() => setExpenseModalOpen(false)}
-              className="absolute right-5 top-5 rounded-full p-2 text-slate-400 hover:bg-slate-100"
-            >
-              <X className="h-5 w-5" />
-            </button>
-
-            <h3 className="text-xl font-bold text-ocean-900">Catat Pengeluaran Baru</h3>
-            <p className="mt-1 text-xs text-slate-500">
-              Catat biaya operasional pemeliharaan dan utilitas destinasi.
-            </p>
-
-            <form onSubmit={handleAddExpense} className="mt-5 flex flex-col gap-4">
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Kategori Pengeluaran
-                </label>
-                <select
-                  value={newExpenseCat}
-                  onChange={(e) => setNewExpenseCat(e.target.value)}
-                  className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:outline-none"
-                >
-                  <option value="Pemeliharaan Fasilitas">Pemeliharaan Fasilitas</option>
-                  <option value="Gaji & Honor Staf">Gaji & Honor Staf</option>
-                  <option value="Listrik & Utilitas">Listrik & Utilitas</option>
-                  <option value="Kebersihan & Lingkungan">Kebersihan & Lingkungan</option>
-                  <option value="Promosi & Publikasi">Promosi & Publikasi</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Nominal Biaya (Rp)
-                </label>
-                <input
-                  type="number"
-                  required
-                  min="0"
-                  step="1000"
-                  value={newExpenseAmount}
-                  onChange={(e) => setNewExpenseAmount(e.target.value)}
-                  placeholder="1500000"
-                  className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Rincian Deskripsi
-                </label>
-                <textarea
-                  rows={3}
-                  required
-                  value={newExpenseDesc}
-                  onChange={(e) => setNewExpenseDesc(e.target.value)}
-                  placeholder="Perbaikan lampu sorot dermaga dan cat gazebo..."
-                  className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-800 focus:border-ocean-500 focus:outline-none"
-                />
-              </div>
-
-              <div className="mt-2 flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => setExpenseModalOpen(false)}
-                  className="flex-1 rounded-xl border border-slate-200 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 rounded-xl bg-ocean-600 py-2.5 text-sm font-bold text-white shadow-lg shadow-ocean-600/25 hover:bg-ocean-700"
-                >
-                  Simpan Biaya
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

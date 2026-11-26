@@ -58,7 +58,7 @@ export const statItems: StatItem[] = [
   },
   {
     id: 'visitors',
-    label: 'Pengunjung Bulan Ini',
+    label: 'Pengunjung Hari Ini',
     value: '18.750',
     change: '+18%',
     spark: [14, 22, 18, 28, 25, 32, 36],

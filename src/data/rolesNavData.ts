@@ -15,7 +15,6 @@ import {
   Receipt,
   ScanLine,
   TrendingDown,
-  TrendingUp,
   Users,
   Wallet,
   Wrench,
@@ -89,7 +88,7 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
     groups: [
       {
         id: 'mo-dash',
-        title: 'Dasboard Manajer',
+        title: 'Dasboard',
         icon: LayoutGrid,
         items: [],
       },
@@ -104,6 +103,7 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
           { id: 'mo-tiket-validate', label: 'Validasi Tiket', icon: ScanLine },
           { id: 'mo-tiket-history', label: 'Riwayat Penjualan', icon: History },
           { id: 'mo-tiket-closeorder', label: 'Rekap & Close Order', icon: Receipt },
+          { id: 'mo-tiket-calendar', label: 'Kalender Jadwal Mendatang', icon: CalendarDays },
         ],
       },
       {
@@ -147,7 +147,7 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
     groups: [
       {
         id: 'admin-dash',
-        title: 'Dashboard Admin',
+        title: 'Dashboard',
         icon: LayoutGrid,
         items: [],
       },
@@ -198,12 +198,9 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
     groups: [
       {
         id: 'kasir-dash',
-        title: 'Dashboard Kasir',
+        title: 'Dashboard',
         icon: LayoutGrid,
-        items: [
-          { id: 'kasir-dash-overview', label: 'Statistik & Overview', icon: TrendingUp },
-          { id: 'kasir-dash-calendar', label: 'Kalender Jadwal mendatang', icon: CalendarDays },
-        ],
+        items: [],
       },
       {
         id: 'kasir-tiket',
@@ -213,6 +210,7 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
           { id: 'kasir-tiket-sales', label: 'Penjualan Tiket', icon: SlantedTicket },
           { id: 'kasir-tiket-history', label: 'Riwayat Penjualan', icon: History },
           { id: 'kasir-tiket-validate', label: 'Validasi Tiket', icon: QrCode },
+          { id: 'kasir-dash-calendar', label: 'Kalender Jadwal Mendatang', icon: CalendarDays },
           { id: 'kasir-dash-rekap', label: 'Laporan Keuangan & Rekapitulasi', icon: FileSearch },
         ],
       },

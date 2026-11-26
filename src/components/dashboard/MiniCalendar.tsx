@@ -14,9 +14,10 @@ const DAY_NAMES_UPPER = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];
 
 type MiniCalendarProps = {
   bookings: mendatang[];
+  onNavigateToCalendar?: () => void;
 };
 
-export default function MiniCalendar({ bookings }: MiniCalendarProps) {
+export default function MiniCalendar({ bookings, onNavigateToCalendar }: MiniCalendarProps) {
   // Default to November 2026 to match application timeline
   const [currentYear, setCurrentYear] = useState(2026);
   const [currentMonth, setCurrentMonth] = useState(10); // 10 = November
@@ -207,7 +208,15 @@ export default function MiniCalendar({ bookings }: MiniCalendarProps) {
       </div>
 
       {/* Footer Info Bar: Kontainer putih melengkung berisi teks tanggal terpilih & badge mendatang */}
-      <div className="mt-4 flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white px-3.5 py-2.5 text-xs shadow-2xs">
+      <div
+        role={onNavigateToCalendar ? 'button' : undefined}
+        tabIndex={onNavigateToCalendar ? 0 : undefined}
+        onClick={onNavigateToCalendar}
+        onKeyDown={onNavigateToCalendar ? (e) => e.key === 'Enter' && onNavigateToCalendar() : undefined}
+        className={`mt-4 flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white px-3.5 py-2.5 text-xs shadow-2xs ${
+          onNavigateToCalendar ? 'cursor-pointer hover:bg-blue-50 hover:border-[#286EF2]/30 transition-colors' : ''
+        }`}
+      >
         <div className="flex items-center gap-2">
           <SlantedTicket className="h-3.5 w-3.5 text-[#286EF2] shrink-0" />
           <span className="font-semibold text-slate-700 truncate">

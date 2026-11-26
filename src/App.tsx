@@ -35,12 +35,13 @@ import {
 } from '@/data/mockData';
 import {
   buildActivityItems,
-  countTickets,
-  countValidatedTickets,
+  countTicketsByDate,
+  countValidatedTicketsByDate,
   createBooking,
   formatNumber,
   formatRupiah,
-  sumRevenue,
+  sumRevenueByDate,
+  toIsoDate,
   validateTicketCode,
 } from '@/lib/bookings';
 import type { UserRole } from '@/types/roles';
@@ -131,20 +132,27 @@ function App() {
     if (currentRole && currentRole !== 'superadmin') handleNavSelect(BUG_NAV_ID[currentRole]);
   };
 
-  // Stats calculation
+  // Stats calculation (hanya menghitung data hari ini)
   const stats = useMemo<StatItem[]>(
-    () =>
-      statItems.map((item) => {
-        if (item.id === 'tickets') return { ...item, value: formatNumber(countTickets(bookings)) };
-        if (item.id === 'validated') return { ...item, value: formatNumber(countValidatedTickets(bookings)) };
-        if (item.id === 'visitors') return { ...item, value: formatNumber(countTickets(bookings) + 1200) };
-        if (item.id === 'revenue') return { ...item, value: formatRupiah(sumRevenue(bookings)) };
+    () => {
+      const today = new Date();
+      return statItems.map((item) => {
+        if (item.id === 'tickets') return { ...item, value: formatNumber(countTicketsByDate(bookings, today)) };
+        if (item.id === 'validated') return { ...item, value: formatNumber(countValidatedTicketsByDate(bookings, today)) };
+        if (item.id === 'visitors') return { ...item, value: formatNumber(countTicketsByDate(bookings, today)) };
+        if (item.id === 'revenue') return { ...item, value: formatRupiah(sumRevenueByDate(bookings, today)) };
         return item;
-      }),
+      });
+    },
     [bookings]
   );
 
-  const activities = useMemo(() => buildActivityItems(bookings, new Date()), [bookings]);
+  const activities = useMemo(() => {
+    const today = new Date();
+    const todayIso = toIsoDate(today);
+    const todayBookings = bookings.filter((b) => b.createdAt.startsWith(todayIso));
+    return buildActivityItems(todayBookings, today);
+  }, [bookings]);
 
   // mendatang handlers
   const handleCreateBooking = (draft: BookingDraft): mendatang => {
@@ -292,7 +300,16 @@ function App() {
               <ActivityChart />
             </div>
             <div className="lg:col-span-5 xl:col-span-4 flex flex-col">
-              <MiniCalendar bookings={bookings} />
+              <MiniCalendar
+                bookings={bookings}
+                onNavigateToCalendar={
+                  currentRole === 'kasir'
+                    ? () => handleNavSelect('kasir-dash-calendar')
+                    : currentRole === 'Manajer'
+                      ? () => handleNavSelect('mo-tiket-calendar')
+                      : undefined
+                }
+              />
             </div>
           </div>
 
@@ -304,16 +321,12 @@ function App() {
       );
     }
 
-    if (activeNav === 'kasir-dash-calendar' || activeNav === 'kasir-calendar') {
-      // Pembatasan hak akses: Hanya Kasir yang dapat mengakses modul kalender ini
-      if (currentRole === 'kasir') {
-        return <BookingCalendarView bookings={bookings} />;
-      }
-      return (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <p className="text-base font-bold text-slate-700">Akses modul kalender hanya tersedia untuk role Kasir.</p>
-        </div>
-      );
+    if (
+      activeNav === 'kasir-dash-calendar' ||
+      activeNav === 'kasir-calendar' ||
+      activeNav === 'mo-tiket-calendar'
+    ) {
+      return <BookingCalendarView bookings={bookings} />;
     }
 
     if (activeNav === 'mo-dash-sales') {
@@ -622,7 +635,7 @@ function App() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[#E8F3FF] via-[#FBF3EB] to-[#FFE8D4] print:bg-white print:block">
+    <div className="flex min-h-screen bg-[#E6F2FD] print:bg-white print:block">
       <Sidebar
         currentRole={currentRole}
         activeId={activeNav}

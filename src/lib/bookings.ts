@@ -52,6 +52,26 @@ export function sumRevenue(bookings: mendatang[]) {
   return bookings.reduce((sum, mendatang) => sum + mendatang.total, 0);
 }
 
+export function countTicketsByDate(bookings: mendatang[], date: Date) {
+  const isoDate = toIsoDate(date);
+  const filtered = bookings.filter((mendatang) => mendatang.visitDate === isoDate);
+  return countTickets(filtered);
+}
+
+export function countValidatedTicketsByDate(bookings: mendatang[], date: Date) {
+  const isoDate = toIsoDate(date);
+  const filtered = bookings.filter(
+    (mendatang) => mendatang.visitDate === isoDate && mendatang.status === 'validated'
+  );
+  return countTickets(filtered);
+}
+
+export function sumRevenueByDate(bookings: mendatang[], date: Date) {
+  const isoDate = toIsoDate(date);
+  const filtered = bookings.filter((mendatang) => mendatang.visitDate === isoDate);
+  return sumRevenue(filtered);
+}
+
 export function validateDraft(draft: BookingDraft, todayIso: string): DraftErrors {
   const errors: DraftErrors = {};
   const name = draft.visitorName.trim();

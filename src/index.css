@@ -44,7 +44,7 @@
 /* ─── Sidebar Curved Tab Active State (Inverted Border Radius) ─── */
 .sidebar-curved-tab-active {
   position: relative;
-  background-color: #ffffff !important;
+  background-color: #E6F2FD !important;
   color: #286EF2 !important;
   font-weight: 700 !important;
   border-top-left-radius: 9999px !important;
@@ -65,7 +65,7 @@
   height: 24px;
   background-color: transparent;
   border-bottom-right-radius: 24px;
-  box-shadow: 8px 8px 0 8px #ffffff;
+  box-shadow: 8px 8px 0 8px #E6F2FD;
   pointer-events: none;
   z-index: 20;
 }
@@ -79,7 +79,7 @@
   height: 24px;
   background-color: transparent;
   border-top-right-radius: 24px;
-  box-shadow: 8px -8px 0 8px #ffffff;
+  box-shadow: 8px -8px 0 8px #E6F2FD;
   pointer-events: none;
   z-index: 20;
 }
@@ -125,6 +125,20 @@
     display: block !important;
     padding: 0 !important;
     background: #ffffff !important;
+  }
+
+  /* Cetak Laporan Keuangan Resmi */
+  .report-print-root,
+  .report-print-root * {
+    visibility: visible !important;
+  }
+
+  .report-print-root {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    background: #ffffff !important;
+    overflow: visible !important;
   }
 
   .recap-print-dialog {

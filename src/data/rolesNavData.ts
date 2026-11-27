@@ -4,12 +4,8 @@ import {
   Coins,
   FileSearch,
   FileSpreadsheet,
-  FileText,
   History,
-  Info,
   Layers,
-  LayoutGrid,
-  MessageCircleMore,
   Printer,
   QrCode,
   Receipt,
@@ -20,6 +16,14 @@ import {
   Wrench,
 } from 'lucide-react';
 import SlantedTicket from '@/components/common/SlantedTicket';
+import {
+  DashboardIcon,
+  FeedbackIcon,
+  ProfileIcon,
+  ReportIcon,
+  StaffIcon,
+  TicketIcon,
+} from '@/components/common/AssetIcon';
 import type { RoleNavConfig, RoleProfile, UserRole } from '@/types/roles';
 
 /** ID menu "Profil Saya" per role (Super Admin memakai tab sendiri di SuperAdminPortal). */
@@ -88,14 +92,14 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
     groups: [
       {
         id: 'mo-dash',
-        title: 'Dasboard',
-        icon: LayoutGrid,
+        title: 'Dasbor',
+        icon: DashboardIcon,
         items: [],
       },
       {
         id: 'mo-tiket',
         title: 'Tiketing & Transaksi',
-        icon: SlantedTicket,
+        icon: TicketIcon,
         items: [
           { id: 'mo-tiket-manage', label: 'Mengelola Tiket', icon: Wrench },
           { id: 'mo-tiket-categories', label: 'Kategori Tiket', icon: Layers },
@@ -109,7 +113,7 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'mo-laporan',
         title: 'Manajemen Data & laporan',
-        icon: FileText,
+        icon: ReportIcon,
         items: [
           { id: 'mo-report-visitors-cat', label: 'Kategori Pengunjung', icon: Users },
           { id: 'mo-report-finance', label: 'Laporan Keuangan', icon: Wallet },
@@ -122,19 +126,19 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'mo-destinasi',
         title: 'Profil Destinasi Wisata',
-        icon: Info,
+        icon: ProfileIcon,
         items: [],
       },
       {
         id: 'mo-ulasan',
         title: 'Ulasan & Pengaduan',
-        icon: MessageCircleMore,
+        icon: FeedbackIcon,
         items: [],
       },
       {
         id: 'mo-akun',
         title: 'Manajemen Akun Staff',
-        icon: Users,
+        icon: StaffIcon,
         items: [],
       },
     ],
@@ -147,14 +151,14 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
     groups: [
       {
         id: 'admin-dash',
-        title: 'Dashboard',
-        icon: LayoutGrid,
+        title: 'Dasbor',
+        icon: DashboardIcon,
         items: [],
       },
       {
         id: 'admin-tiket',
         title: 'Tiketing & Transaksi',
-        icon: SlantedTicket,
+        icon: TicketIcon,
         items: [
           { id: 'admin-tiket-manage', label: 'Mengelola Tiket', icon: Wrench },
           { id: 'admin-tiket-categories', label: 'Kategori Tiket', icon: Layers },
@@ -167,7 +171,7 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'admin-laporan',
         title: 'Manajemen Data & Laporan',
-        icon: FileText,
+        icon: ReportIcon,
         items: [
           { id: 'admin-report-visitors-cat', label: 'Kategori Pengunjung', icon: Users },
           { id: 'admin-report-finance', label: 'Laporan Keuangan', icon: Wallet },
@@ -179,13 +183,13 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
       {
         id: 'admin-destinasi',
         title: 'Profil Destinasi Wisata',
-        icon: Info,
+        icon: ProfileIcon,
         items: [],
       },
       {
         id: 'admin-dest-reviews',
         title: 'Ulasan & Pengaduan',
-        icon: MessageCircleMore,
+        icon: FeedbackIcon,
         items: [],
       },
     ],
@@ -198,14 +202,14 @@ export const rolesNavigation: Record<UserRole, RoleNavConfig> = {
     groups: [
       {
         id: 'kasir-dash',
-        title: 'Dashboard',
-        icon: LayoutGrid,
+        title: 'Dasbor',
+        icon: DashboardIcon,
         items: [],
       },
       {
         id: 'kasir-tiket',
         title: 'Tiketing & Transaksi',
-        icon: SlantedTicket,
+        icon: TicketIcon,
         items: [
           { id: 'kasir-tiket-sales', label: 'Penjualan Tiket', icon: SlantedTicket },
           { id: 'kasir-tiket-history', label: 'Riwayat Penjualan', icon: History },

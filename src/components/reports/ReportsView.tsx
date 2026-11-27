@@ -239,7 +239,7 @@ export default function ReportsView({
 
       {/* Summary Stat Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 print:hidden">
-        {/* Card 1: Total Pengunjung (Oranye, selaras dengan dashboard) */}
+        {/* Card 1: Total Pengunjung (Oranye, selaras dengan Dashboard) */}
         <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#FFA66E] via-[#FFC283] to-[#FFE49C] text-slate-900">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Total Pengunjung</p>
@@ -253,7 +253,7 @@ export default function ReportsView({
           </p>
         </div>
 
-        {/* Card 2: Pendapatan Tiket (Ungu, selaras dengan dashboard) */}
+        {/* Card 2: Pendapatan Tiket (Ungu, selaras dengan Dashboard) */}
         <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#C49CF2] via-[#DDA6EE] to-[#F6C6EC] text-slate-900">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Pendapatan Tiket</p>
@@ -267,7 +267,7 @@ export default function ReportsView({
           </p>
         </div>
 
-        {/* Card 3: Biaya Operasional (Pink pastel, selaras dengan palet dashboard) */}
+        {/* Card 3: Biaya Operasional (Pink pastel, selaras dengan palet Dashboard) */}
         <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#FFA3B8] via-[#FFC0CE] to-[#FFE0E8] text-slate-900">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Biaya Operasional</p>
@@ -279,7 +279,7 @@ export default function ReportsView({
           <p className="mt-1 text-xs font-medium text-slate-700">4 Pos Biaya Terdaftar</p>
         </div>
 
-        {/* Card 4: Laba Bersih (Hijau pastel, selaras dengan dashboard) */}
+        {/* Card 4: Laba Bersih (Hijau pastel, selaras dengan Dashboard) */}
         <div className="rounded-2xl p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[#7EE3A4] via-[#B4EFA0] to-[#D8F79E] text-slate-900">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Laba Bersih</p>

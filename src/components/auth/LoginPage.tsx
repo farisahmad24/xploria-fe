@@ -13,6 +13,7 @@ import {
   X,
 } from 'lucide-react';
 import SlantedTicket from '@/components/common/SlantedTicket';
+import logoHorizontal from '@/assets/logo/logo_horizontal.svg';
 import type { UserRole } from '@/types/roles';
 
 type AuthMode = 'login' | 'register';
@@ -91,13 +92,10 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <img
-                  src="/logo.png"
+                  src={logoHorizontal}
                   alt="Ploria Logo"
-                  className="h-8 w-auto object-contain select-none drop-shadow-xs"
+                  className="h-9 w-auto max-w-[180px] object-contain select-none drop-shadow-xs"
                 />
-                <span className="text-xl font-black text-slate-900 tracking-tight font-sans">
-                  Ploria
-                </span>
               </div>
 
             </div>
@@ -394,7 +392,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             </div>
 
             <p className="mt-2 text-xs text-slate-500">
-              Klik salah satu akun di bawah untuk auto-fill data dan langsung masuk ke dashboard:
+              Klik salah satu akun di bawah untuk auto-fill data dan langsung masuk ke Dasbor
             </p>
 
             <div className="mt-4 space-y-2.5">

@@ -5,6 +5,7 @@ import {
   User,
   X,
 } from 'lucide-react';
+import logoHorizontal from '@/assets/logo/logo_horizontal.svg';
 import { rolesNavigation } from '@/data/rolesNavData';
 import { useSessionProfile } from '@/lib/profile';
 import type { NavGroup, NavSubItem, UserRole } from '@/types/roles';
@@ -103,7 +104,7 @@ export default function Sidebar({
         activeId === 'kasir-dash-overview' ||
         activeId === 'kasir-calendar' ||
         activeId === 'kasir' ||
-        activeId === 'dashboard'
+        activeId === 'Dasbor'
       );
     }
 
@@ -116,7 +117,7 @@ export default function Sidebar({
     if (
       groupId.endsWith('-dash') &&
       groupId !== 'kasir-dash-rekap' &&
-      (activeId.includes('dash') || activeId === 'dashboard')
+      (activeId.includes('dash') || activeId === 'Dashboard')
     ) {
       // Pastikan activeId 'kasir-dash-rekap' tidak menyebabkan kasir-dash aktif lagi
       if (activeId === 'kasir-dash-rekap') return false;
@@ -160,33 +161,36 @@ export default function Sidebar({
       {/* Mobile Backdrop */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 z-40 bg-ocean-950/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden print:hidden ${
-          open ? 'opacity-100' : 'pointer-events-none opacity-0'
-        }`}
+        className={`fixed inset-0 z-40 bg-ocean-950/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden print:hidden ${open ? 'opacity-100' : 'pointer-events-none opacity-0'
+          }`}
         aria-hidden="true"
       />
 
       {/* Sidebar Panel */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-white text-slate-800 shadow-2xl transition-[transform,width] duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 lg:shadow-none print:hidden ${
-          collapsed ? 'lg:w-20' : 'lg:w-72'
-        } ${open ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-80 flex-col overflow-hidden bg-white text-slate-800 shadow-2xl transition-[transform,width] duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 lg:shadow-none print:hidden ${collapsed ? 'lg:w-20' : 'lg:w-72'
+          } ${open ? 'translate-x-0' : '-translate-x-full'}`}
       >
         {/* Header: Centered Logo + "Ploria Agency" */}
-        <div className="relative flex h-[72px] shrink-0 flex-row items-center justify-center gap-2.5 px-5">
-          <img
-            src="/logo.png"
-            alt="Ploria Logo"
-            className="h-10 w-auto object-contain drop-shadow-sm select-none"
-          />
-          <div className={`flex flex-col leading-tight ${hideWhenCollapsed}`}>
-            <h1 className="text-base font-bold text-slate-900 tracking-wide font-sans whitespace-nowrap leading-snug">
-              Ploria
-            </h1>
-            <p className="text-[11px] text-slate-500 font-medium whitespace-nowrap leading-snug">
-              Pemesanan Tiket Wisata
-            </p>
-          </div>
+        <div className="relative flex h-[72px] shrink-0 flex-row items-start justify-center gap-2.5 px-5 pt-4">
+          {collapsed ? (
+            <img
+              src={logoHorizontal}
+              alt="Ploria Logo"
+              className="h-10 w-10 object-cover object-left drop-shadow-sm select-none"
+            />
+          ) : (
+            <div className="flex flex-col items-center gap-1">
+              <img
+                src={logoHorizontal}
+                alt="Ploria Logo"
+                className="h-10 w-auto max-w-[180px] object-contain drop-shadow-sm select-none"
+              />
+              <p className={`text-[11px] text-slate-500 font-medium whitespace-nowrap leading-snug ${hideWhenCollapsed}`}>
+                Pemesanan Tiket Wisata
+              </p>
+            </div>
+          )}
           <button
             type="button"
             onClick={onClose}
@@ -198,7 +202,7 @@ export default function Sidebar({
         </div>
 
         {/* Navigation Items */}
-        <nav className={`no-scrollbar flex-1 overflow-y-auto pl-4 pr-0 pt-6 pb-6 space-y-1.5 ${collapsed ? 'lg:pl-3' : ''}`}>
+        <nav className={`no-scrollbar flex-1 overflow-y-auto pl-3 pr-0 pt-6 pb-6 space-y-3 ${collapsed ? 'lg:pl-3' : ''}`}>
           {navConfig.groups.map((group) => {
             const GroupIcon = group.icon;
             const hasSubItems = group.items.length > 0;
@@ -214,26 +218,22 @@ export default function Sidebar({
                   aria-expanded={hasSubItems ? isExpanded : undefined}
                   aria-current={isActive ? 'page' : undefined}
                   title={collapsed ? group.title : undefined}
-                  className={`flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm transition-all duration-200 ${
-                    collapsed ? 'lg:justify-center lg:gap-0 lg:px-0 lg:mr-0' : ''
-                  } ${
-                    isActive
+                  className={`sidebar-curved-tab flex items-center gap-3.5 px-3 py-3 text-left text-sm ${isActive ? 'w-full' : 'w-[calc(100%-0.75rem)]'} ${collapsed ? 'lg:justify-center lg:gap-0 lg:px-0 lg:mr-0' : ''
+                    } ${isActive
                       ? 'sidebar-curved-tab-active'
-                      : 'mr-4 rounded-full font-semibold text-slate-700 hover:bg-[#E6F2FD]'
-                  }`}
+                      : 'rounded-full font-semibold text-slate-700 hover:bg-[#E6F2FD]'
+                    }`}
                 >
                   <GroupIcon
-                    className={`h-4 w-4 shrink-0 transition-colors ${
-                      isActive ? 'text-[#286EF2]' : 'text-slate-500'
-                    }`}
+                    className={`h-6 w-6 shrink-0 ${isActive ? 'text-[#286EF2]' : 'text-slate-500'
+                      }`}
                   />
                   <span className={`flex-1 truncate leading-snug ${hideWhenCollapsed}`}>{group.title}</span>
 
                   {hasSubItems && (
                     <ChevronDown
-                      className={`h-4 w-4 shrink-0 transition-transform duration-200 ${hideWhenCollapsed} ${
-                        isActive ? 'text-[#286EF2]' : 'text-slate-400'
-                      } ${isExpanded ? 'rotate-180' : ''}`}
+                      className={`h-4 w-4 shrink-0 transition-transform duration-200 ${hideWhenCollapsed} ${isActive ? 'text-[#286EF2]' : 'text-slate-400'
+                        } ${isExpanded ? 'rotate-180' : ''}`}
                     />
                   )}
                 </button>
@@ -241,16 +241,15 @@ export default function Sidebar({
                 {/* ── Dropdown Sub-Items (saat ringkas: tampil sebagai deretan ikon) ── */}
                 {hasSubItems && isExpanded && (
                   <div
-                    className={`relative my-1.5 pl-3.5 border-l-2 border-slate-200 space-y-1 animate-fadeIn ${
-                      collapsed ? 'lg:ml-0 lg:mr-0 lg:pl-0 lg:border-l-0 lg:space-y-1.5' : 'ml-6 mr-4'
-                    }`}
+                    className={`relative my-1.5 pl-3.5 border-l-2 border-slate-200 space-y-1 animate-fadeIn ${collapsed ? 'lg:ml-0 lg:mr-0 lg:pl-0 lg:border-l-0 lg:space-y-1.5' : 'ml-6 mr-4'
+                      }`}
                   >
                     {group.items.map((item) => {
                       const SubIcon = item.icon;
                       const isSubActive =
                         activeId === item.id ||
                         (group.id === 'kasir-dash' &&
-                          (activeId === 'kasir-dash' || activeId === 'kasir' || activeId === 'dashboard') &&
+                          (activeId === 'kasir-dash' || activeId === 'kasir' || activeId === 'Dashboard') &&
                           item.id === 'kasir-dash-overview') ||
                         (group.id === 'kasir-dash' &&
                           (activeId === 'kasir-calendar' || activeId === 'kasir-dash-calendar') &&
@@ -266,25 +265,21 @@ export default function Sidebar({
                           type="button"
                           onClick={() => handleSubItemClick(item)}
                           title={collapsed ? item.label : undefined}
-                          className={`flex w-full items-center gap-3 rounded-2xl px-3.5 py-2.5 text-left text-xs transition-all duration-150 ${
-                            collapsed ? 'lg:justify-center lg:gap-0 lg:px-0' : ''
-                          } ${
-                            isSubActive
+                          className={`flex w-full items-center gap-3 rounded-2xl px-3.5 py-2.5 text-left text-xs transition-all duration-150 ${collapsed ? 'lg:justify-center lg:gap-0 lg:px-0' : ''
+                            } ${isSubActive
                               ? 'bg-[#E6F2FD] border border-[#286EF2]/20 text-[#286EF2] font-bold shadow-sm'
                               : 'font-medium text-slate-600 hover:bg-[#E6F2FD] hover:text-slate-900'
-                          }`}
+                            }`}
                         >
                           {SubIcon ? (
                             <SubIcon
-                              className={`h-4 w-4 shrink-0 ${
-                                isSubActive ? 'text-[#286EF2]' : 'text-slate-400'
-                              }`}
+                              className={`h-4 w-4 shrink-0 ${isSubActive ? 'text-[#286EF2]' : 'text-slate-400'
+                                }`}
                             />
                           ) : (
                             <span
-                              className={`h-1.5 w-1.5 rounded-full shrink-0 ${
-                                isSubActive ? 'bg-[#286EF2]' : 'bg-slate-300'
-                              }`}
+                              className={`h-1.5 w-1.5 rounded-full shrink-0 ${isSubActive ? 'bg-[#286EF2]' : 'bg-slate-300'
+                                }`}
                             />
                           )}
                           <span className={`truncate leading-snug ${hideWhenCollapsed}`}>{item.label}</span>
@@ -322,9 +317,8 @@ export default function Sidebar({
             type="button"
             onClick={onLogout}
             title={collapsed ? 'Logout Sesi' : undefined}
-            className={`flex w-full items-center justify-center gap-2 rounded-xl bg-[#FF4D5E] px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-red-900/20 transition hover:bg-[#ff3347] ${
-              collapsed ? 'lg:px-0' : ''
-            }`}
+            className={`flex w-full items-center justify-center gap-2 rounded-xl bg-[#FF4D5E] px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-red-900/20 transition hover:bg-[#ff3347] ${collapsed ? 'lg:px-0' : ''
+              }`}
           >
             <LogOut className="h-4 w-4 shrink-0" />
             <span className={hideWhenCollapsed}>Logout Sesi</span>

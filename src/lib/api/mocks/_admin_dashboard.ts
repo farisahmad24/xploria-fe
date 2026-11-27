@@ -1,5 +1,5 @@
 export default {
-  // Example admin dashboard mock data
+  // Example admin Dashboard mock data
   totalUsers: 120,
   totalBookings: 450,
   revenueToday: 1250000,

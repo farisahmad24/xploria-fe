@@ -1,4 +1,4 @@
-// Mock for /kasir/dashboard
+// Mock for /kasir/Dashboard
 export default {
   data: {
     period: { month: "2026-11", comparison_month: "2026-10" },

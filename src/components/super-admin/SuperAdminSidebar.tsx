@@ -8,6 +8,7 @@ import {
   X,
 } from 'lucide-react';
 import type { SuperAdminTab } from '../../types/superAdmin';
+import logoHorizontal from '@/assets/logo/logo_horizontal.svg';
 
 interface SuperAdminSidebarProps {
   activeTab: SuperAdminTab;
@@ -84,14 +85,17 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
       >
         {/* Header: Logo + nama app — sama persis dengan Sidebar.tsx */}
         <div className="relative flex h-[72px] shrink-0 flex-row items-center justify-center gap-2.5 px-5">
+          {/* Logo putih monokrom agar terlihat di latar biru; mode ringkas menampilkan bagian ikon saja */}
           <img
-            src="/logo-white.png"
+            src={logoHorizontal}
             alt="Ploria Logo"
-            className="h-10 w-auto object-contain drop-shadow-sm select-none"
+            className={
+              collapsed
+                ? 'h-10 w-10 object-cover object-left drop-shadow-sm select-none'
+                : 'h-10 w-auto max-w-[180px] object-contain drop-shadow-sm select-none'
+            }
+            style={{ filter: 'brightness(0) invert(1)' }}
           />
-          <h1 className={`text-base font-bold text-white tracking-wide font-sans whitespace-nowrap ${hideWhenCollapsed}`}>
-            Ploria Agency
-          </h1>
           {/* Close button — mobile only */}
           <button
             type="button"
@@ -116,7 +120,7 @@ export const SuperAdminSidebar: React.FC<SuperAdminSidebarProps> = ({
                   onClick={() => handleSelect(id)}
                   aria-current={isActive ? 'page' : undefined}
                   title={collapsed ? label : undefined}
-                  className={`flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm transition-all duration-200 ${
+                  className={`sidebar-curved-tab flex w-full items-center gap-3.5 px-4 py-3 text-left text-sm ${
                     collapsed ? 'lg:justify-center lg:gap-0 lg:px-0 lg:mr-0' : ''
                   } ${
                     isActive

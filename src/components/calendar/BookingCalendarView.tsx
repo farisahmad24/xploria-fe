@@ -173,7 +173,7 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
             </div>
             <div>
               <h2 className="text-base font-black text-slate-900 leading-tight">
-                Dashboard Kalender <span className="text-xs text-[#286EF2] font-bold">• Jadwal Kunjungan</span>
+               Kalender <span className="text-xs text-[#286EF2] font-bold">• Jadwal Kunjungan</span>
               </h2>
               <p className="text-[11px] text-slate-400">
                 Pilih tanggal pada kalender untuk melihat rincian pemesanan harian
@@ -248,19 +248,17 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                   <button
                     type="button"
                     onClick={() => setStatusFilter('all')}
-                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition ${
-                      statusFilter === 'all'
-                        ? 'bg-white text-[#286EF2] shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition ${statusFilter === 'all'
+                      ? 'bg-white text-[#286EF2] shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                      }`}
                   >
                     <span>Semua</span>
                     <span
-                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
-                        statusFilter === 'all'
-                          ? 'bg-blue-100 text-[#286EF2]'
-                          : 'bg-slate-300/60 text-slate-600'
-                      }`}
+                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${statusFilter === 'all'
+                        ? 'bg-blue-100 text-[#286EF2]'
+                        : 'bg-slate-300/60 text-slate-600'
+                        }`}
                     >
                       {selectedDateBookings.length}
                     </span>
@@ -269,20 +267,18 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                   <button
                     type="button"
                     onClick={() => setStatusFilter('validated')}
-                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition ${
-                      statusFilter === 'validated'
-                        ? 'bg-white text-emerald-700 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition ${statusFilter === 'validated'
+                      ? 'bg-white text-emerald-700 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                      }`}
                   >
                     <span className="h-2 w-2 rounded-full bg-emerald-500" />
                     <span>Tervalidasi</span>
                     <span
-                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
-                        statusFilter === 'validated'
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : 'bg-slate-300/60 text-slate-600'
-                      }`}
+                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${statusFilter === 'validated'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-slate-300/60 text-slate-600'
+                        }`}
                     >
                       {validatedCount}
                     </span>
@@ -291,20 +287,18 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                   <button
                     type="button"
                     onClick={() => setStatusFilter('booked')}
-                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition ${
-                      statusFilter === 'booked'
-                        ? 'bg-white text-sky-700 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition ${statusFilter === 'booked'
+                      ? 'bg-white text-sky-700 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                      }`}
                   >
                     <span className="h-2 w-2 rounded-full bg-sky-500" />
                     <span>Mendatang</span>
                     <span
-                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
-                        statusFilter === 'booked'
-                          ? 'bg-sky-100 text-sky-800'
-                          : 'bg-slate-300/60 text-slate-600'
-                      }`}
+                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${statusFilter === 'booked'
+                        ? 'bg-sky-100 text-sky-800'
+                        : 'bg-slate-300/60 text-slate-600'
+                        }`}
                     >
                       {bookedCount}
                     </span>
@@ -334,13 +328,12 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                             {/* Top Bar: Accent indicator + Jam */}
                             <div className="flex items-center justify-between mb-2">
                               <span
-                                className={`h-1.5 w-6 rounded-full ${
-                                  isValidated
-                                    ? 'bg-emerald-500'
-                                    : b.total >= 200000
+                                className={`h-1.5 w-6 rounded-full ${isValidated
+                                  ? 'bg-emerald-500'
+                                  : b.total >= 200000
                                     ? 'bg-amber-500'
                                     : 'bg-[#286EF2]'
-                                }`}
+                                  }`}
                               />
                               <span className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-600">
                                 {timePart} WIB
@@ -387,11 +380,10 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                               {formatRupiah(b.total)}
                             </span>
                             <span
-                              className={`rounded-full px-2 py-0.5 text-[9px] font-black ${
-                                isValidated
-                                  ? 'bg-emerald-100 text-emerald-800'
-                                  : 'bg-sky-100 text-sky-800'
-                              }`}
+                              className={`rounded-full px-2 py-0.5 text-[9px] font-black ${isValidated
+                                ? 'bg-emerald-100 text-emerald-800'
+                                : 'bg-sky-100 text-sky-800'
+                                }`}
                             >
                               {isValidated ? 'Tervalidasi' : 'Mendatang'}
                             </span>
@@ -407,8 +399,8 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                       {statusFilter === 'all'
                         ? 'Tidak ada pesanan pada tanggal ini'
                         : statusFilter === 'validated'
-                        ? 'Tidak ada tiket dengan status Tervalidasi'
-                        : 'Tidak ada tiket dengan status Mendatang'}
+                          ? 'Tidak ada tiket dengan status Tervalidasi'
+                          : 'Tidak ada tiket dengan status Mendatang'}
                     </p>
                     <p className="mt-1 text-xs text-slate-400 max-w-xs">
                       {statusFilter !== 'all' ? (
@@ -503,17 +495,16 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                       type="button"
                       onClick={() => setSelectedDate(cell.dateStr)}
                       title={hasBookings ? `${count} pemesanan` : cell.dateStr}
-                      className={`relative h-8 w-8 rounded-full text-xs transition duration-150 font-semibold ${
-                        isSel
-                          ? 'bg-white text-[#286EF2] font-black shadow-md scale-110'
-                          : isToday
+                      className={`relative h-8 w-8 rounded-full text-xs transition duration-150 font-semibold ${isSel
+                        ? 'bg-white text-[#286EF2] font-black shadow-md scale-110'
+                        : isToday
                           ? 'ring-2 ring-white/60 text-white font-bold'
                           : hasBookings && cell.isCurrentMonth
-                          ? 'bg-white/20 text-white font-black ring-1 ring-amber-300/80 hover:bg-white/30'
-                          : cell.isCurrentMonth
-                          ? 'text-white hover:bg-white/15'
-                          : 'text-white/30'
-                      }`}
+                            ? 'bg-white/20 text-white font-black ring-1 ring-amber-300/80 hover:bg-white/30'
+                            : cell.isCurrentMonth
+                              ? 'text-white hover:bg-white/15'
+                              : 'text-white/30'
+                        }`}
                     >
                       {cell.day}
                       {/* Number badge for multiple bookings */}
@@ -527,9 +518,8 @@ export default function BookingCalendarView({ bookings }: BookingCalendarViewPro
                     {/* Dot indicator */}
                     {hasBookings && cell.isCurrentMonth && (
                       <span
-                        className={`mt-0.5 h-1.5 w-1.5 rounded-full ${
-                          isSel ? 'bg-[#286EF2]' : 'bg-amber-300'
-                        }`}
+                        className={`mt-0.5 h-1.5 w-1.5 rounded-full ${isSel ? 'bg-[#286EF2]' : 'bg-amber-300'
+                          }`}
                       />
                     )}
                   </div>

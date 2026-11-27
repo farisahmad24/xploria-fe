@@ -30,7 +30,7 @@ export default function QuickMenu({ currentRole, onSelect }: QuickMenuProps) {
         { id: 'q-kasir-sales', label: 'Jual Tiket', icon: SlantedTicket, target: 'kasir-tiket-sales' },
         { id: 'q-kasir-validate', label: 'Validasi QR', icon: ScanLine, target: 'kasir-tiket-validate' },
         { id: 'q-kasir-history', label: 'Riwayat Transaksi', icon: FileText, target: 'kasir-tiket-history' },
-        { id: 'q-kasir-cal', label: 'Dashboard Kalender', icon: CalendarDays, target: 'kasir-calendar' },
+        { id: 'q-kasir-cal', label: 'Dasbor Kalender', icon: CalendarDays, target: 'kasir-calendar' },
       ];
     }
 

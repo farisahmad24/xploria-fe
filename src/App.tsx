@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
-import Header from '@/components/dashboard/Header';
-import Sidebar from '@/components/dashboard/Sidebar';
-import StatCard from '@/components/dashboard/StatCard';
-import ActivityChart from '@/components/dashboard/ActivityChart';
-import MiniCalendar from '@/components/dashboard/MiniCalendar';
-import RecentActivities from '@/components/dashboard/RecentActivities';
-import DailyRecapView from '@/components/dashboard/DailyRecapView';
+import Header from '@/components/Dashboard/Header';
+import Sidebar from '@/components/Dashboard/Sidebar';
+import StatCard from '@/components/Dashboard/StatCard';
+import ActivityChart from '@/components/Dashboard/ActivityChart';
+import MiniCalendar from '@/components/Dashboard/MiniCalendar';
+import RecentActivities from '@/components/Dashboard/RecentActivities';
+import DailyRecapView from '@/components/Dashboard/DailyRecapView';
 import TicketsPage from '@/components/tickets/TicketsPage';
 import TicketCategoriesView from '@/components/tickets/TicketCategoriesView';
 import ReportsView from '@/components/reports/ReportsView';
@@ -249,17 +249,17 @@ function App() {
 
   // Determine which view to render based on activeNav
   const renderMainContent = () => {
-    // 0. PROFIL SAYA (halaman dalam dashboard, bukan popup)
+    // 0. PROFIL SAYA (halaman dalam Dashboard, bukan popup)
     if (activeNav === PROFILE_NAV_ID[currentRole]) {
       return <ProfilePage role={currentRole} onToast={showToast} />;
     }
 
-    // 0b. LAPORKAN BUG (halaman dalam dashboard, bukan popup)
+    // 0b. LAPORKAN BUG (halaman dalam Dashboard, bukan popup)
     if (activeNav === BUG_NAV_ID[currentRole]) {
       return <BugReportPage role={currentRole} onToast={showToast} />;
     }
 
-    // 1. DASHBOARD VIEWS
+    // 1. Dashboard VIEWS
     if (
       activeNav === 'mo-dash' ||
       activeNav === 'admin-dash' ||
@@ -268,7 +268,7 @@ function App() {
       activeNav === 'admin-dash-stats' ||
       activeNav === 'kasir-dash-stats' ||
       activeNav === 'kasir-dash-overview' ||
-      activeNav === 'dashboard'
+      activeNav === 'Dashboard'
     ) {
       return (
         <>
@@ -276,7 +276,7 @@ function App() {
           <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1 className="text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
-                Dashboard Overview
+                Dasbor Overview
               </h1>
               <p className="text-sm text-slate-500">
                 Ringkasan statistik pengunjung, transaksi penjualan tiket, dan operasional wisata.

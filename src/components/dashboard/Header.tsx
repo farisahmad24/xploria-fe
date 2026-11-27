@@ -223,7 +223,7 @@ export default function Header({
   );
 
   return (
-    <header className="sticky top-0 z-30 border-b border-ocean-100/80 bg-white/90 backdrop-blur-md print:hidden">
+    <header className="sticky top-0 z-30 border-b border-ocean-100/80 bg-white print:hidden">
       <div className="flex h-[72px] items-center gap-3 px-4 sm:px-6 lg:px-8">
         {/* Mobile menu toggle */}
         <button
